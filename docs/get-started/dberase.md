@@ -30,7 +30,7 @@ DBerase generates REST services that
 
 - DBerase generates the REST services that remove, mask and anonymize data
 
-![alt text](/img/docs/dberase_esito.png "DBerase Esito")
+![alt text](/img/docs/dberase_esito.png 'DBerase Esito')
 
 ## DBerase: Change data through removal, masking and anonymization
 
@@ -52,8 +52,8 @@ task ForgetMe {
                 parent CUSTOMERNO
                 child CUSTOMER_CUSTOMERNO
                 mask HOMEADDRESS format "Home address"
-                mask POSTALCODE 
-                    transform PostCodeGeneralization 
+                mask POSTALCODE
+                    transform PostCodeGeneralization
         }
 }
 ```
@@ -135,4 +135,4 @@ foreign-key
 
 Sample use of the generated services using Swagger:
 
-![alt text](/img/docs/erase_swagger.png "Erase swagger")
+![alt text](/img/docs/erase_swagger.png 'Erase swagger')

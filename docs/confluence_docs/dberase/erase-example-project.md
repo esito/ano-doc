@@ -22,6 +22,7 @@ The example uses Java, Maven and H2 database. It is tested with these versions:
 - H2 1.4.200
 
 ## Download the github project
+
 Download and unzip the dberase.zip [GitHub - esito/dberase](https://github.com/esito/dberase) to a java project folder (dberase) or clone the dberase git project:
 git clone https<span/>://github<span/>.com/esito/dberase.git.
 
@@ -52,7 +53,7 @@ The syntax is described in the DBerase ANO syntax chapter.
 
 The simplified domain model for this sample project:
 
-![alt text](/img/docs/hotelsample.png "Hotel Sample")
+![alt text](/img/docs/hotelsample.png 'Hotel Sample')
 
 &nbsp;
 
@@ -62,7 +63,7 @@ Go to the http://anonymizer.esito.no web, register a user and subscribe to the D
 
 Go to the DBerase service on https://anonymizer.esito.no/auth/dashboard/dberase. Choose **SELECT A FILE** and use the eraseme.ano file as the **Erase model File name** parameter to the service. Ignore the **Root package** parameter (giving example.eraser package value) and press the **Download ZIP** button.
 
-![alt text](/img/docs/erase/dberaseweb.png "Hotel Sample")
+![alt text](/img/docs/erase/dberaseweb.png 'Hotel Sample')
 
 &nbsp;
 
@@ -86,6 +87,7 @@ Unpack the resulting zip to the java erasesample project you downloaded or clone
 Edit the database properties in the application.properties file:
 
 ### Database connection parameters
+
 ```properties
 spring.jpa.hibernate.ddl-auto=create-drop
 spring.jpa.open-in-view=false
@@ -108,7 +110,7 @@ The generated source may be built using Maven. Add the H2 dependencies to the po
   <properties>
       <h2.version>1.4.200</h2.version>
   </properties>
- 
+
   <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
@@ -116,7 +118,7 @@ The generated source may be built using Maven. Add the H2 dependencies to the po
   </dependency>
 ```
 
-To build the eraseme sample program, run mvn install, which creates the eraseme-0.0.1.jar in  the target folder.
+To build the eraseme sample program, run mvn install, which creates the eraseme-0.0.1.jar in the target folder.
 
 &nbsp;
 
@@ -155,7 +157,6 @@ Check how the erase tasks work:
   - erase_hotelroomcategory 1 11 2005-10-15
 - check the database result
 
-
 ## Sample database session
 
 Inspect the H2 database by navigating to http://localhost:8080/h2-console
@@ -189,9 +190,9 @@ table HOTELROOMCATEGORY
 foreign-key
     ADDRESS CUSTOMER_CUSTOMERNO
     CUSTOMER CUSTOMERNO
-  
+
 transformation PostCodeGeneralization
- 
+
 // Forget Me - tasks
 task forgetMe
 {

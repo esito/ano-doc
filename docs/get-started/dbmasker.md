@@ -31,7 +31,7 @@ DBmasker is a stateless cloud service that generates anonymization programs base
 
 - DBmasker generates the masking program
 
-![alt text](/img/docs/dbmasker_esito.png "DBmasker Esito")
+![alt text](/img/docs/dbmasker_esito.png 'DBmasker Esito')
 
 &nbsp;
 
@@ -54,7 +54,7 @@ task Anonymize
         mask PHONE
             format "+47 %d"
             random integer 10001000 99909990
-        // Create names from list of firstnames and lastnames, 
+        // Create names from list of firstnames and lastnames,
         // two parameters format
         mask NAME
             format "%s %s"
@@ -169,7 +169,7 @@ update HOTEL
 // Use a Mapping file as input
 update COMPANY
     // Reuse masking from another database
-    mask NAME 
+    mask NAME
         map company_name.txt input
 ```
 
@@ -180,7 +180,7 @@ update COMPANY
 - DBmasker improves and speeds up development of data masking and anonymization
 - GDPR changes the development processes
 
-![alt text](/img/docs/g9maskdata.png "g9 Mask data")
+![alt text](/img/docs/g9maskdata.png 'g9 Mask data')
 
 &nbsp;
 
@@ -215,6 +215,7 @@ foreign-key
 ```
 
 ## DBmasker: Generates the masking program
+
 - Generates a program from your masking and anonymization rules
 - The program does it all, your obligation is only to run it
 - No lock-in, you can maintain the generated code separately
@@ -223,4 +224,4 @@ foreign-key
 - Simple, repeatable, and easy to use. You may run the generated program many times
 - DBmasker generator service
 
-![alt text](/img/docs/dbmasker_console.png "DBmasker console")
+![alt text](/img/docs/dbmasker_console.png 'DBmasker console')

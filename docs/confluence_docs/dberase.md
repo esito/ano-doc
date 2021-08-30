@@ -9,4 +9,4 @@ The DBerase service supports deletion and masking of data for GDPR **forget me**
 - Generating REST API for each task in a Java Spring Boot webserver program based on your rules, using the DBerase service
 - Deploying the generated Java program and performing the **forget me** functions on the target database(s)
 
-![alt text](/img/docs/dberase.png "DBerase")
+![alt text](/img/docs/dberase.png 'DBerase')

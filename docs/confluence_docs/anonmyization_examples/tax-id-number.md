@@ -6,8 +6,8 @@ Tax ID numbers vary for each country, and thus may require different algorithms 
 
 ```ano
 transformation example.anonymizer.transformations.Person_NO
- 
- 
+
+
 task MyTaskName
 {
     // Anonymize - Mask various fields
@@ -25,9 +25,8 @@ task MyTaskName
 
 - transformation "Person_NO" is custom code and location must be registered in top section
 - a random date and a random 5 digit number will be used for the number
-- the custom transformation "Person_NO" is used to fix the string in order to validate to Norwegian Tax ID checksum 
+- the custom transformation "Person_NO" is used to fix the string in order to validate to Norwegian Tax ID checksum
 - String format: https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html
-
 
 Norwegian Tax ID
 
@@ -41,18 +40,18 @@ Notice the skip routine, in the Norwegian Tax id a tenth of the numbers are inva
 
 ```java
 package example.anonymizer.transformations;
- 
+
 import no.esito.anonymizer.ITransformation;
 import no.esito.anonymizer.transformations.CreditCard;
- 
+
 /**
  * Calculate the check-digits in a Norwegian Tax ID.
  *
  */
 public class Person_NO implements ITransformation{
- 
+
     public static final String LABEL = "Person_NO - Norwegian ID generation";
-     
+
     @Override
     public String transform(String input) {
         if(input == null || input.isEmpty())
@@ -66,10 +65,10 @@ public class Person_NO implements ITransformation{
         }
         return s1+s2;
     }
- 
+
     /**
      * Fix last two digits of a Norwegian Social Security Number
-     * <br\>It uses MOD-11 thus it may still create an invalid number 
+     * <br\>It uses MOD-11 thus it may still create an invalid number
      * @param value to be corrected
      * @return corrected value
      */
@@ -83,7 +82,7 @@ public class Person_NO implements ITransformation{
         }
         return s1+s2;
     }
-     
+
     static String personCheckDigit(String value) {
         int[] d = CreditCard.getDigits(value);
         int k1 = 11 - ((3 * d[0] + 7 * d[1] + 6 * d[2] + 1 * d[3] + 8 * d[4] + 9 * d[5]
@@ -92,12 +91,12 @@ public class Person_NO implements ITransformation{
                 + 5 * d[6] + 4 * d[7] + 3 * d[8] + 2 * k1) % 11);
         return k1+""+k2;
     }
- 
+
     public static void main(String[] args) {
         String pnr = "02076829716";
         System.out.println("Encode PNR number '" + pnr + "': " + toPersonNO(pnr));
-         
+
     }
- 
+
 }
 ```

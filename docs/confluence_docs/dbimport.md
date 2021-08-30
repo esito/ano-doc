@@ -24,7 +24,7 @@ The service creates java packages based on the property **Root package** defined
 
 Once you have created the SQL file, you can generate the java source. A generation service is available on http://anonymizer.esito.no. Select your **SQL** file as **Schema File name** input, edit the **Root package** parameter and press the **Download ZIP** button.
 
-![alt text](/img/docs/dbimportweb.png "DBimport Web")
+![alt text](/img/docs/dbimportweb.png 'DBimport Web')
 
 <br/>
 
@@ -33,6 +33,7 @@ Unpack the returned zip file into a java project folder of your choice.
 # Sample code
 
 ### Recordshop tables
+
 ```sql
 CREATE TABLE Artist (
   id integer generated always as identity NOT NULL,
@@ -41,7 +42,7 @@ CREATE TABLE Artist (
   gossip varchar(255),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Author (
   id integer generated always as identity NOT NULL,
   name varchar(40),
@@ -49,7 +50,7 @@ CREATE TABLE Author (
   telephone varchar(14),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Customer (
   id integer generated always as identity NOT NULL,
   name varchar(30),
@@ -61,7 +62,7 @@ CREATE TABLE Customer (
   customerCategory integer CHECK (customerCategory IN (1,2,3)),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE LineItem (
   id integer generated always as identity NOT NULL,
   serialNo integer,
@@ -71,7 +72,7 @@ CREATE TABLE LineItem (
   record_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Record (
   id integer generated always as identity NOT NULL,
   title varchar(100),
@@ -86,7 +87,7 @@ CREATE TABLE Record (
   artist_id integer,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE RecordOrder (
   id integer generated always as identity NOT NULL,
   orderNo varchar(30) NOT NULL,
@@ -95,7 +96,7 @@ CREATE TABLE RecordOrder (
   customer_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Review (
   id integer generated always as identity NOT NULL,
   publication varchar(60),
@@ -106,7 +107,7 @@ CREATE TABLE Review (
   record_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 -- Artist
 CREATE UNIQUE INDEX Artist_name_IX ON Artist (name);
 -- LineItem
@@ -128,11 +129,11 @@ ALTER TABLE Review ADD CONSTRAINT Review_record_idF FOREIGN KEY (record_id) REFE
 
 ```java
 package org.example;
- 
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
- 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -141,14 +142,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
- 
+
 @Entity
 @Table(indexes={@Index(name="RecordOrder_orderNo_IX", columnList="orderNo", unique=true)})
 public class RecordOrder {
- 
+
     /** Primary key. */
     protected static final String PK = "id";
- 
+
     @Id
     @Column(unique=true, nullable=false)
     private String id;
@@ -161,12 +162,12 @@ public class RecordOrder {
     @ManyToOne(optional=false)
     @JoinColumn(name="customer_id", nullable=false)
     private Customer customer;
- 
+
     /** Default constructor. */
     public RecordOrder() {
         super();
     }
- 
+
     /**
      * Access method for id.
      *
@@ -175,7 +176,7 @@ public class RecordOrder {
     public String getId() {
         return id;
     }
- 
+
     /**
      * Setter method for id.
      *
@@ -184,7 +185,7 @@ public class RecordOrder {
     public void setId(String aId) {
         id = aId;
     }
- 
+
     /**
      * Access method for orderNo.
      *
@@ -193,7 +194,7 @@ public class RecordOrder {
     public String getOrderNo() {
         return orderNo;
     }
- 
+
     /**
      * Setter method for orderNo.
      *
@@ -202,7 +203,7 @@ public class RecordOrder {
     public void setOrderNo(String aOrderNo) {
         orderNo = aOrderNo;
     }
- 
+
     /**
      * Access method for orderDate.
      *
@@ -211,7 +212,7 @@ public class RecordOrder {
     public String getOrderDate() {
         return orderDate;
     }
- 
+
     /**
      * Setter method for orderDate.
      *
@@ -220,7 +221,7 @@ public class RecordOrder {
     public void setOrderDate(String aOrderDate) {
         orderDate = aOrderDate;
     }
- 
+
     /**
      * Access method for creditcard.
      *
@@ -229,7 +230,7 @@ public class RecordOrder {
     public String getCreditcard() {
         return creditcard;
     }
- 
+
     /**
      * Setter method for creditcard.
      *
@@ -238,7 +239,7 @@ public class RecordOrder {
     public void setCreditcard(String aCreditcard) {
         creditcard = aCreditcard;
     }
- 
+
     /**
      * Access method for lineItem.
      *
@@ -247,7 +248,7 @@ public class RecordOrder {
     public Set<LineItem> getLineItem() {
         return lineItem;
     }
- 
+
     /**
      * Setter method for lineItem.
      *
@@ -256,7 +257,7 @@ public class RecordOrder {
     public void setLineItem(Set<LineItem> aLineItem) {
         lineItem = aLineItem;
     }
- 
+
     /**
      * Access method for customer.
      *
@@ -265,7 +266,7 @@ public class RecordOrder {
     public Customer getCustomer() {
         return customer;
     }
- 
+
     /**
      * Setter method for customer.
      *
@@ -274,7 +275,7 @@ public class RecordOrder {
     public void setCustomer(Customer aCustomer) {
         customer = aCustomer;
     }
- 
+
     /**
      * Compares the key for this instance with another RecordOrder.
      *
@@ -296,7 +297,7 @@ public class RecordOrder {
         }
         return true;
     }
- 
+
     /**
      * Compares this instance with another RecordOrder.
      *
@@ -308,7 +309,7 @@ public class RecordOrder {
         if (!(other instanceof RecordOrder)) return false;
         return this.equalKeys(other) && ((RecordOrder)other).equalKeys(this);
     }
- 
+
     /**
      * Returns a hash code for this instance.
      *
@@ -326,7 +327,7 @@ public class RecordOrder {
         result = 37*result + i;
         return result;
     }
- 
+
     /**
      * Returns a debug-friendly String representation of this instance.
      *
@@ -339,7 +340,7 @@ public class RecordOrder {
         sb.append("]");
         return sb.toString();
     }
- 
+
     /**
      * Return all elements of the primary key.
      *
@@ -350,6 +351,6 @@ public class RecordOrder {
         ret.put("id", getId());
         return ret;
     }
- 
+
 }
 ```

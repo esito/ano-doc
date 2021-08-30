@@ -3,6 +3,7 @@
 This requires you to have an associated text file with names to be used for masking. Put this file in the "resources" folder.
 
 ## Mask first name and last name
+
 ```ano
 task MyTaskName
 {
@@ -16,6 +17,7 @@ task MyTaskName
 ```
 
 ## Mask first name and last name
+
 ```ano
 task MyTaskName
 {
@@ -25,5 +27,5 @@ task MyTaskName
         mask NAME COMPANY_NAME
             format "%s Ltd"
             file src/main/resources/lastname.txt random-order
-} 
+}
 ```

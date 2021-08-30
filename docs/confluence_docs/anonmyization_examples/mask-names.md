@@ -31,10 +31,10 @@ task MyTaskName
             format "%s %s"
             file src/main/resources/firstname.txt random-order
             file src/main/resources/lastname.txt random-order
-}  
+}
 ```
 
-Notice the format string "%s %s" that will give the items from the two input files with a space between. For a lastname, firstname format you can re-order the file inputs and have a format "%s, %s". 
+Notice the format string "%s %s" that will give the items from the two input files with a space between. For a lastname, firstname format you can re-order the file inputs and have a format "%s, %s".
 
 The resource files, simple list of names whereas newline is used as delimiter
 

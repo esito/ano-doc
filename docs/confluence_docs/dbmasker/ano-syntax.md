@@ -12,7 +12,7 @@ The DBmasker service takes one input: the ANO file, which contains the data sche
 <tr>
 <td width="25%">
 
-![alt text](/img/docs/ano-syntax/terminal.png "Terminal")
+![alt text](/img/docs/ano-syntax/terminal.png 'Terminal')
 
 </td>
 <td>
@@ -25,7 +25,7 @@ A terminal representing plain text written as given in the box.
 <tr>
 <td >
 
-![alt text](/img/docs/ano-syntax/definition.png "Definition")
+![alt text](/img/docs/ano-syntax/definition.png 'Definition')
 
 </td>
 <td>
@@ -39,7 +39,7 @@ with name as given in the box.
 <tr>
 <td >
 
-![alt text](/img/docs/ano-syntax/value.png "Value")
+![alt text](/img/docs/ano-syntax/value.png 'Value')
 
 </td>
 <td>
@@ -57,15 +57,15 @@ I.E. COLUMN is a database column name.
 
 The ANO file contains three sections:
 
-* database schema information
-* user defined classes
-* tasks and rules
+- database schema information
+- user defined classes
+- tasks and rules
 
 &nbsp;
 
 ## Model
 
-![alt text](/img/docs/ano-syntax/model.png "Model")
+![alt text](/img/docs/ano-syntax/model.png 'Model')
 
 &nbsp;
 
@@ -86,14 +86,14 @@ table CUSTOMER
     column integer CUSTODIAN
     primary-key CUSTOMERNO
     unique NAMEINDEX NAME
- 
+
 table INVOICE
     column integer INVOICENO
     column text INVOICETEXT
     column decimal VALUE size 20 scale 2
     column integer CUSTOMER_CUSTOMERNO
     primary-key INVOICENO
- 
+
 foreign-key
     INVOICE CUSTOMER_CUSTOMERNO
     CUSTOMER CUSTOMERNO
@@ -105,7 +105,7 @@ The schema part is simplified SQL statements. You may convert SQL schema files t
 
 ## Schema
 
-![alt text](/img/docs/ano-syntax/schema.png "Schema")
+![alt text](/img/docs/ano-syntax/schema.png 'Schema')
 
 The **TABLE** and **COLUMN** non-terminals represent a table and a column name.
 
@@ -113,7 +113,7 @@ The **TABLE** and **COLUMN** non-terminals represent a table and a column name.
 
 ### type
 
-![alt text](/img/docs/ano-syntax/type.png "Type")
+![alt text](/img/docs/ano-syntax/type.png 'Type')
 
 The **TYPE** non-terminal represents some type value not covered by standard types.
 
@@ -121,7 +121,7 @@ The **TYPE** non-terminal represents some type value not covered by standard typ
 
 ### size
 
-![alt text](/img/docs/ano-syntax/size.png "Size")
+![alt text](/img/docs/ano-syntax/size.png 'Size')
 
 The column size is given by the **size POSINT** value and the scale on decimal numbers is given by the **scale POSINT** where **POSINT** is a positive integer.
 
@@ -129,13 +129,13 @@ The column size is given by the **size POSINT** value and the scale on decimal n
 
 ### pk - Primary Key
 
-![alt text](/img/docs/ano-syntax/pk.png "Primary Key")
+![alt text](/img/docs/ano-syntax/pk.png 'Primary Key')
 
 &nbsp;
 
 ### unique
 
-![alt text](/img/docs/ano-syntax/unique.png "Unique")
+![alt text](/img/docs/ano-syntax/unique.png 'Unique')
 
 **INDEX-NAME** is the name of the index.
 
@@ -143,7 +143,7 @@ The column size is given by the **size POSINT** value and the scale on decimal n
 
 ### fk - Foreign Key
 
-![alt text](/img/docs/ano-syntax/fk.png "Foreign Key")
+![alt text](/img/docs/ano-syntax/fk.png 'Foreign Key')
 
 The **setnull** terminal indicates that the association represented by the foreign key, may exist.
 
@@ -151,19 +151,19 @@ The **setnull** terminal indicates that the association represented by the forei
 
 ### columns
 
-![alt text](/img/docs/ano-syntax/columns.png "Columns")
+![alt text](/img/docs/ano-syntax/columns.png 'Columns')
 
 &nbsp;
 
 ### to/from
 
-![alt text](/img/docs/ano-syntax/to.png "to/from")
+![alt text](/img/docs/ano-syntax/to.png 'to/from')
 
 &nbsp;
 
 # The user defined classes section
 
-Some masking parts use functions to manipulate values and add rows to the database and you may create user defined specialized classes *(All interfaces and abstract classes are explained in the javadoc)*:
+Some masking parts use functions to manipulate values and add rows to the database and you may create user defined specialized classes _(All interfaces and abstract classes are explained in the javadoc)_:
 
 <table header-style="none" width="100%" >
 <tr>
@@ -187,12 +187,12 @@ Package containing custom conversion classes. Defined for randomized or masked c
 
 Built in conversions used for converting string input to various other data types:
 
-* ParseDigits - remove all non-digits
-* String2Date - convert to java.time.LocalDate
-* String2DateTime - convert to java.time.LocalDateTime
-* String2Decimal - convert to Double
-* String2Integer - convert to Integer
-* String2Time - convert to java.time.LocalTime
+- ParseDigits - remove all non-digits
+- String2Date - convert to java.time.LocalDate
+- String2DateTime - convert to java.time.LocalDateTime
+- String2Decimal - convert to Double
+- String2Integer - convert to Integer
+- String2Time - convert to java.time.LocalTime
 
 </td>
 </tr>
@@ -211,9 +211,9 @@ parameter defined and connected to parent tables
 parameter defined on distribution method and connected to parent groups/tables
 Built in distributions:
 
-* AllCombinations - all combinations of parents are satified at least once
-* EvenWithDeviation -
-* SimpleSpread - foreign key columns are randomly assigned values from possible primary key values
+- AllCombinations - all combinations of parents are satified at least once
+- EvenWithDeviation -
+- SimpleSpread - foreign key columns are randomly assigned values from possible primary key values
 
 </td>
 </tr>
@@ -230,8 +230,8 @@ Package containing custom transformation classes. Defined for masked columns. Us
 
 Built in transformations:
 
-* Email - Translates space, hyphen and underscore resutling in a valid email address
-* CreditCard - Adjust last digit for MOD10 validation
+- Email - Translates space, hyphen and underscore resutling in a valid email address
+- CreditCard - Adjust last digit for MOD10 validation
 
 </td>
 </tr>
@@ -253,7 +253,7 @@ distribution example.anonymizer.distributions.MinPerParent
 
 ### User defined
 
-![alt text](/img/docs/ano-syntax/userdefined.png "userdefined")
+![alt text](/img/docs/ano-syntax/userdefined.png 'userdefined')
 
 The CLASS represents a user defined class with full java package specification.
 
@@ -263,11 +263,11 @@ The CLASS represents a user defined class with full java package specification.
 
 A Task is either a TaskGroup or a WorkTask. TaskGroups can have infinite child tasks of both kinds while WorkTasks only contain rules. A WorkTask is one of update, create, delete, erase or sar. Naming tasks follow these rules:
 
-* Group tasks names must be unique while work task names must be unique within a group task
-* Group tasks on the same level in the task hierarchy must have unique names
-* Work tasks on the same level in the task hierarchy must have unique names
-* Group tasks cannot have the same name as any of the work tasks it contains. If the work task does not have an explicit defined name it is the default name that is forbidden, i.e. the work task Delete HOTEL gets by default the name Delete_HOTEL
-* The name comparison is case insensitive to prevent file name collisions on case insensitive file systems
+- Group tasks names must be unique while work task names must be unique within a group task
+- Group tasks on the same level in the task hierarchy must have unique names
+- Work tasks on the same level in the task hierarchy must have unique names
+- Group tasks cannot have the same name as any of the work tasks it contains. If the work task does not have an explicit defined name it is the default name that is forbidden, i.e. the work task Delete HOTEL gets by default the name Delete_HOTEL
+- The name comparison is case insensitive to prevent file name collisions on case insensitive file systems
 
 Running TaskGroups, will run all child tasks in defined sequence. Running WorkTasks, will run all tasks with same name regardless of which TaskGroup they belong and in the sequence they are defined.
 
@@ -277,17 +277,17 @@ A TaskGroup contains tasks which can be both TaskGroups and WorkTasks. The purpo
 
 A WorkTask is one of
 
-* update - mask and make data unrecognizable
-* delete - sub setting database to reduce size
-* create - create records for testing
-* erase - remove obsolete data
-* sar - create reports from database
+- update - mask and make data unrecognizable
+- delete - sub setting database to reduce size
+- create - create records for testing
+- erase - remove obsolete data
+- sar - create reports from database
 
 A Rule defines anonymizations/masking on data and consists of
 
-* mask - anonymize data
-* randomize - add noise to numbers
-* shuffle - reorder data sequence
+- mask - anonymize data
+- randomize - add noise to numbers
+- shuffle - reorder data sequence
 
 WorkTasks are detailed by Rules.
 
@@ -415,7 +415,7 @@ A subject access request (SAR) is a concept in GDPR that describes requests by i
 
 ### task
 
-![alt text](/img/docs/ano-syntax/task.png "Task")
+![alt text](/img/docs/ano-syntax/task.png 'Task')
 
 The **TASK** represents a task name and **sql** represents SQL statements run before and after the task defined operations.
 
@@ -427,7 +427,7 @@ The update, create, delete, erase and sar are all worktasks and may be run as a 
 
 ### sql
 
-![alt text](/img/docs/ano-syntax/sql.png "Sql")
+![alt text](/img/docs/ano-syntax/sql.png 'Sql')
 
 The **SQL** represents complete SQL statements. The statement must be written inside double quotes ("statement”) and any occurrences of double quotes or backslash must be escaped with a backslash: \" and \\. There will be no check of SQL syntax and a statement cannot be divided on serveral lines. Multiple SQL statements may be written divided by newline.
 
@@ -435,7 +435,7 @@ The **SQL** represents complete SQL statements. The statement must be written in
 
 ### update
 
-![alt text](/img/docs/ano-syntax/update.png "Update")
+![alt text](/img/docs/ano-syntax/update.png 'Update')
 
 Used for anonymizing/updating one or more columns for a specified table. Additional anonymization rules based on columns of the selected table may be added. See anonymization rules.
 
@@ -455,7 +455,7 @@ The first statement has no task name specification, giving the taskname update_A
 
 ### create
 
-![alt text](/img/docs/ano-syntax/create.png "Create")
+![alt text](/img/docs/ano-syntax/create.png 'Create')
 
 In test and development environments it is often necessary to work with test data for developing and testing different scenarios. With **create** TABLE, you can insert rows into database tables with sample data and also create records for child tables that are linked together by foreign keys.
 
@@ -469,7 +469,7 @@ The **minimum-rows POSINT** value ensures that the table will have at least mini
 
 ### distribute
 
-![alt text](/img/docs/ano-syntax/distribute.png "Distribute")
+![alt text](/img/docs/ano-syntax/distribute.png 'Distribute')
 
 The **DISTRIBUTION** denotes an algorithm that ensures consistency between parent and child tables via foreign keys. The class must implement the IDistribution interface.
 
@@ -500,35 +500,35 @@ create ROOM minimum-rows 50
 
 &nbsp;
 
-### delete 
+### delete
 
-![alt text](/img/docs/ano-syntax/delete.png "Delete")
+![alt text](/img/docs/ano-syntax/delete.png 'Delete')
 
 Used for deleting a sub-set of data from a specified table and records from referenced tables. Cascading deletes of dependent tables is supported and shown in the sample code below.
 
 The 3 cascading delete methods have different performance of deleting a hierarchy of records. The characteristics are:
 
-* cascading
-  * Children are deleted first, and the parent last
-  * Generally works without disabling constraints
-  * Slow performance (one by one)
-* not-exists
-  * Parent is deleted first
-    * DELETE FROM parent WHERE XX
-  * Thereafter all orphans are deleted using 
-    * DELETE FROM child WHERE NOT EXISTS (SELECT * FROM parent WHERE parent.id = child.parent_id)
-  * Fastest, but constraints must be disabled
-* not-in
-  * Parent is deleted first
-  * Thereafter all orphans are deleted using 
-    * WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
-  * Fast, but constraints must be disabled
+- cascading
+  - Children are deleted first, and the parent last
+  - Generally works without disabling constraints
+  - Slow performance (one by one)
+- not-exists
+  - Parent is deleted first
+    - DELETE FROM parent WHERE XX
+  - Thereafter all orphans are deleted using
+    - DELETE FROM child WHERE NOT EXISTS (SELECT \* FROM parent WHERE parent.id = child.parent_id)
+  - Fastest, but constraints must be disabled
+- not-in
+  - Parent is deleted first
+  - Thereafter all orphans are deleted using
+    - WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
+  - Fast, but constraints must be disabled
 
 &nbsp;
 
 ### cascade
 
-![alt text](/img/docs/ano-syntax/cascade.png "Cascade")
+![alt text](/img/docs/ano-syntax/cascade.png 'Cascade')
 
 ```
 delete HOTELCHAIN where "ID = 0" {
@@ -547,7 +547,7 @@ delete HOTELCHAIN where "ID = 0" {
 
 ### erase
 
-![alt text](/img/docs/ano-syntax/erase.png "Erase")
+![alt text](/img/docs/ano-syntax/erase.png 'Erase')
 
 Used for erasing records in a table by anonymizing specified columns and deleting records from it's referenced tables, or masking specified columns in the referenced tables. It contains a parameterized condition bases on the selected tables primary key.
 
@@ -555,7 +555,7 @@ Used for erasing records in a table by anonymizing specified columns and deletin
 
 ### eraseTable
 
-![alt text](/img/docs/ano-syntax/eraseTable.png "Erase table")
+![alt text](/img/docs/ano-syntax/eraseTable.png 'Erase table')
 
 &nbsp;
 
@@ -579,13 +579,13 @@ erase CUSTOMER
 
 ### simpleMask
 
-![alt text](/img/docs/ano-syntax/simpleMask.png "Simple mask")
+![alt text](/img/docs/ano-syntax/simpleMask.png 'Simple mask')
 
 &nbsp;
 
 ### sar - Subject Access Requests
 
-![alt text](/img/docs/ano-syntax/sar.png "Sar")
+![alt text](/img/docs/ano-syntax/sar.png 'Sar')
 
 Used for creating data for Subject Access Requests reports. The exported data comes in the form of a xml or json file. It contains a parameterized condition bases on the selected tables primary key.
 
@@ -593,7 +593,7 @@ Used for creating data for Subject Access Requests reports. The exported data co
 
 ### sarTable
 
-![alt text](/img/docs/ano-syntax/sarTable.png "Sar table")
+![alt text](/img/docs/ano-syntax/sarTable.png 'Sar table')
 
 ```
 sar CUSTOMER
@@ -629,7 +629,7 @@ sar CUSTOMER
 
 ### selectionKey
 
-![alt text](/img/docs/ano-syntax/selectionKey.png "Selection key")
+![alt text](/img/docs/ano-syntax/selectionKey.png 'Selection key')
 
 Possible selection keys are the primary key and unique indexes. The default selection key is the primary key defined for the table.
 
@@ -637,7 +637,7 @@ Possible selection keys are the primary key and unique indexes. The default sele
 
 ### where
 
-![alt text](/img/docs/ano-syntax/where.png "Where")
+![alt text](/img/docs/ano-syntax/where.png 'Where')
 
 The **EXPRESSION** represents a logical expression. The expression must be written inside double quotes ("expression”) and any occurrences of double quotes or backslash must be escaped with a backslash: \" and \\.
 
@@ -646,20 +646,22 @@ The worktasks update, delete, erase and sar can all have a where clause defined 
 The worktasks delete, erase and sar can take values entered in a command or the API. This is defined in the where clause with the **%PARAMETERn%** notation. **Note**: You can use %PARAMETER% instead of %PARAMETER1%.
 
 #### %PARAMETER% use
+
 ```
 erase CUSTOMER
     where "CUSTOMERNO = %PARAMETER%"
         mask NAME format "firstname lastname"
         mask EMAIL format epost@email.com
- 
+
 Command use: erase customer 1000234
 ```
 
 #### %PARAMETERn% use
+
 ```
 erase COUNTRY
     where City = %PARAMETER1% AND country_id = (SELECT country_id FROM country WHERE country = %PARAMETER2%)
- 
+
 Command use: erase country Paris France
 ```
 
@@ -667,13 +669,13 @@ Command use: erase country Paris France
 
 ### child
 
-![alt text](/img/docs/ano-syntax/child.png "Child")
+![alt text](/img/docs/ano-syntax/child.png 'Child')
 
 &nbsp;
 
-### parent 
+### parent
 
-![alt text](/img/docs/ano-syntax/parent.png "Parent")
+![alt text](/img/docs/ano-syntax/parent.png 'Parent')
 
 &nbsp;
 
@@ -705,7 +707,6 @@ column
 
 The **column** input source is used to insert the specified column value into the masked parent column. You can only specify a column from the mask table.
 
-
 </td>
 </tr>
 
@@ -719,10 +720,8 @@ file
 
 The **file** input source is used to insert a string value taken from the file defined in the file property. It picks a line from the file sequentially or randomly depending on the **random-order** property.
 
-
 </td>
 </tr>
-
 
 <tr>
 <td>
@@ -737,7 +736,6 @@ The **random-[type]** input source is used to insert a value drawn from a random
 </td>
 </tr>
 
-
 <tr>
 <td>
 
@@ -747,7 +745,6 @@ sequence
 <td>
 
 The **sequence** input source is used to insert a sequence of integers into the column records starting with the **start** property value and incremented by the **increment** property value.
-
 
 </td>
 </tr>
@@ -759,7 +756,7 @@ The **sequence** input source is used to insert a sequence of integers into the 
 <tr>
 <td >
 
-randomize	
+randomize
 
 </td>
 <td>
@@ -772,7 +769,7 @@ The **randomize** function is used to apply noise on numeric and date column val
 <tr>
 <td >
 
-shuffle	
+shuffle
 
 </td>
 <td>
@@ -787,7 +784,7 @@ The **shuffle** function reorders the column values in a random order and ensure
 
 ### anonymization
 
-![alt text](/img/docs/ano-syntax/anonymization.png "Anonymization")
+![alt text](/img/docs/ano-syntax/anonymization.png 'Anonymization')
 
 The **anonymization** may get values from a mapping file, produce mapping to a file or both. A **temporary value** may be defined for columns that are primary keys or unique columns. It allows you to define a temporary key that is used to temporarily set as the value before the system reads through all records.
 
@@ -795,7 +792,7 @@ The **anonymization** may get values from a mapping file, produce mapping to a f
 
 ### map
 
-![alt text](/img/docs/ano-syntax/map.png "Map")
+![alt text](/img/docs/ano-syntax/map.png 'Map')
 
 The **map input** function uses a mapping file containing key/value pairs (Key=Value) to update columns using the mapped value. The system reads the column value and checks if the mapping file has a corresponding key. If there is a key found, the column value is replaced with the mapped value. The mapping file is typically produced from another anonymizing rule using **map output** and could have originated in another database. With this function, it is possible to store the mapping values from one database, and apply those values to similar columns in another database. This ensures that both anonymized databases contain the same values.
 
@@ -806,7 +803,7 @@ The **map input-output** function uses the mapping file and produces the mapping
 **FILE** is the file name and the content may be **encrypted**.
 
 ```
-// Update primary key     
+// Update primary key
 update COMPANY
     // Reuse masking from another database
     mask NAME map company_name.txt input
@@ -816,7 +813,7 @@ update COMPANY
 
 ### propagate
 
-![alt text](/img/docs/ano-syntax/propagate.png "Propagate")
+![alt text](/img/docs/ano-syntax/propagate.png 'Propagate')
 
 ```
 // Update primary key
@@ -833,13 +830,11 @@ Use **propagate** to update foreign keys with the same value as the primary key 
 
 ### mask
 
-![alt text](/img/docs/ano-syntax/mask.png "Mask")
-
+![alt text](/img/docs/ano-syntax/mask.png 'Mask')
 
 The **mask** function masks the values of columns by replacing all or part of the data with generated values taken from various input sources.
 
 The **FORMAT** denotes the masking result and may be a combination of literal string values and format strings using java.util.Formatter. Use "" if there are spaces.
-
 
 <table width="100%" >
 <tr>
@@ -862,7 +857,7 @@ Description
 <tr>
 <td>
 
-%s	
+%s
 
 </td>
 <td>
@@ -879,7 +874,7 @@ Use with File and Column input
 <tr>
 <td>
 
-%d	
+%d
 
 </td>
 <td>
@@ -913,7 +908,7 @@ Use with Randomization and Random of Decimal type
 <tr>
 <td>
 
-%tF	
+%tF
 
 </td>
 <td>
@@ -930,7 +925,7 @@ ISO 8601 formatted date "yyyy-MM-dd"
 <tr>
 <td>
 
-%tT	
+%tT
 
 </td>
 <td>
@@ -947,7 +942,7 @@ Time
 <tr>
 <td>
 
-%1\$tF %1\$tT	
+%1\$tF %1\$tT
 
 </td>
 <td>
@@ -969,22 +964,21 @@ Without any format specifications the value is regarded as a constant. The text 
 
 See more examples at [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
 
-The transform **TRANSFORMATION** class is one of the classes defined in the user defined transformation classes section.  The transform() method takes String as input and delivers a String object. The class must implement the ITransformation interface. See **Email** and **CreditCard** as samples below.
+The transform **TRANSFORMATION** class is one of the classes defined in the user defined transformation classes section. The transform() method takes String as input and delivers a String object. The class must implement the ITransformation interface. See **Email** and **CreditCard** as samples below.
 
 &nbsp;
 
+### sourceSequence
 
-### sourceSequence 
+![alt text](/img/docs/ano-syntax/sourceSequence.png 'Source sequence')
 
-![alt text](/img/docs/ano-syntax/sourceSequence.png "Source sequence")
-
-The **sequence** input source is used to insert a sequence of integers into the column starting with the first **INTEGER** value and incremented by the second **INTEGER** value. If -1 is selected, the sequence starts with the highest value stored in the column plus the increment. 
+The **sequence** input source is used to insert a sequence of integers into the column starting with the first **INTEGER** value and incremented by the second **INTEGER** value. If -1 is selected, the sequence starts with the highest value stored in the column plus the increment.
 
 &nbsp;
 
 ### sourceColumn
 
-![alt text](/img/docs/ano-syntax/sourceColumn.png "Source column")
+![alt text](/img/docs/ano-syntax/sourceColumn.png 'Source column')
 
 The **column** input source is used to insert the specified column value into the masked parent column. You can only specify a column from the same table. If the column being anonymized is not a string, you can use one of the conversions defined to convert the data type. See convert.
 
@@ -992,7 +986,7 @@ The **column** input source is used to insert the specified column value into th
 
 ### sourceFile
 
-![alt text](/img/docs/ano-syntax/sourceFile.png "Source file")
+![alt text](/img/docs/ano-syntax/sourceFile.png 'Source file')
 
 The **file** input source is used to insert a string value taken from the file defined in the **FILE** terminal. It picks a line from the file sequentially or randomly depending on the **random-order** property. A conversion class can be selected to manipulate the string selected from the text file. See convert.
 
@@ -1000,39 +994,39 @@ The **file** input source is used to insert a string value taken from the file d
 
 ### sourceRandom
 
-![alt text](/img/docs/ano-syntax/sourceRandom.png "Source random")
+![alt text](/img/docs/ano-syntax/sourceRandom.png 'Source random')
 
 &nbsp;
 
 ### randomInteger
 
-![alt text](/img/docs/ano-syntax/randomInteger.png "Random integer")
+![alt text](/img/docs/ano-syntax/randomInteger.png 'Random integer')
 
 &nbsp;
 
 ### randomDecimal
 
-![alt text](/img/docs/ano-syntax/randomDecimal.png "Random decimal")
+![alt text](/img/docs/ano-syntax/randomDecimal.png 'Random decimal')
 
 &nbsp;
 
 ### randomTime
 
-![alt text](/img/docs/ano-syntax/randomTime.png "Random time")
+![alt text](/img/docs/ano-syntax/randomTime.png 'Random time')
 
 &nbsp;
 
 ### randomDate
 
-![alt text](/img/docs/ano-syntax/randomDate.png "Random date")
+![alt text](/img/docs/ano-syntax/randomDate.png 'Random date')
 
 &nbsp;
 
 ### randomDateTime
 
-![alt text](/img/docs/ano-syntax/randomDateTime.png "Random datetime")
+![alt text](/img/docs/ano-syntax/randomDateTime.png 'Random datetime')
 
-All the **random-[type]** input sources is used to insert a value drawn from a random sequence as defined by the first from value and the second to value.  
+All the **random-[type]** input sources is used to insert a value drawn from a random sequence as defined by the first from value and the second to value.
 
 The sample below shows anonymizations of a CUSTOMER table using all **mask** variants.
 
@@ -1065,7 +1059,7 @@ update CUSTOMER
 
 ### randomize
 
-![alt text](/img/docs/ano-syntax/randomize.png "Randomize")
+![alt text](/img/docs/ano-syntax/randomize.png 'Randomize')
 
 The **randomize** function is used to apply noise on numeric and date column values. The algorithm is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly to make it hard to recognize. Supported types are Integer, Decimal, Date, Time and DateTime.
 
@@ -1073,7 +1067,7 @@ The **randomize** function is used to apply noise on numeric and date column val
 
 ### random
 
-![alt text](/img/docs/ano-syntax/random.png "Random")
+![alt text](/img/docs/ano-syntax/random.png 'Random')
 
 All input to the randomize function is read as a string. You must therefore specify a function to convert from the String type to the input type, defined by the type property:
 
@@ -1108,12 +1102,12 @@ Date
 </td>
 <td>
 
-String2Date	
+String2Date
 
 </td>
 <td>
 
-java.time.LocalDate	
+java.time.LocalDate
 
 </td>
 <td>
@@ -1135,13 +1129,12 @@ String2DateTime
 </td>
 <td>
 
-java.time.LocalDateTime	
+java.time.LocalDateTime
 
 </td>
 <td>
 
 yyyy-MM-dd HH:mm:ss
-
 
 </td>
 </tr>
@@ -1158,7 +1151,7 @@ String2Time
 </td>
 <td>
 
-java.time.Time	
+java.time.Time
 
 </td>
 <td>
@@ -1207,7 +1200,7 @@ java.lang.Double
 </td>
 <td>
 
-Decimal number as accepted by the valueOf method in class Double 
+Decimal number as accepted by the valueOf method in class Double
 
 </td>
 </tr>
@@ -1239,7 +1232,7 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-*gaussion-distribution * (flat-noise + column value * percentage-noise) + offset*
+_gaussion-distribution _ (flat-noise + column value _ percentage-noise) + offset_
 
 </td>
 </tr>
@@ -1308,7 +1301,8 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-*gaussian-distribution * flat-noise + offset*
+_gaussian-distribution _ flat-noise + offset\*
+
 </td>
 </tr>
 <tr>
@@ -1363,7 +1357,8 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-*gaussian-distribution * flat-noise + offset*
+_gaussian-distribution _ flat-noise + offset\*
+
 </td>
 </tr>
 <tr>
@@ -1396,7 +1391,7 @@ Adds a fixed number of days to the time value
 
 ### convert
 
-![alt text](/img/docs/ano-syntax/convert.png "Convert")
+![alt text](/img/docs/ano-syntax/convert.png 'Convert')
 
 The convert **CONVERSION** class is one of the built-in classes or defined in the user defined conversion classes section. The convert() method takes String as input and delivers an Object. The class must implement the IConversion interface. See **String2Decimal** sample below.
 
@@ -1413,7 +1408,7 @@ update ROOMCATEGORY
 
 ### shuffle
 
-![alt text](/img/docs/ano-syntax/shuffle.png "Shuffle")
+![alt text](/img/docs/ano-syntax/shuffle.png 'Shuffle')
 
 The **shuffle** function reorders the column values in a random order and ensures that no record retains the original column value.
 

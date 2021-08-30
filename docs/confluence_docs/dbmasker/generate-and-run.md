@@ -8,7 +8,7 @@ Once you have created the ANO file, you can generate the java source. A generati
 
 Select your **ANO** file as **Anonymizer model File name** input, edit the **Root package** parameter and press the **Download ZIP** button.
 
-![alt text](/img/docs/dbmaskerweb.png "DB Masker Web")
+![alt text](/img/docs/dbmaskerweb.png 'DB Masker Web')
 
 Unpack the returned zip file into a java project folder of your choice.
 

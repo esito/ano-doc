@@ -3,6 +3,7 @@
 This example shows how you construct an email from a name field, then adding a random email domain.
 
 ## Mask Email
+
 ```ano
 task MyTaskName
 {
@@ -21,7 +22,7 @@ task MyTaskName
 ### Notice
 
 - the "transform Email" makes a valid email format by replacing spaces and illegal email characters
-- "unique" makes sure the generated email is unique to satisfy constraints. If it is not unique it will try again, in this case with a different suffix. 
+- "unique" makes sure the generated email is unique to satisfy constraints. If it is not unique it will try again, in this case with a different suffix.
 
 The resource files, simple list of names whereas newline is used as delimiter
 
