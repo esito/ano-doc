@@ -41,7 +41,6 @@ The g9 Anonymizer can
 
 ## How does it work?
 
-
 The figure shows how g9 Anonymizer works:
 
 - Database Copy: Create a copy of your production database.
@@ -52,7 +51,7 @@ The figure shows how g9 Anonymizer works:
 - Anonymize: Run the program against the database that you are going to anonymize. You will get a database that can be used for testing and development purposes.
 - GDPR: You may integrate the application into your GDPR support infrastructure.
 
-![alt text](/img/docs/g9_ano_process.png "DBano Web")
+![alt text](/img/docs/g9_ano_process.png 'DBano Web')
 
 &nbsp;
 
@@ -61,6 +60,7 @@ The figure shows how g9 Anonymizer works:
 The technology consists of Java, JDBC and Maven. The g9 Anonymizer comes as an Eclipse plugin where an anonymization project is created where you can easily model the rules. The generated Java / JDBC code is easy to maintain and is completely modifiable. It is built by Maven to a JAR file, which also contains Javadoc and source code. The all-inclusive JAR file can be run for anonymization of test databases or integrated into other programs for other GDPR tasks such as export for portability and access or deletion / withdrawal.
 
 The g9 Anonymizer is a suite of plugins for Eclipse and works seamlessly with Eclipse Java projects.
+
 - Uses JDBC against a database
 - Generates a Java application
 - Uses the Eclipse IDE platform

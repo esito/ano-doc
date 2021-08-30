@@ -28,7 +28,6 @@ Dealing with data dependencies
 - Updating dependencies
 - Updating index fields with depencies
 
-
 Create
 
 Delete
@@ -36,4 +35,3 @@ Delete
 SAR
 
 Erase
-

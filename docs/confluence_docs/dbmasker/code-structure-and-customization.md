@@ -45,7 +45,7 @@ Source folder for customized java files
 </td>
 <td>
 
-Package containing custom conversion classes. Defined for Randomized columns or for masked columns using a column input source. Converts input strings into another string format or converts string into another data type for randomized columns. (*See ParseDigits.java in AnonymizerHotel example*)
+Package containing custom conversion classes. Defined for Randomized columns or for masked columns using a column input source. Converts input strings into another string format or converts string into another data type for randomized columns. (_See ParseDigits.java in AnonymizerHotel example_)
 
 </td>
 </tr>
@@ -57,7 +57,7 @@ Package containing custom conversion classes. Defined for Randomized columns or 
 </td>
 <td>
 
-Package containing custom distribution classes. Defined for Dependent tables when creating data for tables. Used for determining the distribution of foreign keys between the parent and child tables. (*See MinPerParent.java in AnonymizerHotel example*)
+Package containing custom distribution classes. Defined for Dependent tables when creating data for tables. Used for determining the distribution of foreign keys between the parent and child tables. (_See MinPerParent.java in AnonymizerHotel example_)
 
 </td>
 </tr>
@@ -69,7 +69,7 @@ Package containing custom distribution classes. Defined for Dependent tables whe
 </td>
 <td>
 
-Package containing custom transformations. Defined for Masked column. Used for transforming column value before being written to database. (*See ReplaceDigits.java in AnonymizerHotel example*)
+Package containing custom transformations. Defined for Masked column. Used for transforming column value before being written to database. (_See ReplaceDigits.java in AnonymizerHotel example_)
 
 </td>
 </tr>
@@ -354,9 +354,9 @@ All custom conversions must be created in the src/main/java/\<java package\>.con
 
 ```java
 public class ParseDigits implements IConversion {
- 
+
     public static final String LABEL = "ParseDigits - simply remove all non-digits";
- 
+
     @Override
     public Object convert(String txt) {
         if(txt==null)
@@ -369,7 +369,7 @@ public class ParseDigits implements IConversion {
         }
         return sb.length()==0?"0":sb.toString();
     }
- 
+
 }
 ```
 
@@ -394,14 +394,14 @@ If the input source text file contains multiple columns of data, a conversion ma
 
 ```java
 public class TabDelim1 implements IConversion {
- 
+
     public static final String LABEL = "TabDelim1 - Pick column 1 delimited by tab";
-     
+
     @Override
     public Object convert(String input) throws Exception {
         return input.split("\\t")[0];
     }
- 
+
 }
 ```
 
@@ -424,9 +424,9 @@ Transformations are defined for Masked columns and are used for transforming col
  * It divided current values into 4 equal size buckets where the value represents the average.
  */
 public class QuartileGeneralization implements ITransformation, IPreScan {
- 
+
     public static final String LABEL = "QuartileGeneralization - Create 4 groups and preserve the average";
-     
+
     @Override
     public String transform(String input) {
         int in=Integer.parseInt(input);
@@ -436,11 +436,11 @@ public class QuartileGeneralization implements ITransformation, IPreScan {
         }
         return String.valueOf(tot[3]/each);
     }
-     
+
     int[] max=new int[]{0,0,0,0};
     int[] tot=new int[]{0,0,0,0};
     double each;
- 
+
     @Override
     public void scan(int col, List<String[]> rows) {
         List<Integer> list=new ArrayList<>();
@@ -456,7 +456,7 @@ public class QuartileGeneralization implements ITransformation, IPreScan {
             tot[bucket]+=x;
         }
     }
- 
+
 }
 ```
 
@@ -489,7 +489,7 @@ public class MinPerParent implements IDistribution {
         "MinPerParent - Ensures a minimum number of occurrences of each parent value";
     public static final String PARENT_LABEL= "Minimum #rows / parent";
     int[] min;
- 
+
     @Override
     public int calculateNewRows(CreateParent[] parents, int numExistRows, List<String[]> existing) {
         min=new int[parents.length];
@@ -507,7 +507,7 @@ public class MinPerParent implements IDistribution {
         }
         return x1;
     }
- 
+
     @Override
     public void distribute(List<String> columns, CreateParent[] parents, List<String[]> rows) {
         for (int i = 0; i < parents.length; i++) {
@@ -592,6 +592,7 @@ Context
 <th>
 
 ContextFactory method
+
 </th>
 </tr>
 <tr>
@@ -639,6 +640,7 @@ The values for auto-commit and repeatable-random you may have to set additionall
 <th>
 
 Additional context
+
 </th>
 <th>
 
@@ -745,10 +747,10 @@ Log handler may be configured to suit your needs.
 ```java
 // To configure the Anonymizer's Log handler instead of Java Logging's default ConsoleHandler.
 Log.configureConsoleLoghandler();
- 
+
 // To add your own handler
 Log.addhandler(new MyLogHandler());
- 
+
 // To ignore Info and Warning type messages
 Log.setLevel(Level.SEVERE);
 ```
@@ -759,7 +761,7 @@ Log.setLevel(Level.SEVERE);
 
 Anonymizer gives a practical entry point, but does not necessarily need to be included to run tasks.
 
-``` java
+```java
 // Instantiating Anonymizer will give access to IAnonymizer methods such as getTasks().
 // The ContextFactory object gives factory methods based on the connection from config.properties
 try {
@@ -770,12 +772,12 @@ try {
 } catch (Throwable e) {
     e.printStackTrace();
 }
- 
+
 // Having your own connection, you may instead access tasks directly, without the Anonymizer class.
 // The Factory methods in AbstractContext can be used if you have a connection.
 IContext context = ContextFactory.createAnonymizeContext(connection);
 new TaskRoot().run(context);
- 
+
 // Running Erase task
 String[] params = new String[]{"1000234"};
 IContext context = ContextFactory.createEraseContext(connection, params);
@@ -816,28 +818,28 @@ There are four generic writers provided for XML and JSON and these may be conven
 
 ```java
 public class SimpleXmlSarWriter extends AbstractSarWriter {
- 
+
     public SimpleXmlSarWriter() {
         super("  ");
     }
- 
+
     @Override
     public String writeColumn(String column, String label, String comment, String value) {
         return "  "+id(column)+"='"+escape(value)+"'\n";
     }
- 
+
     @Override
     public String writeTable(String table, String label, String comment, String columns, String children) {
         if(children.isEmpty())
             return "<"+id(table)+"\n"+columns+indent+"/>\n";
         return "<"+id(table)+"\n"+columns+"  >\n"+children+"</"+id(table)+">\n";
     }
- 
+
     @Override
     public String writeRoot(String inner) {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"+inner;
     }
- 
+
     @Override
     public String escape(char c) {
         return escapeXml(c);
@@ -855,11 +857,11 @@ The class code sample below may be run with the generated anonymizerhotel-0.0.1.
 
 ```java
 package example.anonymizer.apisample;
- 
+
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
- 
+
 import example.anonymizer.Connect;
 import example.anonymizer.anonymize.Anonymize_CUSTOMER;
 import example.anonymizer.erase.Erase_CUSTOMER;
@@ -868,22 +870,22 @@ import no.esito.anonymizer.ContextFactory;
 import no.esito.anonymizer.IContext;
 import no.esito.anonymizer.Log;
 import no.esito.anonymizer.sarwriter.JsonSarWriter;
- 
+
 public class UsingAPI {
- 
+
     public static void main(String[] args) {
         try {
             // Set console-loghandler instead of Java's logger
             Log.configureConsoleLoghandler();
- 
+
             // Connect to the default database specified in project.properties
             Connection conn = Connect.createDefaultConnection();
- 
+
             // Run the samples
             runSampleAnonymizeTask(conn);
             runSampleEraseTask(conn);
             runSampleSarTask(conn);
- 
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -892,24 +894,24 @@ public class UsingAPI {
             e.printStackTrace();
         }
     }
- 
+
     private static void runSampleAnonymizeTask(Connection conn) throws Throwable {
         // Create a run-time context
         IContext context = ContextFactory.createAnonymizeContext(conn);
         context.setRepeatableRandom(true); // If you want same results consistently
-    
+
         // Run the Anonymize_CUSTOMER task
         new Anonymize_CUSTOMER().run(context);
     }
- 
+
     private static void runSampleEraseTask(Connection conn) throws Throwable {
         // Create a run-time context and supply the parameter, where customerno = %PARAMETER%
         IContext context = ContextFactory.createEraseContext(conn, new String[] {"1000234"});
-    
+
         // Run the Erase_CUSTOMER task
         new Erase_CUSTOMER().run(context);
     }
- 
+
     private static void runSampleSarTask(Connection conn) throws Throwable {
         try (
             FileOutputStream out =    new FileOutputStream("sar.json");
@@ -917,7 +919,7 @@ public class UsingAPI {
         ){
             // Create a run-time context and supply the parameter, where customerno = %PARAMETER%
             IContext context = ContextFactory.createSarContext(conn, new String[] {"1000235"}, writer);
- 
+
             // Run the SAR_CUSTOMER task
             new SAR_CUSTOMER().run(context);
         }

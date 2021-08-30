@@ -3,6 +3,7 @@
 ref: https://esito-conf.inmeta.com/display/DBMAS/DBano
 
 # Introduction
+
 The DBano service generates ANO files describing database structure using the ANO DSL language described in DBmasker ANO syntax.
 
 The generated result contains tables, columns, primary-keys, unique constraints and foreign key definitions and may be extended with anonymization/masking rules. The service takes database schema sql files as input.
@@ -13,12 +14,11 @@ The generated result contains tables, columns, primary-keys, unique constraints 
 
 Once you have created the SQL file, you can generate the ANO file. A generation service is available on http://anonymizer.esito.no. Select your **SQL** file as **Schema File name** input and press the **Download ANO file** button.
 
-![alt text](/img/docs/dbanoweb.png "DBano Web")
+![alt text](/img/docs/dbanoweb.png 'DBano Web')
 
 <br/>
 
 # Sample code
-
 
 ## Recordshop tables
 
@@ -30,7 +30,7 @@ CREATE TABLE Artist (
   gossip varchar(255),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Author (
   id integer generated always as identity NOT NULL,
   name varchar(40),
@@ -38,7 +38,7 @@ CREATE TABLE Author (
   telephone varchar(14),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Customer (
   id integer generated always as identity NOT NULL,
   name varchar(30),
@@ -50,7 +50,7 @@ CREATE TABLE Customer (
   customerCategory integer CHECK (customerCategory IN (1,2,3)),
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE LineItem (
   id integer generated always as identity NOT NULL,
   serialNo integer,
@@ -60,7 +60,7 @@ CREATE TABLE LineItem (
   record_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Record (
   id integer generated always as identity NOT NULL,
   title varchar(100),
@@ -75,7 +75,7 @@ CREATE TABLE Record (
   artist_id integer,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE RecordOrder (
   id integer generated always as identity NOT NULL,
   orderNo varchar(30) NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE RecordOrder (
   customer_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 CREATE TABLE Review (
   id integer generated always as identity NOT NULL,
   publication varchar(60),
@@ -95,7 +95,7 @@ CREATE TABLE Review (
   record_id integer NOT NULL,
   PRIMARY KEY (id)
 );
- 
+
 -- Artist
 CREATE UNIQUE INDEX Artist_name_IX ON Artist (name);
 -- LineItem
@@ -177,7 +177,7 @@ table Review
     column integer author_id
     column integer record_id
     primary-key id
- 
+
 foreign-key
     LineItem record_id
     Record id

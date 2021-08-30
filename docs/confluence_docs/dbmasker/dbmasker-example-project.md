@@ -2,7 +2,6 @@
 
 ref: https://esito-conf.inmeta.com/display/DBMAS/DBmasker+example+project+with+Derby
 
-
 We have prepared a hotel booking example project consisting of
 
 - a github project containing
@@ -12,12 +11,13 @@ We have prepared a hotel booking example project consisting of
 - use of DBmasker service
   - with the hotelsample.ano file as input
   - which generates a zip with the complete java program as output
-  
+
 The project uses Maven to build an executable jar file.
 
 <br/>
 
 ## Prerequisites
+
 The example uses Java, Maven and Derby database. It is tested with these versions:
 
 - Java 1.8
@@ -25,12 +25,13 @@ The example uses Java, Maven and Derby database. It is tested with these version
 - Derby 10.14.2.0
 
 ### Derby install
+
 Download [Derby](https://db.apache.org/derby/derby_downloads.html), unzip to a folder of your choice.
 
 <br/>
 
-
 ## Download the github project
+
 Download and unzip the dbmasker-master.zip (https://github.com/esito/dbmasker) to a java project folder or clone the dbmasker git project:
 git clone https://github.com/esito/dbmasker.git.
 
@@ -58,12 +59,12 @@ From the hotelsample folder, look at the hotelsample.ano file. It contains a des
 
 - description of database structure
 - a lot of tasks and rules describing how to anonymize, mask, create and remove data
-  
+
 The syntax is described in the DBmasker ANO syntax chapter.
 
 The simplified domain model for this sample project:
 
-![alt text](/img/docs/hotelsample.png "Hotel Sample")
+![alt text](/img/docs/hotelsample.png 'Hotel Sample')
 
 <br/>
 
@@ -73,7 +74,7 @@ Go to the http://anonymizer.esito.no web, register a user and subscribe to the D
 
 Go to the DBmasker service on https://anonymizer.esito.no/auth/dashboard/dbmasker. Choose **SELECT A FILE** and use the hotelsample.ano file as the **Anonymizer model File name** parameter to the service. Ignore the **Root package** parameter (giving example.anonymizer package value) and press the **DOWNLOAD ZIP** button.
 
-![alt text](/img/docs/dbmaskerweb.png "DB Masker Web")
+![alt text](/img/docs/dbmaskerweb.png 'DB Masker Web')
 
 <br/>
 
@@ -106,17 +107,18 @@ Unpack the resulting zip to the java project you downloaded or cloned from githu
 The **DBmasker** generator creates hotelsample\src\main\java\example\anonymizer\Connect.java, which connects to the database given by the config.properties file. In this example, we have to override the Connect.java with a user defined Connect. Replace the content in hotelsample\src\main\java\example\anonymizer\Connect.java with the code from src/main/java/example/anonymizer/Connect.ovr:
 
 ### Connect
+
 ```java
 package example.anonymizer;
- 
+
 import java.sql.Connection;
 import java.net.InetAddress;
 import no.esito.anonymizer.ConfigUtil;
 import no.esito.anonymizer.core.AbstractConnect;
 import org.apache.derby.drda.NetworkServerControl;
- 
+
 public class Connect extends AbstractConnect{
- 
+
     /**
      * Factory method for Connection from the config.properties
      * @return Connection
@@ -125,9 +127,9 @@ public class Connect extends AbstractConnect{
     public static Connection createDefaultConnection() throws Throwable {
         return new Connect().makeConnection("",ConfigUtil.getConfig());
     }
- 
+
     public NetworkServerControl nsc;
- 
+
     @Override
     protected void checkNetworkService(String host, String port) throws Throwable {
         if (nsc == null) {
@@ -147,6 +149,7 @@ public class Connect extends AbstractConnect{
 If necessary, edit the database properties in the config.properties file:
 
 ### config.properties
+
 ```properties
 # Database connection parameters
 connection.host         = localhost
@@ -170,7 +173,7 @@ The generated source may be built using Maven. Add the Derby depedencies to the 
   <properties>
       <derby.version>10.14.2.0</derby.version>
   </properties>
- 
+
   <dependency>
       <groupId>org.apache.derby</groupId>
       <artifactId>derbyclient</artifactId>
@@ -186,9 +189,9 @@ The generated source may be built using Maven. Add the Derby depedencies to the 
       <artifactId>derby</artifactId>
       <version>${derby.version}</version>
   </dependency>
-  ```
+```
 
-  To build the hotelsample program, run mvn install, which creates the `hotelsample-0.0.1.jar` in  the target folder.
+To build the hotelsample program, run mvn install, which creates the `hotelsample-0.0.1.jar` in the target folder.
 
 <br/>
 
@@ -282,13 +285,13 @@ Check how the mask, create and delete tasks work:
   - run create
   - run advanced
 - check the database result
-  
+
 To run Erase and SAR tasks, use the **erase** and **sar** commands. Look at the definition of the tasks which are defined with a parameter. To run the tasks defined:
 
 - erase erase_customer 1000234 (parameter customer id)
 - erase erase_hotelroomcategory 1 11 2005-10-15 (parameters hotel id, roomcategory id and fromdate)
 - sar subjectaccess 1000234 (parameter customer id)
-  
+
 To stop the program, run quit.
 
 <br/>
@@ -298,13 +301,14 @@ To stop the program, run quit.
 This chapter shows how to write program code that uses some of the generated tasks and the DBmasker interfaces. It depends on the target/hotelsample-0.0.1.jar file.
 
 ### Sample java main
+
 ```java
 package apisample;
-  
+
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-  
+
 import example.anonymizer.Connect;
 import example.anonymizer.anonymize.Anonymize_CUSTOMER;
 import example.anonymizer.erase.Erase_CUSTOMER;
@@ -313,22 +317,22 @@ import no.esito.anonymizer.ContextFactory;
 import no.esito.anonymizer.IContext;
 import no.esito.anonymizer.Log;
 import no.esito.anonymizer.sarwriter.JsonSarWriter;
-  
+
 public class UsingAPI {
-  
+
     public static void main(String[] args) {
         try {
             // Set console-loghandler instead of Java's logger
             Log.configureConsoleLoghandler();
-  
+
             // Connect to the default database specified in project.properties
             Connection conn = Connect.createDefaultConnection();
-  
+
             // Run the samples
             runSampleAnonymizeTask(conn);
             runSampleEraseTask(conn);
             runSampleSarTask(conn);
-  
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -337,24 +341,24 @@ public class UsingAPI {
             e.printStackTrace();
         }
     }
-  
+
     private static void runSampleAnonymizeTask(Connection conn) throws Throwable {
         // Create a run-time context
         IContext context = ContextFactory.createAnonymizeContext(conn);
         context.setRepeatableRandom(true); // If you want same results consistently
-     
+
         // Run the Anonymize_CUSTOMER task
         new Anonymize_CUSTOMER().run(context);
     }
-  
+
     private static void runSampleEraseTask(Connection conn) throws Throwable {
         // Create a run-time context and supply the parameter, where customerno = %PARAMETER%
         IContext context = ContextFactory.createEraseContext(conn, new String[] {"1000234"});
-     
+
         // Run the Erase_CUSTOMER task
         new Erase_CUSTOMER().run(context);
     }
-  
+
     private static void runSampleSarTask(Connection conn) throws Throwable {
         try (
             FileOutputStream out =    new FileOutputStream("sar.json");
@@ -362,7 +366,7 @@ public class UsingAPI {
         ){
             // Create a run-time context and supply the parameter, where customerno = %PARAMETER%
             IContext context = ContextFactory.createSarContext(conn, new String[] {"1000235"}, writer);
-  
+
             // Run the SAR_CUSTOMER task
             new SAR_CUSTOMER().run(context);
         }
@@ -401,11 +405,10 @@ ID         |LOCATION                |LOGO        |NAME                          
 13         |Oslo                    |Logo13      |Cloud Hotel                       |1          |NULL
 14         |Midtown buwan           |Logo14      |Mellow Panorama Hotel             |2          |NULL
 15         |Little drud             |Logo16      |Emerald Hotel                     |0          |NULL
- 
+
 15 rows selected
 ij>
 ```
-
 
 ## The sample ano file
 
@@ -482,7 +485,7 @@ table ROOMCATEGORY
     column integer ROOMQUALITY size 10
     column integer LOCK_FLAG size 10
     primary-key ID
- 
+
 foreign-key
     HOTELROOMCATEGORY HOTEL_ID
     HOTEL ID
@@ -510,11 +513,11 @@ foreign-key
 foreign-key
     ROOM HOTEL_ID
     HOTEL ID
- 
+
 conversion example.anonymizer.conversions.ParseDigits
 transformation example.anonymizer.transformations.PostCodeGeneralization
 distribution example.anonymizer.distributions.MinPerParent
- 
+
 // Pure Anonymizations
 task Anonymize
 {
@@ -776,4 +779,5 @@ task SubjectAccess
         }
 }
 ```
+
 </details>

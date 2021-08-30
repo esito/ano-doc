@@ -1,4 +1,3 @@
-
 <!-- markdownlint-disable MD033 - makes html allowed -->
 
 # Creating the ANO file
@@ -18,13 +17,13 @@ Terminals not defined on this page, are explained in the DBmasker ANO syntax.
 
 ### userdefined
 
-![alt text](/img/docs/erase/userdefined-erase.png "Userdefined - erase")
+![alt text](/img/docs/erase/userdefined-erase.png 'Userdefined - erase')
 
 &nbsp;
 
 ### task
 
-![alt text](/img/docs/erase/task-erase.png "Task - erase")
+![alt text](/img/docs/erase/task-erase.png 'Task - erase')
 
 The **TASK** represents a task name and **sql** represents SQL statements run before and after the task defined operations.
 
@@ -32,7 +31,7 @@ The **TASK** represents a task name and **sql** represents SQL statements run be
 
 ### erase
 
-![alt text](/img/docs/erase/erase.png "Erase")
+![alt text](/img/docs/erase/erase.png 'Erase')
 
 Used for erasing records in a table by anonymizing specified columns and deleting records from it's referenced tables, or masking specified columns in the referenced tables. It contains a parameterized condition bases on the selected tables primary key.
 
@@ -40,13 +39,13 @@ Used for erasing records in a table by anonymizing specified columns and deletin
 
 ### eraseTable
 
-![alt text](/img/docs/erase/eraseTable.png "Erase table")
+![alt text](/img/docs/erase/eraseTable.png 'Erase table')
 
 &nbsp;
 
 ### simpleMask
 
-![alt text](/img/docs/erase/simpleMask.png "Simple mask")
+![alt text](/img/docs/erase/simpleMask.png 'Simple mask')
 
 &nbsp;
 
@@ -54,7 +53,7 @@ Used for erasing records in a table by anonymizing specified columns and deletin
 
 Once you have created the ANO file, you can generate the java source. A generation service is available on [anonymizer.esito.no](https://anonymizer.esito.no). Select your **ANO** file as **Erase model File name** input, edit the **Root package** parameter and press the **Download ZIP** button.
 
-![alt text](/img/docs/erase/dberaseweb.png "DBerase web")
+![alt text](/img/docs/erase/dberaseweb.png 'DBerase web')
 
 Unpack the returned zip file into a java project folder of your choice.
 
@@ -94,7 +93,6 @@ Source folder for customized and generated files. The generated source is descri
 Package containing custom transformations. Defined for Masked column. Used for transforming column value before being written to database.
 
 </td>
-
 
 </tr>
 <tr>
@@ -201,7 +199,7 @@ Contains all interfaces, ConfigUtil.java (reading/writing config.properties) and
 </td>
 <td>
 
-Built in conversions used for converting string input to various other data types. (*String2Date, String2DateTime, String2Decimal, String2Integer, String2Time*)
+Built in conversions used for converting string input to various other data types. (_String2Date, String2DateTime, String2Decimal, String2Integer, String2Time_)
 
 </td>
 </tr>
@@ -292,7 +290,7 @@ Replaces last digit of credit card number with calculated checksum using Luhn al
 <tr>
 <td>
 
--  - Email.java
+- - Email.java
 
 </td>
 <td>
@@ -365,23 +363,23 @@ The REST api syntax follows the structure shown in the example URLs below, taken
 Using the specific functions:
 http://localhost:8080/api/Erase_CUSTOMER?CUSTOMERNO=1000234
 http://localhost:8080/api/Erase_HOTELROOMCATEGORY?FROMDATE=2005-10-15&HOTEL_ID=1&ROOMCATEGORY_ID=11
- 
+
 Using the general erase task, where the taskname is one of the parameters:
 http://localhost:8080/api/erase/?task=forgetme.Erase_CUSTOMER&params=1000234
- 
+
 In the general case, with many parameters, the parameter sequence has to be equal to the sequence
 defined in the erase definition where clause, defined by PARAMETERn:
     where "(*HOTEL_ID* = %PARAMETER1% AND ROOMCATEGORY_ID = %PARAMETER2% AND FROMDATE = '%PARAMETER3%')"
 http://localhost:8080/api/erase?task=forgetme.Erase_HOTELROOMCATEGORY&params=1&params=12&params=2005-10-15
 ```
 
->**REST api parameter sequence**\
-If it is more than one parameter, will the sequence of parameters be equal to the parameter number sequence as in PARAMETERn, which is the n-th parameter.
+> **REST api parameter sequence**\
+> If it is more than one parameter, will the sequence of parameters be equal to the parameter number sequence as in PARAMETERn, which is the n-th parameter.
 
 &nbsp;
 
->**Need java package prefix**\
-The general erase function with task name as parameter, need the complete java package. In the above case will the task parameter be: **?task=forgetme.Erase_CUSTOMER**. The package name is given by the **task = ForgetMe** statement in the ANO file.
+> **Need java package prefix**\
+> The general erase function with task name as parameter, need the complete java package. In the above case will the task parameter be: **?task=forgetme.Erase_CUSTOMER**. The package name is given by the **task = ForgetMe** statement in the ANO file.
 
 &nbsp;
 
@@ -397,11 +395,11 @@ The Spring Boot essential configuration can be found in "src/main/resources/appl
 server.port=8081
 ```
 
->**RequestMapping**\
-The REST API URL is generated with\
-`@Configuration`\
-`@RequestMapping("/api")`\
-This may be overrided in the \<root package\>/EraseController.java. This file will be regenerated on next invocation of the service.
+> **RequestMapping**\
+> The REST API URL is generated with\
+> `@Configuration`\
+> `@RequestMapping("/api")`\
+> This may be overrided in the \<root package\>/EraseController.java. This file will be regenerated on next invocation of the service.
 
 &nbsp;
 
@@ -409,11 +407,11 @@ This may be overrided in the \<root package\>/EraseController.java. This file wi
 
 The overall erase-controller and available API:
 
-![alt text](/img/docs/erase/swaggerGET.png "Swagger - GET")
+![alt text](/img/docs/erase/swaggerGET.png 'Swagger - GET')
 
 To use a function,select /api/Erase_CUSTOMER, press the **Try it out** button and add a value to the CUSTOMERNO field.
 
-![alt text](/img/docs/erase/swagger.png "Swagger")
+![alt text](/img/docs/erase/swagger.png 'Swagger')
 
 &nbsp;
 
@@ -477,9 +475,9 @@ table HOTELROOMCATEGORY
 foreign-key
     ADDRESS CUSTOMER_CUSTOMERNO
     CUSTOMER CUSTOMERNO
- 
+
 transformation PostCodeGeneralization
- 
+
 // Forget Me - tasks
 task forgetMe
 {
