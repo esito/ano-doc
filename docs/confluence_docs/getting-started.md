@@ -1,27 +1,29 @@
+---
+sidebar_position: 1
+id: getting-started
+---
 
-# Get started
+# Getting started
 
-Ref: https://esito-conf.inmeta.com/display/DBMAS/Get+started
-
+Ref: <https://esito-conf.inmeta.com/display/DBMAS/Get+started>
 
 This site contains several services that generates code based on simple inputs as SQL DDL statements or our ANOnymization language ANO.
 
-
 ### Available services:
 
-* [DBmasker](db-masker.md)
-* [DBimport](db-import.md)
-* [DBano](db-ano.md)
-* [DBerase](db-erase.md)
+* DBmasker
+* DBimport
+* DBano
+* DBerase
 
-<table width="100%" style="border: 2px solid;">
+<table width="100%" >
 <tr>
-<th width="20%" style="border: 2px solid;">
+<th width="20%" >
 
 Service
 
 </th>
-<th style="border: 2px solid;">
+<th>
 
 Description
 
@@ -29,12 +31,12 @@ Description
 </tr>
 
 <tr>
-<td style="border: 1px solid;">
+<td>
 
 DBMasker
 
 </td>
-<td style="border: 1px solid;">
+<td>
 
 Generates anonymization programs based on tasks and rules written in the ANO language. It supports
 
@@ -48,12 +50,12 @@ Generates anonymization programs based on tasks and rules written in the ANO lan
 </tr>
 
 <tr>
-<td style="border: 1px solid;">
+<td >
 
 DBimport
 
 </td>
-<td style="border: 1px solid;">
+<td >
 
 Reverse engineers your database structure into java JPA classes.
 
@@ -63,12 +65,12 @@ Reverse engineers your database structure into java JPA classes.
 </tr>
 
 <tr>
-<td style="border: 1px solid;">
+<td >
 
 DBErase
 
 </td>
-<td style="border: 1px solid;">
+<td >
 
 A subset of the DBmasker functionality, dealing only with GDPR forget me support.
 
@@ -77,12 +79,12 @@ A subset of the DBmasker functionality, dealing only with GDPR forget me support
 </tr>
 
 <tr>
-<td style="border: 1px solid;">
+<td >
 
 DBAno
 
 </td>
-<td style="border: 1px solid;">
+<td >
 
 Reverse engineers your database structure into ANO syntax.
 
@@ -92,10 +94,7 @@ Reverse engineers your database structure into ANO syntax.
 
 </table>
 
-* [ANOnymization Examples](anonymization-examples.md)
-
-
+* ANOnymization Examples
 
 [subscription]: /img/docs/subscription.png "Logged in dashboard"
 ![alt text][subscription]
-

@@ -1,4 +1,11 @@
-# Anonymizer turns domain knowledge into code
+---
+sidebar_position: 1
+id: home-esito
+---
+
+# Home
+
+## Anonymizer turns domain knowledge into code
 
 The introduction of GDPR has major implications for the processing of personal and sensitive data. Read about our cloud services that support requirements imposed by GDPR.
 

@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+id: dbmasker-esito
+---
+
 # DBmasker
 
 ref: <https://www.esito.no/en/dbmasker/>

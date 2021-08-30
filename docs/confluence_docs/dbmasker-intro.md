@@ -1,7 +1,6 @@
 # DBmasker
 
 Ref: https://esito-conf.inmeta.com/display/DBMAS/DBmasker
-
 # Introduction
 
 Data anonymization is all about protecting private and sensitive data. It involves masking or obfuscating data using various techniques. These techniques typically convert identifiable personal data into a non-identifiable form which includes encrypting data, scrambling data, replacing data with random values or simply deleting data. This removes the ability to identify individuals and ensures that sensitive data becomes anonymous.
