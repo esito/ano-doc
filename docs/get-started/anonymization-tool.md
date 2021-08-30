@@ -1,4 +1,8 @@
-# Esito - Home page
+---
+sidebar_position: 4
+id: anonymization-tool-esito
+---
+# Anonymization Tool
 
 ## Tools for anonymizing test data
 

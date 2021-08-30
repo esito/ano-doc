@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+id: home-anonymizer-esito
+---
+
 # Anonymize your test data and make GDPR a breeze
 
 > Anonymizer generates a Java program that can be automated and run whenever you like.

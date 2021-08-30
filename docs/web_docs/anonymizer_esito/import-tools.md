@@ -1,3 +1,8 @@
+---
+sidebar_position: 1
+id: eclipse-plugins-anonymizer-esito
+---
+
 # Eclipse plugins
 
 In addition to the services presented here, Esito delivers Eclipse plugin products that can be downloaded from Esito's update site. To read more about the functionality, go to 
