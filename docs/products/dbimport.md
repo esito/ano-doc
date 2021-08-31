@@ -1,4 +1,8 @@
-# DBimport
+---
+sidebar_position: 5
+id: dbimport-3
+---
+# DBimport 3
 
 ref: https://esito-conf.inmeta.com/display/DBMAS/DBimport
 

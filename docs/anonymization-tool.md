@@ -1,14 +1,16 @@
 ---
-sidebar_position: 4
+sidebar_position: 1.5
 id: anonymization-tool-esito
 ---
-# Anonymization Tool
+# GDPR - Anonymization as a Business Necessity
 
 ## Tools for anonymizing test data
 
-ref: https://www.esito.no/en/products/anonymizer/
+### Anonymizer turns domain knowledge into code
 
-Supports GDPR Subject Access Requests and Right to erasure
+The introduction of GDPR has major implications for the processing of personal and sensitive data. Read about our cloud services that support requirements imposed by GDPR.
+
+Our products also provide support for GDPR Subject Access Requests and Right to erasure
 
 &nbsp;
 

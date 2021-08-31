@@ -1,4 +1,8 @@
-# DBeraase
+---
+sidebar_position: 3
+id: dberase-3
+---
+# DBerase 3
 
 # Introduction
 

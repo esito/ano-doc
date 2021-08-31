@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 4
 id: dbano-anonymizer-esito
 ---
-# DBano
+# DBano 2
 
 > The DBano service generates ANO files describing database structure. The ANO DSL language is described in DBmasker ANO syntax.
 

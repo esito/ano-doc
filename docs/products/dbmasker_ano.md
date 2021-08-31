@@ -1,9 +1,9 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 id: dbmasker-anonymizer-esito
 ---
 
-# DBmasker
+# DBmasker 2
 
 > DBmasker is a service that helps organizations manage the tasks
 > associated with masking data in a robust and secure manner. It
