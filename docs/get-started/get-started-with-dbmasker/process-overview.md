@@ -13,5 +13,5 @@ label: process-overview
 2. Write anonymization logic as code using the ANO language at the end of this same `.ano` file.
 3. Pass the `.ano` file into one of our code generators DBmasker or DBerase. This yields a Java 8 Maven project.
     - Configure the database connection inside this project. Correct database driver dependency (in `pom.xml`) and correct database connection string (in `config.properties`).
-4. Build the project. For DBmasker, run the resulting JAR-file from the command line. For DBerase deploy the webservice.
+4. Build the project. For DBmasker, run the resulting JAR-file. For DBerase deploy the webservice.
 

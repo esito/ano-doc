@@ -16,12 +16,12 @@ Your developers needs a copy of your real databases so they can properly do deve
 
 ### Anonymizer - Our solution for you
 
-Anonymizer provides you the ANO domain specific langauge for writing anonymizing, masking, data generating, and data deleting rules so you can properly manage the de-identification of all your sensitive data fields in your RDBMS databases.
+Anonymizer delivers to you the ANO domain specific langauge for writing anonymizing, masking, data generating, and data deleting rules so you can properly manage the de-identification of all your sensitive data fields in your RDBMS databases.
 
- Anonymizer also provides you with code generators so you can easily integrate your anonymization rules to your particular businesses' software development process.
+ Anonymizer provides you with code generation services:
 
-- DBmasker generator provides you with a Command Line Executable JAR-file, with all your anonymization rules organized into tasks.
-- DBerase generator provides you a with an easily deployable webservice with REST Endpoints for deleting or masking on request based on IDs.
+- DBmasker generates Java source code for the tasks. Compiling this gives you an application, where all your anonymization rules are organized into tasks.
+- DBerase generates Java source code for the tasks. This is then deployable as a webservice with REST Endpoints for deleting or masking data on request, based on chosen IDs.
 
 Using the ANO language, you will be able to write cascading logic and intricate rules for handling edge cases in your database design.
 
@@ -32,4 +32,3 @@ Using the ANO language, you will be able to write cascading logic and intricate 
 1. Extract your database structure as code - using our DBano service
 2. Write masking and anonymization rules as code
 3. Use our generators for desired anonymzation tool
-
