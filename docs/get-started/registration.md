@@ -1,22 +1,21 @@
 ---
-sidebar_position: 1
-id: getting-started
+sidebar_position: 2
+label: registration
 ---
 
-# Getting started
-
-Ref: <https://esito-conf.inmeta.com/display/DBMAS/Get+started>
+# Registration process
+<!-- markdownlint-disable MD033 - makes html allowed -->
 
 This site contains several services that generates code based on simple inputs as SQL DDL statements or our ANOnymization language ANO.
 
-### Available services:
+## Available services:
 
 * DBmasker
 * DBimport
 * DBano
 * DBerase
 
-<table width="100%" >
+<table width="100%">
 <tr>
 <th width="20%" >
 
@@ -33,7 +32,7 @@ Description
 <tr>
 <td>
 
-DBMasker
+DBMasker (Paid)
 
 </td>
 <td>
@@ -50,12 +49,12 @@ Generates anonymization programs based on tasks and rules written in the ANO lan
 </tr>
 
 <tr>
-<td >
+<td>
 
-DBimport
+DBimport (Free)
 
 </td>
-<td >
+<td>
 
 Reverse engineers your database structure into java JPA classes.
 
@@ -65,12 +64,12 @@ Reverse engineers your database structure into java JPA classes.
 </tr>
 
 <tr>
-<td >
+<td>
 
-DBErase
+DBErase (Paid)
 
 </td>
-<td >
+<td>
 
 A subset of the DBmasker functionality, dealing only with GDPR forget me support.
 
@@ -79,12 +78,12 @@ A subset of the DBmasker functionality, dealing only with GDPR forget me support
 </tr>
 
 <tr>
-<td >
+<td>
 
-DBAno
+DBAno (Free)
 
 </td>
-<td >
+<td>
 
 Reverse engineers your database structure into ANO syntax.
 
@@ -94,7 +93,11 @@ Reverse engineers your database structure into ANO syntax.
 
 </table>
 
-* ANOnymization Examples
+Go to anonymizer.esito.no, select the Login link and register an AWS Cognito user:
 
-[subscription]: /img/docs/subscription.png "Logged in dashboard"
-![alt text][subscription]
+![alt text](/img/docs/signup.png 'Logged in Dashboard')
+
+
+### Logged in Dashboard
+
+![alt text](/img/docs/subscription.png 'Logged in Dashboard')

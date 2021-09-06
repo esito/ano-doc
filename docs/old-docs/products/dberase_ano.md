@@ -1,9 +1,9 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 id: dberase-anonymizer-esito
 ---
 
-# DBerase
+# DBerase 2
 
 > DBerase is a service that helps organizations manage the tasks
 > associated with forget me functionality. Every organization need

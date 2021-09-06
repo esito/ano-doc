@@ -1,0 +1,677 @@
+---
+sidebar_position: 4
+label: writing-masking-tasks
+---
+
+# Step 2 - Writing Your Masking Tasks
+
+:::info Goal
+
+- We want to edit the `.ano` file from last step to contain all our anonymization and masking needs.
+
+Alll masking tasks will be written into the `<schema>.ano` file from last step. They will be written at the end of the file **below** all `TABLE`, `FOREIGN KEY` and other reference statements.
+
+<details><summary><b>Task Placement Example</b> - create_tables.ano </summary>
+<p>
+
+```
+table Room
+	column ...
+table RoomCategory
+	column ...
+
+foreign-key
+   ...
+   ...
+
+/*
+Here you need to add your tasks and anonymizations.
+
+task MyTaskName
+{
+    // Anonymize - Mask various fields
+    update CUSTOMER Anonymize_CUSTOMER
+		// Create random name from list of firstnames and lastnames
+        mask FULLNAME CUSTOMER_FULLNAME
+            format "%s %s"
+            file src/main/resources/firstname.txt random-order
+            file src/main/resources/lastname.txt random-order
+		// Create random norwegian phone number
+		mask PHONE CUSTOMER_PHONE
+			format "+47 %d"
+			random-integer 10001000 99909990
+        // Create random creditcard with checksum that validates
+        mask CREDITCARD CUSTOMER_CREDITCARD
+            format "41428340%d"
+            transform CreditCard    // Run the CreditCard transformation to set correct checksum digits
+            random-integer 10001000 99919991
+}
+*/
+```
+
+</p>
+</details>
+
+:::
+
+## Simple Masking Tasks - Customer Table Example
+
+We perform pure anonymizations on table `Customer` by replacing existing values with random new values
+
+- Create random norwegian phone number
+
+- Create random creditcard with checksum that validates
+
+import Tabs from '@theme/Tabs'
+import TabItem from '@theme/TabItem'
+
+<Tabs
+  defaultValue="ano"
+  values={[
+    { label: 'Simple Masking Tasks', value: 'ano' },
+	{ label: 'Original Table', value: 'customer' },
+	{ label: 'Table Values', value: 'insert' },
+  ]}
+>
+
+<TabItem value="ano">
+
+```ano
+table Customer
+	column text creditCard
+		size 16
+	column integer customerNo
+	column text email
+		size 40
+	column text name
+		size 40
+	column text password
+		size 40
+	column text phone
+		size 20
+	column integer LOCK_FLAG
+	primary-key customerNo
+
+// Pure Anonymizations
+task Anonymize
+{
+	// Anonymize - Mask various fields
+	update Customer Anonymize_CUSTOMER
+		// Create random norwegian phone number
+		mask phone CUSTOMER_PHONE
+			format "+47 %d"
+			random-integer 10001000 99909990
+		// Create random creditcard with checksum that validates
+		mask creditCard CUSTOMER_CREDITCARD
+			format "41428340%d"
+			transform CreditCard
+			random-integer 10001000 99919991
+// Anonymize - Randomize
+}
+```
+
+</TabItem>
+
+<TabItem value="customer">
+
+```sql
+create schema ano_hotel;
+
+CREATE TABLE ano_hotel.Customer (
+  creditCard varchar(16),
+  customerNo integer NOT NULL,
+  email varchar(40),
+  name varchar(40),
+  password varchar(40),
+  phone varchar(20),
+  LOCK_FLAG integer,
+  PRIMARY KEY (customerNo)
+);
+```
+
+</TabItem>
+
+<TabItem value="insert">
+
+```
+INSERT INTO ano_hotel_simple.CUSTOMER (CREDITCARD,CUSTOMERNO,EMAIL,NAME,PASSWORD,PHONE,LOCK_FLAG) VALUES
+(NULL,1000234,'robert.gibson@gmail.com','Robert Gibson',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000235,'toby.baxter@inmeta.no','Toby Baxter',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000236,'harley.doyle@yahoo.com','Harley Doyle',NULL,'98765432',NULL),
+(NULL,1000237,'jordan.anderson@crayon.com','Jordan Anderson',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000238,'esito@crayon.com','Esito',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000239,'louie.andrews@crayon.com','Louie Andrews',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000240,'brecken.mercer@crayon.com','Brecken Mercer',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000241,'jens.barth@esito.no','Jens Barth',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000242,'hudson.gould@esito.no','Hudson Gould',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000243,NULL,NULL,NULL,NULL,NULL),
+(NULL,1000244,'zaiden.mcconnell@crayon.com','Zaiden Mcconnell',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000245,'elian.harvey@crayon.com','Elian Harvey',NULL,'',NULL),
+(NULL,1000246,'pernille.groth@crayon.com','Pernille Groth',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000247,'rory.mckinney@inmeta.no','Rory Mckinney',NULL,'+47 11 12 13 14',NULL),
+(NULL,1000248,'franky.riggs@crayon.com','Franky Riggs',NULL,'1234',NULL),
+(NULL,1000303,'chris.richard@msn.com','Chris Richard',NULL,'34535',NULL),
+(NULL,1000304,'carmen.williams@inmeta.no','Carmen Williams',NULL,'5432871',NULL),
+(NULL,1000305,'kris.william@esito.no','Kris William',NULL,'42389',NULL),
+(NULL,1000306,'justice.levine@crayon.com','Justice Levine',NULL,'543289',NULL),
+(NULL,1000307,'denny.riley@msn.com','Denny Riley',NULL,'43729',NULL),
+(NULL,1000308,'raylee.hart@yahoo.com','Raylee Hart',NULL,'89776',NULL),
+(NULL,1000309,'casey.stewart@gmail.com','Casey Stewart',NULL,'63815',NULL),
+(NULL,1000310,'nicky.powell@msn.com','Nicky Powell',NULL,'678',NULL),
+(NULL,1000311,'jo.foster@crayon.com','Jo Foster',NULL,'123',NULL),
+(NULL,1000312,'jess.pearce@msn.com','Jess Pearce',NULL,'1234',NULL),
+(NULL,1000313,'eli.jones@inmeta.no','Eli Jones',NULL,'123456',NULL),
+(NULL,1000314,'brook.wilson@esito.no','Brook Wilson',NULL,'123',NULL),
+(NULL,1000315,'danny.palmer@inmeta.no','Danny Palmer',NULL,'123',NULL),
+(NULL,1000316,'erin.king@gmail.com','Erin King',NULL,'931212121212',NULL),
+(NULL,1000317,'erin.miranda@crayon.com','Erin Miranda',NULL,'988793178293',NULL),
+(NULL,1000318,'aaren.copeland@crayon.com','Aaren Copeland',NULL,'121212121212',NULL),
+(NULL,1000319,'drew.mays@crayon.com','Drew Mays',NULL,'847916',NULL),
+(NULL,1000321,'gene.morin@crayon.com','Gene Morin',NULL,'nei',NULL),
+(NULL,1000322,'terry.stark@crayon.com','Terry Stark',NULL,'123456',NULL),
+(NULL,1000323,'jess.richardson@msn.com','Jess Richardson',NULL,'free',NULL);
+```
+
+</TabItem>
+
+</Tabs>
+
+&nbsp;
+
+## Advanced Masking Tasks - Hotel Example
+
+<Tabs
+  defaultValue="ano"
+  values={[
+    { label: 'Advancd Masking Tasks', value: 'ano' },
+    { label: 'Original Tables', value: 'insert' },
+  ]}
+>
+  <TabItem value="ano">
+
+```ano
+table Address
+	column text homeAddress size 40
+	column integer postalCode
+	column integer id
+	column integer LOCK_FLAG
+	column integer customer_customerNo
+	primary-key id
+table Booking
+	column date fromDate
+	column date toDate
+	column datetime bookingCreated
+	column time earliestCheckinTime
+	column integer id
+	column integer LOCK_FLAG
+	column integer customer_customerNo
+	column integer hotel_id
+	column integer roomCategory_id
+	primary-key id
+table Customer
+	column text creditCard size 16
+	column integer customerNo
+	column text email size 40
+	column text name size 40
+	column text password size 40
+	column text phone size 20
+	column integer LOCK_FLAG
+	primary-key customerNo
+table Hotel
+	column integer id
+	column text location size 30
+	column text logo size 40
+	column text name size 40
+	column integer LOCK_FLAG
+	column integer chain_id
+	primary-key id
+table HotelChain
+	column text name size 40
+	column integer id
+	column integer LOCK_FLAG
+	primary-key id
+table HotelRoomCategory
+	column decimal actualPrice size 10  scale 2
+	column date fromDate
+	column date toDate
+	column integer LOCK_FLAG
+	column integer hotel_id
+	column integer roomCategory_id
+	primary-key hotel_id, roomCategory_id, fromDate
+table Room
+	column integer roomNo
+	column integer floor
+	column integer balcony
+	column integer heading
+	column integer id
+	column integer LOCK_FLAG
+	column integer category_id
+	column integer hotel_id
+	primary-key id
+table RoomCategory
+	column integer bedType
+	column integer guests
+	column integer id
+	column decimal initialPrice size 10  scale 2
+	column integer maxDiscount
+	column integer roomQuality
+	column integer LOCK_FLAG
+	primary-key id
+
+foreign-key
+	Hotel id
+	HotelRoomCategory hotel_id
+foreign-key
+	RoomCategory id
+	HotelRoomCategory roomCategory_id
+foreign-key
+	Customer customerNo
+	Address customer_customerNo
+foreign-key
+	Customer customerNo
+	Booking customer_customerNo
+foreign-key
+	Hotel id
+	Booking hotel_id
+foreign-key
+	RoomCategory id
+	Booking roomCategory_id
+foreign-key
+	HotelChain id
+	Hotel chain_id
+foreign-key
+	RoomCategory id
+	Room category_id
+foreign-key
+	Hotel id
+	Room hotel_id
+// Pure Anonymizations
+task Anonymize
+{
+	// Anonymize - Mask various fields
+	update CUSTOMER Anonymize_CUSTOMER
+		// Create random norwegian phone number
+		mask PHONE CUSTOMER_PHONE
+			format "+47 %d"
+			random-integer 10001000 99909990
+		// Create random name from list of firstnames and lastnames
+		mask NAME CUSTOMER_NAME
+			format "%s %s"
+			file src/main/resources/firstname.txt random-order
+			file src/main/resources/lastname.txt random-order
+		// Create email based on the newly created name
+		mask EMAIL CUSTOMER_EMAIL
+			format %s@%s
+			transform Email
+			unique
+			column NAME
+			file src/main/resources/email.txt random-order
+		// Create random creditcard with checksum that validates
+		mask CREDITCARD CUSTOMER_CREDITCARD
+			format "41428340%d"
+			transform CreditCard
+			random-integer 10001000 99919991
+	// Anonymize - Randomize
+	update ROOMCATEGORY Anonymize_ROOMCATEGORY
+		// Add 1% gaussian noise to hide the value from search
+		randomize INITIALPRICE ROOMCATEGORY_INITIALPRICE
+			type decimal
+			format %.2f
+			convert String2Decimal
+			offset 0.0
+			flat-noise 0.0
+			percentage-noise 1.0
+	// SUB-SETTING - removes some records including multiple dependencies
+	delete HOTELCHAIN
+		where "ID = 0"
+		{
+			cascade HOTEL
+				parent ID
+				child CHAIN_ID
+			{
+			    cascade BOOKING
+			    	parent ID
+			    	child HOTEL_ID
+			    cascade HOTELROOMCATEGORY
+			    	parent ID
+			    	child HOTEL_ID
+			    cascade ROOM
+			    	parent ID
+			    	child HOTEL_ID
+			}
+		}
+	// Simple Generalization
+	update ADDRESS Fix_ADDRESS
+		mask POSTALCODE ADDRESS_POSTALCODE
+			format %s
+			transform PostCodeGeneralization
+			column POSTALCODE convert ParseDigits
+}
+// Inserting new random data
+task "Create"
+{
+	// Creating records in parent table
+	create HOTELCHAIN
+		minimum-rows 5
+		mask ID HOTELCHAIN_ID
+			format %d
+			sequence -1 1
+		mask NAME HOTELCHAIN_NAME
+			format "%s's Hotels"
+			file src/main/resources/lastname.txt random-order
+	// Creating records in child table
+	create HOTEL
+		mask ID HOTEL_ID
+			format %d
+			unique
+			sequence -1 1
+		mask NAME HOTEL_NAME
+			format "%s's Hotel"
+			file src/main/resources/firstname.txt random-order
+		mask LOCATION HOTEL_LOCATION
+			format %sstown
+			file src/main/resources/town.txt random-order
+		mask LOGO HOTEL_LOGO
+			format %s.png
+			file src/main/resources/logo.txt random-order
+		// Divide Hotels per Chain with a deviation of 1
+		distribute MinPerParent ""
+			// Divide Hotels per Chain with a deviation of 1
+			table HOTELCHAIN 2
+				child CHAIN_ID
+				parent ID
+	create ROOM
+		minimum-rows 50
+		mask ROOMNO ROOM_ROOMNO
+			format %d
+			random-integer 101 399
+		mask FLOOR ROOM_FLOOR
+			format %d
+			random-integer 1 4
+		mask BALCONY ROOM_BALCONY
+			format %d
+			random-integer 0 1
+		mask HEADING ROOM_HEADING
+			format %d
+			random-integer 1 4
+		mask ID ROOM_ID
+			format %d
+			unique
+			sequence -1 1
+		// Every hotel should have a room of each category
+		distribute AllCombinations ""
+			table ROOMCATEGORY ""
+				child CATEGORY_ID
+				parent ID
+			table HOTEL ""
+				child HOTEL_ID
+				parent ID
+}
+// Using mappings and anonymizing primary keys
+task Advanced
+{
+	// Export anonymization to mapping file
+	update HOTEL Anonymize_HOTEL
+		// Output results to an encrypted file
+		shuffle NAME HOTEL_NAME
+			map hotelmap.txt output encrypted
+	// Use a Mapping file as input
+	update ADDRESS Anonymize_ADDRESS
+		mask HOMEADDRESS ADDRESS_HOMEADDRESS
+			format %s
+			column HOMEADDRESS
+			map address_map.txt input
+	// Update primary key
+	update ROOMCATEGORY Anonymize_ROOMCATEGORY_PK
+		mask ID ROOMCATEGORY_ID
+			format %s
+			unique
+			sequence -1 1
+			temporary-value 999999
+			propagate HOTELROOMCATEGORY.ROOMCATEGORY_ID, BOOKING.ROOMCATEGORY_ID, ROOM.CATEGORY_ID
+	// Update PK with auto-generated value
+	update BOOKING Anonymize_BOOKING
+		// The ID is auto-incremented by Derby, but still possible to assign
+		mask ID BOOKING_ID
+			format %d
+			unique
+			sequence -1 1
+			temporary-value 999999
+		randomize FROMDATE BOOKING_FROMDATE
+			type date
+			format %tF
+			convert String2Date
+			offset 300.0
+			flat-noise 5.0
+			percentage-noise 0.0
+		randomize TODATE BOOKING_TODATE
+			type date
+			format %tF
+			convert String2Date
+			offset 300.0
+			flat-noise 5.0
+			percentage-noise 0.0
+		randomize BOOKINGCREATED BOOKING_BOOKINGCREATED
+			type datetime
+			format "%1$tF %1$tT"
+			convert String2DateTime
+			offset 10.0
+			flat-noise 0.0
+			percentage-noise 0.0
+		randomize EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
+			type time
+			format %tT
+			convert String2Time
+			offset 10.0
+			flat-noise 10.0
+			percentage-noise 0.0
+	// Shuffle PK - needs a temp key on the Dependencies node
+	update ROOM Anonymize_ROOM
+		shuffle ID ROOM_ID
+			temporary-value 555
+	// Multi column PK
+	update HOTELROOMCATEGORY Anonymize_HOTELROOMCATEGORY
+		// Update a column in multi column PK
+		mask FROMDATE HOTELROOMCATEGORY_FROMDATE
+			format %s
+			random-date 2020-01-01 2022-12-31
+			temporary-value "1900-01-01"
+		mask ACTUALPRICE HOTELROOMCATEGORY_ACTUALPRICE
+			format %s
+			random-decimal 499.00 2599.00
+		// Set todate=fromdate
+		mask TODATE HOTELROOMCATEGORY_TODATE
+			format %s
+			column FROMDATE
+		// Add a lot of days
+		randomize TODATE HOTELROOMCATEGORY_TODATE_ADD
+			type date
+			format %tF
+			convert String2Date
+			offset 365.0
+			flat-noise 10.0
+			percentage-noise 0.0
+	// sql-before
+    update CUSTOMER
+		sql-before "delete from CUSTOMER where CUSTOMERNO is null"
+	//	selection-key CUSTOMERNO
+}
+// Forget Me - tasks
+task forgetMe
+{
+    // Forget Me - based on customer number
+    erase CUSTOMER
+        where "CUSTOMERNO = %PARAMETER%"
+		mask NAME
+		    format "firstname lastname"
+		mask EMAIL
+		    format post@email.com
+		    transform Email
+		{
+			// Anonymize identifiable columns
+			cascade ADDRESS
+				parent CUSTOMERNO
+				child CUSTOMER_CUSTOMERNO
+				mask HOMEADDRESS
+				    format "Home address"
+				mask POSTALCODE
+				    transform PostCodeGeneralization
+		}
+    // Remove a Room Category - based on a 3 column primary key
+    erase HOTELROOMCATEGORY
+        where "(HOTEL_ID = %PARAMETER1% AND ROOMCATEGORY_ID = %PARAMETER2% AND FROMDATE = '%PARAMETER3%')"
+}
+// Subject Access Request - based on customer number
+task SubjectAccess
+{
+	sar CUSTOMER SAR_CUSTOMER
+		where "CUSTOMERNO = %PARAMETER%"
+			mask CREDITCARD
+			mask CUSTOMERNO
+			mask EMAIL
+			    transform Email
+			mask NAME
+			mask PASSWORD
+		{
+			cascade ADDRESS
+				parent CUSTOMERNO
+				child CUSTOMER_CUSTOMERNO
+				mask HOMEADDRESS
+				mask POSTALCODE
+				mask ID
+			cascade BOOKING
+				parent CUSTOMERNO
+				child CUSTOMER_CUSTOMERNO
+				mask FROMDATE
+				mask TODATE
+				mask ID
+				mask HOTEL_ID
+				mask ROOMCATEGORY_ID
+		}
+}
+
+```
+
+</TabItem>
+<TabItem value="insert">
+
+```sql
+create schema ano_hotel;
+
+-- CREATE TABLE statements including basic column definitions
+
+CREATE TABLE ano_hotel.Booking (
+fromDate date,
+toDate date,
+  bookingCreated datetime,
+  earliestCheckinTime time,
+  customer_customerNo integer NOT NULL,
+  id int IDENTITY(1,1) NOT NULL,
+  hotel_id integer NOT NULL,
+  roomCategory_id integer NOT NULL,
+  LOCK_FLAG integer,
+CONSTRAINT pk_booking_id PRIMARY KEY (id)
+);
+
+
+CREATE TABLE ano_hotel.Customer (
+  creditCard varchar(16),
+  customerNo integer NOT NULL,
+  email varchar(40),
+  name varchar(40),
+  password varchar(40),
+  phone varchar(20),
+  LOCK_FLAG integer,
+  PRIMARY KEY (customerNo)
+);
+
+CREATE TABLE ano_hotel.Hotel (
+  id integer NOT NULL,
+  location varchar(30),
+  logo varchar(40),
+  name varchar(40),
+  chain_id integer NOT NULL,
+  LOCK_FLAG integer,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ano_hotel.HotelChain (
+  name varchar(40) NOT NULL,
+  id integer NOT NULL,
+  LOCK_FLAG integer,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ano_hotel.HotelRoomCategory (
+  actualPrice decimal(10,2),
+  fromDate date NOT NULL,
+  toDate date,
+  hotel_id integer NOT NULL,
+  roomCategory_id integer NOT NULL,
+  LOCK_FLAG integer,
+  CONSTRAINT HotelRoomCategory_PK PRIMARY KEY (hotel_id,roomCategory_id,fromDate)
+);
+
+CREATE TABLE ano_hotel.Address (
+  homeAddress varchar(40),
+  postalCode integer,
+  id integer NOT NULL,
+  customer_customerNo integer NOT NULL,
+  LOCK_FLAG integer,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ano_hotel.Room (
+  roomNo integer,
+  floor integer,
+  balcony smallint,
+  heading integer CHECK (heading IN (1,2,3,4)),
+  id integer NOT NULL,
+  category_id integer NOT NULL,
+  hotel_id integer NOT NULL,
+  LOCK_FLAG integer,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ano_hotel.RoomCategory (
+  bedType integer CHECK (bedType IN (1,2,3,4,5)),
+  guests integer,
+  id integer NOT NULL,
+  initialPrice decimal(10,2),
+  maxDiscount integer,
+  roomQuality integer CHECK (roomQuality IN (1,2,3)),
+  LOCK_FLAG integer,
+  PRIMARY KEY (id)
+);
+
+
+
+ALTER TABLE ano_hotel.Booking ADD CONSTRAINT Booking_customer_customerNoF FOREIGN KEY (customer_customerNo) REFERENCES ano_hotel.Customer (customerNo);
+ALTER TABLE ano_hotel.Booking ADD CONSTRAINT Booking_hotel_idF FOREIGN KEY (hotel_id) REFERENCES ano_hotel.Hotel (id);
+ALTER TABLE ano_hotel.Booking ADD CONSTRAINT Booking_roomCategory_idF FOREIGN KEY (roomCategory_id) REFERENCES ano_hotel.RoomCategory (id);
+
+-- Hotel
+ALTER TABLE ano_hotel.Hotel ADD CONSTRAINT Hotel_chain_idF FOREIGN KEY (chain_id) REFERENCES ano_hotel.HotelChain (id);
+
+-- HotelChain
+
+-- HotelRoomCategory
+ALTER TABLE ano_hotel.HotelRoomCategory ADD CONSTRAINT HotelRoomCategory_hotel_idF FOREIGN KEY (hotel_id) REFERENCES ano_hotel.Hotel (id);
+ALTER TABLE ano_hotel.HotelRoomCategory ADD CONSTRAINT HotelRoomCatego_roomCategory_F FOREIGN KEY (roomCategory_id) REFERENCES ano_hotel.RoomCategory (id);
+
+-- Address
+ALTER TABLE ano_hotel.Address ADD CONSTRAINT Address_customer_customerNoF FOREIGN KEY (customer_customerNo) REFERENCES ano_hotel.Customer (customerNo);
+
+-- Room
+ALTER TABLE ano_hotel.Room ADD CONSTRAINT Room_category_idF FOREIGN KEY (category_id) REFERENCES ano_hotel.RoomCategory (id);
+ALTER TABLE ano_hotel.Room ADD CONSTRAINT Room_hotel_idF FOREIGN KEY (hotel_id) REFERENCES ano_hotel.Hotel (id);
+```
+
+</TabItem>
+</Tabs>
+
+:::tip Next Step
+
+You are now ready to generate your DBmasker project using your `<schema>.ano` file, which now contains your masking tasks.
+
+:::

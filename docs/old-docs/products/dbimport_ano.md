@@ -1,9 +1,9 @@
 ---
-sidebar_position: 1
+sidebar_position: 5
 id: dbimport-anonymizer-esito
 ---
 
-# DBimport
+# DBimport 2
 
 > The DBimport service supports reverse engineering of database
 > schemas into Java source code with JPA annotations.

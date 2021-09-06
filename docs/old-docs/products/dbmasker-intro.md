@@ -1,4 +1,9 @@
-# DBmasker
+---
+sidebar_position: 2
+id: dbmasker 3
+---
+
+# DBmasker 3
 
 Ref: https://esito-conf.inmeta.com/display/DBMAS/DBmasker
 # Introduction

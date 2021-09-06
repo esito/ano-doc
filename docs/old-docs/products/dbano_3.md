@@ -1,4 +1,8 @@
-# DBano
+---
+sidebar_position: 4
+id: dbano-3
+---
+# DBano 3
 
 ref: https://esito-conf.inmeta.com/display/DBMAS/DBano
 
