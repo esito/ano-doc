@@ -4,7 +4,7 @@
 
 ref. <https://esito-conf.inmeta.com/display/DBMAS/DBmasker+ANO+syntax>
 
-# Creating the ANO file
+## Creating the ANO file
 
 The DBmasker service takes one input: the ANO file, which contains the data schema information and the rules you write. In the following is the ANO syntax described in a simplified EBNF based railroad diagrams. Three symbols are used:
 
@@ -53,7 +53,7 @@ I.E. COLUMN is a database column name.
 
 &nbsp;
 
-# The model
+## The model
 
 The ANO file contains three sections:
 
@@ -63,17 +63,17 @@ The ANO file contains three sections:
 
 &nbsp;
 
-## Model
+### Model
 
 ![alt text](/img/docs/ano-syntax/model.png 'Model')
 
 &nbsp;
 
-# The schema section
+## The schema section
 
 The schema section defines the database structure in a simplified syntax:
 
-## Sample schema section
+### Sample schema section
 
 ```javascript
 table CUSTOMER
@@ -259,7 +259,7 @@ The CLASS represents a user defined class with full java package specification.
 
 &nbsp;
 
-# The tasks and rules section
+## The tasks and rules section
 
 A Task is either a TaskGroup or a WorkTask. TaskGroups can have infinite child tasks of both kinds while WorkTasks only contain rules. A WorkTask is one of update, create, delete, erase or sar. Naming tasks follow these rules:
 
@@ -297,7 +297,7 @@ Through out of this documentation, we will be using the phrases taskgroup and wo
 
 The example below consists of two tasks: **Anonymize** (taskgroup) and **update_CUSTOMER** (worktask) and two masking rules for NAME and EMAIL.
 
-## Mask
+### Mask
 
 ```ano
 // Pure Anonymizations
@@ -321,7 +321,7 @@ task Anonymize {
 
 &nbsp;
 
-## Creating Tasks
+### Creating Tasks
 
 A task is one of
 
@@ -425,7 +425,7 @@ The update, create, delete, erase and sar are all worktasks and may be run as a 
 
 &nbsp;
 
-### sql
+#### sql
 
 ![alt text](/img/docs/ano-syntax/sql.png 'Sql')
 
@@ -433,7 +433,7 @@ The **SQL** represents complete SQL statements. The statement must be written in
 
 &nbsp;
 
-### update
+#### update
 
 ![alt text](/img/docs/ano-syntax/update.png 'Update')
 
@@ -453,7 +453,7 @@ The first statement has no task name specification, giving the taskname update_A
 
 &nbsp;
 
-### create
+#### create
 
 ![alt text](/img/docs/ano-syntax/create.png 'Create')
 
@@ -467,7 +467,7 @@ The **minimum-rows POSINT** value ensures that the table will have at least mini
 
 &nbsp;
 
-### distribute
+#### distribute
 
 ![alt text](/img/docs/ano-syntax/distribute.png 'Distribute')
 
@@ -500,7 +500,7 @@ create ROOM minimum-rows 50
 
 &nbsp;
 
-### delete
+#### delete
 
 ![alt text](/img/docs/ano-syntax/delete.png 'Delete')
 
@@ -526,7 +526,7 @@ The 3 cascading delete methods have different performance of deleting a hierarch
 
 &nbsp;
 
-### cascade
+#### cascade
 
 ![alt text](/img/docs/ano-syntax/cascade.png 'Cascade')
 
@@ -545,7 +545,7 @@ delete HOTELCHAIN where "ID = 0" {
 
 &nbsp;
 
-### erase
+#### erase
 
 ![alt text](/img/docs/ano-syntax/erase.png 'Erase')
 
@@ -553,7 +553,7 @@ Used for erasing records in a table by anonymizing specified columns and deletin
 
 &nbsp;
 
-### eraseTable
+#### eraseTable
 
 ![alt text](/img/docs/ano-syntax/eraseTable.png 'Erase table')
 
@@ -577,13 +577,13 @@ erase CUSTOMER
 
 &nbsp;
 
-### simpleMask
+#### simpleMask
 
 ![alt text](/img/docs/ano-syntax/simpleMask.png 'Simple mask')
 
 &nbsp;
 
-### sar - Subject Access Requests
+#### sar - Subject Access Requests
 
 ![alt text](/img/docs/ano-syntax/sar.png 'Sar')
 
@@ -591,7 +591,7 @@ Used for creating data for Subject Access Requests reports. The exported data co
 
 &nbsp;
 
-### sarTable
+#### sarTable
 
 ![alt text](/img/docs/ano-syntax/sarTable.png 'Sar table')
 
@@ -627,7 +627,7 @@ sar CUSTOMER
 
 &nbsp;
 
-### selectionKey
+#### selectionKey
 
 ![alt text](/img/docs/ano-syntax/selectionKey.png 'Selection key')
 
@@ -635,7 +635,7 @@ Possible selection keys are the primary key and unique indexes. The default sele
 
 &nbsp;
 
-### where
+#### where
 
 ![alt text](/img/docs/ano-syntax/where.png 'Where')
 
@@ -645,7 +645,7 @@ The worktasks update, delete, erase and sar can all have a where clause defined 
 
 The worktasks delete, erase and sar can take values entered in a command or the API. This is defined in the where clause with the **%PARAMETERn%** notation. **Note**: You can use %PARAMETER% instead of %PARAMETER1%.
 
-#### %PARAMETER% use
+##### %PARAMETER% use
 
 ```
 erase CUSTOMER
@@ -656,7 +656,7 @@ erase CUSTOMER
 Command use: erase customer 1000234
 ```
 
-#### %PARAMETERn% use
+##### %PARAMETERn% use
 
 ```
 erase COUNTRY
@@ -667,19 +667,19 @@ Command use: erase country Paris France
 
 &nbsp;
 
-### child
+#### child
 
 ![alt text](/img/docs/ano-syntax/child.png 'Child')
 
 &nbsp;
 
-### parent
+#### parent
 
 ![alt text](/img/docs/ano-syntax/parent.png 'Parent')
 
 &nbsp;
 
-## Creating masking/anonymization rules
+### Creating masking/anonymization rules
 
 Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e. foreign keys). The table anonymizations are organized by worktasks and the table anonymization statement contains separate statements for each column that is to be anonymized.
 
@@ -782,7 +782,7 @@ The **shuffle** function reorders the column values in a random order and ensure
 
 &nbsp;
 
-### anonymization
+#### anonymization
 
 ![alt text](/img/docs/ano-syntax/anonymization.png 'Anonymization')
 
@@ -790,7 +790,7 @@ The **anonymization** may get values from a mapping file, produce mapping to a f
 
 &nbsp;
 
-### map
+#### map
 
 ![alt text](/img/docs/ano-syntax/map.png 'Map')
 
@@ -811,7 +811,7 @@ update COMPANY
 
 &nbsp;
 
-### propagate
+#### propagate
 
 ![alt text](/img/docs/ano-syntax/propagate.png 'Propagate')
 
@@ -828,7 +828,7 @@ update INVOICE
 
 Use **propagate** to update foreign keys with the same value as the primary key mask and use map to update similar values in another database.
 
-### mask
+#### mask
 
 ![alt text](/img/docs/ano-syntax/mask.png 'Mask')
 
@@ -968,7 +968,7 @@ The transform **TRANSFORMATION** class is one of the classes defined in the user
 
 &nbsp;
 
-### sourceSequence
+#### sourceSequence
 
 ![alt text](/img/docs/ano-syntax/sourceSequence.png 'Source sequence')
 
@@ -976,7 +976,7 @@ The **sequence** input source is used to insert a sequence of integers into the 
 
 &nbsp;
 
-### sourceColumn
+#### sourceColumn
 
 ![alt text](/img/docs/ano-syntax/sourceColumn.png 'Source column')
 
@@ -984,7 +984,7 @@ The **column** input source is used to insert the specified column value into th
 
 &nbsp;
 
-### sourceFile
+#### sourceFile
 
 ![alt text](/img/docs/ano-syntax/sourceFile.png 'Source file')
 
@@ -992,37 +992,37 @@ The **file** input source is used to insert a string value taken from the file d
 
 &nbsp;
 
-### sourceRandom
+#### sourceRandom
 
 ![alt text](/img/docs/ano-syntax/sourceRandom.png 'Source random')
 
 &nbsp;
 
-### randomInteger
+#### randomInteger
 
 ![alt text](/img/docs/ano-syntax/randomInteger.png 'Random integer')
 
 &nbsp;
 
-### randomDecimal
+#### randomDecimal
 
 ![alt text](/img/docs/ano-syntax/randomDecimal.png 'Random decimal')
 
 &nbsp;
 
-### randomTime
+#### randomTime
 
 ![alt text](/img/docs/ano-syntax/randomTime.png 'Random time')
 
 &nbsp;
 
-### randomDate
+#### randomDate
 
 ![alt text](/img/docs/ano-syntax/randomDate.png 'Random date')
 
 &nbsp;
 
-### randomDateTime
+#### randomDateTime
 
 ![alt text](/img/docs/ano-syntax/randomDateTime.png 'Random datetime')
 
@@ -1057,7 +1057,7 @@ update CUSTOMER
 
 &nbsp;
 
-### randomize
+#### randomize
 
 ![alt text](/img/docs/ano-syntax/randomize.png 'Randomize')
 
@@ -1065,7 +1065,7 @@ The **randomize** function is used to apply noise on numeric and date column val
 
 &nbsp;
 
-### random
+#### random
 
 ![alt text](/img/docs/ano-syntax/random.png 'Random')
 
@@ -1208,7 +1208,7 @@ Decimal number as accepted by the valueOf method in class Double
 
 &nbsp;
 
-### Anonymization for types Integer, Decimal:
+#### Anonymization for types Integer, Decimal:
 
 <table width="100%" >
 <tr>
@@ -1277,7 +1277,7 @@ Adds a fixed offset to the value.
 
 &nbsp;
 
-### Anonymization for types Date, DateTime
+#### Anonymization for types Date, DateTime
 
 <table width="100%" >
 <tr>
@@ -1333,7 +1333,7 @@ Adds a fixed number of days to the date value
 
 &nbsp;
 
-### Anonymization for Type Time
+#### Anonymization for Type Time
 
 <table width="100%" >
 <tr>
@@ -1389,7 +1389,7 @@ Adds a fixed number of days to the time value
 
 &nbsp;
 
-### convert
+#### convert
 
 ![alt text](/img/docs/ano-syntax/convert.png 'Convert')
 
@@ -1406,7 +1406,7 @@ update ROOMCATEGORY
         percentage-noise 1.0
 ```
 
-### shuffle
+#### shuffle
 
 ![alt text](/img/docs/ano-syntax/shuffle.png 'Shuffle')
 

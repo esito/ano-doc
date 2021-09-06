@@ -7,11 +7,11 @@ label: generating-software
 
 :::info Goals
 
-1. We want to generate a DBmasker project to help you run your tasks as defined in the `.ano` file against your database.
+1. We want use DBmasker to genereate the Java project. It is based on the tasks as defined in the `.ano` file.
 
 2. In order for it to properly connect to your database, you will want to do two things
    1. Add the correct database package dependency to the project `pom.xml`
-   2. Add the correct database connection string to the src/
+   2. Add the correct database connection parameters in `src/main/resources/config.properties`
 :::
 
 
@@ -80,7 +80,7 @@ In the command line, or using Maven Tools, run the command:
 
 > mvn install
 
-This will give your desired executable anonymization file **`target/<file-name>-0.0.1.jar`** (e.g. `target/ano_hotel_2-0.0.1.jar`)
+This will give your the generated application for anonymizing your database! **`target/<file-name>-0.0.1.jar`** (e.g. `target/ano_hotel_2-0.0.1.jar`)
 
 :::tip Next Step
 

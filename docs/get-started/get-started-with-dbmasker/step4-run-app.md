@@ -55,4 +55,3 @@ Each of these tasks may be run with the **run** command:
 
 Run a group of tasks as in **run anonymize** or run a single task as in **run fix_address**.
 You may use lower case letters on all task names.
-
