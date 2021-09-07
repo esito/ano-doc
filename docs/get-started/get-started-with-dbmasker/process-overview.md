@@ -1,17 +1,26 @@
 ---
+sidebar_label: Overview
 sidebar_position: 1
 label: process-overview
 ---
 
-# User Process Overview
+# Overview
 
-## Using Anonymizer requires you to
+## Identify your sensitive data
 
-1. Translate all table definitions  of your database schema into ANO syntax, in an `.ano` file.
-    - This is automated using our DBano Service
-    - All database dialects are supported (Oracle, SQL Server, Postgres, MySql, etc. )
-2. Write anonymization logic as code using the ANO language at the end of this same `.ano` file.
-3. Pass the `.ano` file into one of our code generators DBmasker or DBerase. This yields a Java 8 Maven project.
-    - Configure the database connection inside this project. Correct database driver dependency (in `pom.xml`) and correct database connection string (in `config.properties`).
-4. Build the project. For DBmasker, run the resulting JAR-file. For DBerase deploy the webservice.
+Decide which columns in which tables of your relational database that you want masked. Following list is not exclusive:
 
+- Names
+- birth dates
+- phone number
+- address
+- ID numbers
+- credit card information
+- etc...
+
+## Follow our **step by step guide**
+
+1. [Translate your database structure into ANO syntax](./step1-sql-to-ano.md)
+2. [Writing Your Tasks and Rules](./step2-writing-ano.mdx)
+3. [Generate and Configure your Application](./step3-application-generation-and-config.md)
+4. [Run The Generated Application](./step4-run-app.md)

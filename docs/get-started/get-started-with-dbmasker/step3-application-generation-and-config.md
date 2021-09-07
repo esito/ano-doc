@@ -1,9 +1,9 @@
 ---
 sidebar_position: 5
-label: generating-software
+label: generating-application
 ---
 
-# Step 3 - Generate your software and configure its database connection
+# Step 3 - Generate and Configure your Application
 
 :::info Goals
 
@@ -11,11 +11,10 @@ We will generate the Java source code using the DBmasker service and then config
 
    1. Configure database driver settings to the project `pom.xml`
    2. Configure database connection settings in `src/main/resources/config.properties`
-   3. Add your custom Java implementations to /src/main/java
-   4. Add your custom data files to /src/main/resources
+   3. (Optional) Add your custom data files to /src/main/resources
 
+*(Optional) Since you are given the Java source code, you are invited to write your own customizations in /src/main/java. Visit our [Code Customization Section](../../custom-code/code-structure-and-customization-1.md) for details.*
 :::
-
 
 ## Generate DBmasker project
 
@@ -76,13 +75,13 @@ file.encryptionkey      =
 sql.wrapper             = "
 ```
 
-## 3.  Setup your custom code
-
-- Add your custom Java implementations to /src/main/java
-
-## 4. Setup your custom data
+## 3. (Optional) Setup your custom data
 
 - Add your custom data files to /src/main/resources
+
+### *(Optional) Setup your custom code*
+
+Visit our [Code Customization Section](../../custom-code/code-structure-and-customization-1.md) for details on how to write your own customizions.
 
 :::tip Next Step
 
