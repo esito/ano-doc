@@ -3,8 +3,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'Ano documentation',
-  tagline: 'Dinosaurs are cool',
+  title: 'Anonymize your test data and make GDPR a breeze',
+  tagline: 'Anonymizer generates a Java program that can be automated and run whenever you like',
   url: 'https://doc.esito.no',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -14,10 +14,9 @@ module.exports = {
   projectName: 'docusaurus', // Usually your repo name.
   themeConfig: {
     navbar: {
-      title: 'My Site',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        src: 'img/esito.png',
       },
       items: [
         {
@@ -26,9 +25,19 @@ module.exports = {
           position: 'left',
           label: 'Docs',
         },
-        { to: '/blog', label: 'Blog', position: 'left' },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://anonymizer.esito.no/auth',
+          label: 'Log inn / dashboard',
+          position: 'right',
+
+        },
+        {
+          href: 'https://anonymizer.esito.no/products',
+          label: 'Buy',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/esito/ano-doc',
           label: 'GitHub',
           position: 'right',
         },
@@ -47,37 +56,16 @@ module.exports = {
           ],
         },
         {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-        {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/esito/ano-doc',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Esito AS. Built with Docusaurus.`,
     },
     prism: {
       theme: lightCodeTheme,
@@ -93,11 +81,7 @@ module.exports = {
           // Please change this to your repo.
           editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/blog/',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
