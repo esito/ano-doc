@@ -5,6 +5,30 @@ label: run-generated-application
 
 # Step 4 - Run The Generated Application
 
+
+
+:::info Goals
+
+The configured anonymization application is now ready to be run against your database. We will show how to run using
+
+- The Command Line
+- Intellij Run Configuration
+
+:::
+
+## Run using the command line
+
+### Build the target JAR file
+
+In the command line, or using Maven Tools, run the command:
+
+> mvn install
+
+This will give your the generated application for anonymizing your database! **`target/<file-name>-0.0.1.jar`** (e.g. `target/ano_hotel_2-0.0.1.jar`)
+
+
+
+
 To test the generated code, start a command shell and run this command from the `src` folder:
 
 > **java -jar** `target/<file-name>-0.0.1.jar` **cmd**
@@ -55,3 +79,11 @@ Each of these tasks may be run with the **run** command:
 
 Run a group of tasks as in **run anonymize** or run a single task as in **run fix_address**.
 You may use lower case letters on all task names.
+
+## Run using Intellij 
+
+![alt text](/img/docs/intellij_run_configuration.png 'Run Configuration in Intellij')
+
+### Run the program Example
+
+![alt text](/img/docs/intellij_run_example.png 'Example run')

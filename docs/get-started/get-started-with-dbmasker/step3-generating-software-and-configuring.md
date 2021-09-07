@@ -7,11 +7,13 @@ label: generating-software
 
 :::info Goals
 
-1. We want use DBmasker to genereate the Java project. It is based on the tasks as defined in the `.ano` file.
+We will generate the Java source code using the DBmasker service and then configure it as follows:
 
-2. In order for it to properly connect to your database, you will want to do two things
-   1. Add the correct database package dependency to the project `pom.xml`
-   2. Add the correct database connection parameters in `src/main/resources/config.properties`
+   1. Configure database driver settings to the project `pom.xml`
+   2. Configure database connection settings in `src/main/resources/config.properties`
+   3. Add your custom Java implementations to /src/main/java
+   4. Add your custom data files to /src/main/resources
+
 :::
 
 
@@ -24,7 +26,7 @@ label: generating-software
 1. Select the DBmasker Service.
 2. Upload the `<schema>.ano` file and click Download Zip File, which gives you the Java project
 
-## Configure database connection
+## 1. Configure database driver settings
 
 Open the Maven project. It runs on
 
@@ -54,11 +56,11 @@ You must add the correct Maven JDBC Driver dependency.
     ...
 ```
 
-### Edit the config.properties
+## 2. Configure database connection settings in config.properties
 
 Edit the config file at `src/main/resources/config.properties`, to contain the correct database connection parameters.
 
-#### Example: config.properties for a localhost SQL Server
+### Example: config.properties for a localhost SQL Server
 
 ```properties
 # Database connection parameters
@@ -74,13 +76,13 @@ file.encryptionkey      =
 sql.wrapper             = "
 ```
 
-### Build the target JAR file
+## 3.  Setup your custom code
 
-In the command line, or using Maven Tools, run the command:
+- Add your custom Java implementations to /src/main/java
 
-> mvn install
+## 4. Setup your custom data
 
-This will give your the generated application for anonymizing your database! **`target/<file-name>-0.0.1.jar`** (e.g. `target/ano_hotel_2-0.0.1.jar`)
+- Add your custom data files to /src/main/resources
 
 :::tip Next Step
 

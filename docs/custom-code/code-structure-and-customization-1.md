@@ -5,8 +5,6 @@ sidebar_label: Code Structure and Customization
 
 # Code Structure and Customization
 
-ref: <https://esito-conf.inmeta.com/display/DBMAS/Code+structure+and+customization>
-
 By using our DBMasker Service, you will generate a Java 8 application based upon the provided `.ano` file. You are invited to implement customized masking/anonymization logic into this Java 8 application.
 
 :::warning Custom code strategies

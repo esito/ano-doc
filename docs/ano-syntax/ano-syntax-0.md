@@ -5,8 +5,6 @@ sidebar_label: ANO File Intro
 
 # ANO syntax
 
-ref. <https://esito-conf.inmeta.com/display/DBMAS/DBmasker+ANO+syntax>
-
 ## Creating the ANO file
 
 The DBmasker service takes one input: the ANO file, which contains the data schema information and the rules you write. In the following is the ANO syntax described in a simplified EBNF based railroad diagrams. Three symbols are used:
