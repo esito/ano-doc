@@ -6,13 +6,14 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: rgb(33, 175, 144);
-  --ifm-color-primary-darker: rgb(31, 165, 136);
-  --ifm-color-primary-darkest: rgb(26, 136, 112);
-  --ifm-color-primary-light: rgb(70, 203, 174);
-  --ifm-color-primary-lighter: rgb(102, 212, 189);
-  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-primary: #fe8e00;
+  --ifm-color-primary-dark: #e58000;
+  --ifm-color-primary-darker: #d87900;
+  --ifm-color-primary-darkest: #b26300;
+  --ifm-color-primary-light: #ffb04b;
+  --ifm-color-primary-lighter: #ff9f25;
+  --ifm-color-primary-lightest: #ff9918;
+  --ifm-heading-color: black;
   --ifm-code-font-size: 95%;
 }
 
@@ -21,6 +22,10 @@
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+html[data-theme='dark'] {
+  --ifm-heading-color: white;
+  /* any other colors you wish to overwrite */
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
