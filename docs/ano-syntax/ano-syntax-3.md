@@ -42,7 +42,7 @@ Through out of this documentation, we will be using the phrases taskgroup and wo
 
 The example below consists of two tasks: **Anonymize** (taskgroup) and **update_CUSTOMER** (worktask) and two masking rules for NAME and EMAIL.
 
-##  Mask
+## Mask
 
 ```ano
 // Pure Anonymizations

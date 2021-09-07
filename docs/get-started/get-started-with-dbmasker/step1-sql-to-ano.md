@@ -19,12 +19,17 @@ Using your preferred Database Management tool (e.g. DBeaver)
 
 ## 2. Export database DDL statements from the schema level
 
-<img src="/img/docs/generate_sql.png" width="400" />
+
+| <img src="/img/docs/generate_sql.png" width="400" /> |
+|:--:|
+| *Example on how to export using the DBmasker DB tool. This may differ from other DB tools* |
 
 - Resulting `<create_tables>.sql` file should contain `CREATE TABLE` statements for all tables that are being anonymized.
 - If present in `<create_tables>.sql`, you can delete other database structures such as Views, Functions, Procedures, ...
 
-<img src="/img/docs/generated_sql_sample.png" width="400" />
+|<img src="/img/docs/generated_sql_sample.png" width="400" />|
+|:--:|
+| *Example of a generated .sql file containing `CREATE TABLE` statements* |
 
 <details><summary><b>Hotel Example</b> - create_tables.sql (SQL Server Dialect)</summary>
 <p>
@@ -145,7 +150,7 @@ ALTER TABLE ano_hotel.Room ADD CONSTRAINT Room_hotel_idF FOREIGN KEY (hotel_id) 
 
 ## 3. Log into [Anonymizer Dashboard](https://dev.esito.no/auth/dashboard/home)
 
-<img src="/img/docs/ano_dashboard.png" width="800" />
+<img src="/img/docs/ano_dashboard_dbano.png" width="800" />
 
 1. Select the DBAno Service.
 2. Upload the `<create_tables>.sql` file and download ANO file
