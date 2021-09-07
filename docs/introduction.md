@@ -10,25 +10,38 @@ id: intro
 
 ## What is Anonymizer?
 
-### The problems introduced by GDPR
+Anonymizer provides you with the following:
 
-Your developers needs a copy of your real databases so they can properly do development and testing. But you do not want them to see any identifiable and sensitive customer data. Or you are requested by a particular customer to delete all their personally identifiable data in your systems.
+- [Anonymizer DBmasker](./products/dbmasker-product.md)
+- [Anonymizer DBerase](./products/dberase-product.md)
+- [Anonymizer DBano](./products/dbano-product.md)
+- [Anonymizer ANO DSL Language](#)
+
+### Challenges introduced by GDPR
+
+The two main challenges Anonymizer addresses are:
+
+- Developers need copies of production data so they can properly do development and testing. The challenge then is that they shouldn't see actual customer data.
+- Customers have the right to know what data about them are stored. They also have the right to require data deletion from the systems.
 
 ### Anonymizer - Our solution for you
 
-Anonymizer delivers to you the ANO domain specific langauge for writing anonymizing, masking, data generating, and data deleting rules so you can properly manage the de-identification of all your sensitive data fields in your RDBMS databases.
+Anonymizer provides you with services tailored to your database. These are services for
 
- Anonymizer provides you with code generation services:
+- Masking of existing data
+- Synthetic data generation
+- Data erasure
 
-- DBmasker generates Java source code for the tasks. Compiling this gives you an application, where all your anonymization rules are organized into tasks.
-- DBerase generates Java source code for the tasks. This is then deployable as a webservice with REST Endpoints for deleting or masking data on request, based on chosen IDs.
+Anonymizer utilizes the ANO domain specific language (DSL) for writing masking, generating, and erasing rules. Using the ANO language, you will be able to write cascading logic and advanced rules for handling edge cases in your database design. You will write an `.ano` file that will contain all your rules.
 
-Using the ANO language, you will be able to write cascading logic and intricate rules for handling edge cases in your database design.
+The two services we provide are
+
+- **DBmasker**: Helps you anonymize (a copy of) your entire database.
+  - Provides you with an application that masks data according to your logic. Whenever you copy your production database to test or development environments, you simply run this application against the test and development databases.
+- **DBerase**: Helps your customers erase personal data in production database.
+  - Provides you a web service with a REST endpoint against your production database. According to your logic, you can either delete, mask or decouple customer data on request.
+
 
 &nbsp;
 
-## Steps to the process
-
-1. Extract your database structure as code - using our DBano service
-2. Write masking and anonymization rules as code
-3. Use our generators for desired anonymzation tool
+## [Get Started with DBmasker](./get-started/get-started-with-dbmasker/process-overview.md)
