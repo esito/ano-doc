@@ -1,0 +1,86 @@
+---
+sidebar_position: 3
+sidebar_label: Random Decimal
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `random-decimal`
+
+:::tip Goal
+Write `mask` rule logic to
+
+- generate **random decimals** from an interval defined by `<from>` and `<to>` properties
+
+:::
+
+## Code structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %f
+            random-decimal <from> <to>      // [<from>, <to>]
+        ...
+```
+
+- Specify desired format output format
+- `<from>` and `<to>` values are included in the generated values.
+
+## `create` and `update` examples:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table HOTELROOMCATEGORY
+    ...
+    column decimal ACTUALPRICE size 10  scale 2
+    ...
+...
+task ... {
+    update HOTELROOMCATEGORY
+        ...
+        mask ACTUALPRICE HOTELROOMCATEGORY_ACTUALPRICE
+            format %f
+            random-decimal 499.00 2599.00
+        ...
+}
+```
+
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table HOTELROOMCATEGORY
+    ...
+    column decimal ACTUALPRICE size 10  scale 2
+    ...
+...
+task ... {
+    create HOTELROOMCATEGORY
+        minimum-rows 50
+        ...
+        mask ACTUALPRICE HOTELROOMCATEGORY_ACTUALPRICE
+            format %f
+            random-decimal 499.00 2599.00
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Formatting
+
+If desired result is different than decimal, simply change the format string.

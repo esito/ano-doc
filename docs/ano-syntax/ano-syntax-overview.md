@@ -1,9 +1,9 @@
 ---
 sidebar_position: 0
-sidebar_label: ANO File Intro
+sidebar_label: Overview
 ---
 
-# ANO syntax
+# ANO syntax overview
 
 ## Creating the ANO file
 

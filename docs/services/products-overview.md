@@ -4,9 +4,7 @@ id: products-overviews
 sidebar_label: Overview
 ---
 
-# Anonmyizer Products
-
-
+# Anonymizer Services
 
 ## Available services
 
@@ -22,12 +20,17 @@ Services
 Description
 
 </th>
+<th>
+
+Free or paid
+
+</th>
 </tr>
 
 <tr>
 <td>
 
-DBMasker - paid service
+DBMasker
 
 </td>
 <td>
@@ -42,12 +45,16 @@ Generates anonymization applications based on tasks and rules written in the ANO
 Whenever you copy your production database to test or development environments, you simply run this application against the database copy in test and development environments.
 
 </td>
+<td>
 
+Paid
+
+</td>
 </tr>
 <tr>
 <td>
 
-DBErase - paid service
+DBErase
 
 </td>
 <td>
@@ -57,12 +64,16 @@ Deals with GDPR Forget Me Support.
 Provides you a web service with a REST endpoint against your production database. According to your logic, you can either delete, mask or decouple customer data on request
 
 </td>
+<td>
 
+Paid
+
+</td>
 </tr>
 <tr>
 <td>
 
-DBimport - free service
+DBimport
 
 </td>
 <td>
@@ -70,11 +81,16 @@ DBimport - free service
 Reverse engineers your database structure into java JPA classes.
 
 </td>
+<td>
+
+Free
+
+</td>
 </tr>
 <tr>
 <td>
 
-DBAno - free service
+DBAno
 
 </td>
 <td>
@@ -82,7 +98,11 @@ DBAno - free service
 Reverse engineers your database structure into ANO syntax.
 
 </td>
+<td>
 
+Free
+
+</td>
 </tr>
 
 </table>

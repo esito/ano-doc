@@ -27,7 +27,7 @@ module.exports = {
         },
         {
           href: 'https://anonymizer.esito.no/auth',
-          label: 'Log inn / dashboard',
+          label: 'Login / dashboard',
           position: 'right',
 
         },
@@ -79,7 +79,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          editUrl: 'https://github.com/esito/ano-doc/',
         },
         blog: false,
         theme: {

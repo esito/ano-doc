@@ -1,0 +1,89 @@
+---
+sidebar_position: 7
+sidebar_label: Random Datetime
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `random-datetime`
+
+:::tip Goal
+Write `mask` rule logic to
+
+- generate **random datetimes** from an interval defined by `<from>` and `<to>` properties
+- The `random-datetime` function generates values having format "yyyy-MM-dd HH:mm:ss" (Database Timestamp format)
+  - `%1\$tF %1\$tT`
+
+:::
+
+## Code Structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %s
+            random-datetime <from> <to>      // [<from>, <to>]
+        ...
+```
+
+- Specify desired format output format
+- `<from>` and `<to>` values are included in the generated values.
+- Both are written using the format "yyyy-MM-dd HH:mm:ss" (Database Timestamp format)
+
+## `create` and `update` examples:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table BOOKING
+    ...
+    column datetime BOOKINGCREATED
+    ...
+...
+task ... {
+    update BOOKING
+        ...
+        mask BOOKINGCREATED BOOKING_BOOKINGCREATED
+            format %s
+            random-time "2020-01-01 07:00:00" "2020-01-15 23:59:59"
+        ...
+}
+```
+
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table BOOKING
+    ...
+    column datetime BOOKINGCREATED
+    ...
+...
+task ... {
+    create BOOKING
+        minimum-rows 50
+        ...
+        mask BOOKINGCREATED BOOKING_BOOKINGCREATED
+            format %s
+            random-time "2020-01-01 07:00:00" "2020-01-15 23:59:59"
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Formatting
+
+If desired result is different than the form "yyyy-MM-dd HH:mm:ss", simply change the format string.

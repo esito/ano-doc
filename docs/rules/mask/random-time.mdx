@@ -1,0 +1,89 @@
+---
+sidebar_position: 4
+sidebar_label: Random Time
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `random-time`
+
+:::tip Goal
+Write `mask` rule logic to
+
+- generate **random times** from an interval defined by `<from>` and `<to>` properties
+- The `random-time` function generates values having standard format "HH:mm:ss" (24-hour time format)
+  - `%tT`
+
+:::
+
+## Code Structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %s
+            random-time <from> <to>      // [<from>, <to>]
+        ...
+```
+
+- Specify desired format output format
+- `<from>` and `<to>` values are included in the generated values.
+- Both are written using the format "HH:mm:ss" (24-hour time format)
+
+## `create` and `update` examples:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table BOOKING
+    ...
+    column time EARLIESTCHECKINTIME
+    ...
+...
+task ... {
+    update BOOKING
+        ...
+        mask EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
+            format %s
+            random-time "12:00:00" "13:00:00"
+        ...
+}
+```
+
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table BOOKING
+    ...
+    column time EARLIESTCHECKINTIME
+    ...
+...
+task ... {
+    create BOOKING
+        minimum-rows 50
+        ...
+        mask EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
+            format %s
+            random-time 12:00:00 13:00:00
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Formatting
+
+If desired result is different than the form HH:mm:ss, simply change the format string.
