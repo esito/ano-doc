@@ -681,28 +681,24 @@ task Advanced
             convert String2Date
             offset 300.0
             flat-noise 5.0
-            percentage-noise 0.0
         randomize TODATE BOOKING_TODATE
             type date
             format %tF
             convert String2Date
             offset 300.0
             flat-noise 5.0
-            percentage-noise 0.0
         randomize BOOKINGCREATED BOOKING_BOOKINGCREATED
             type datetime
             format "%1$tF %1$tT"
             convert String2DateTime
             offset 10.0
             flat-noise 0.0
-            percentage-noise 0.0
         randomize EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
             type time
             format %tT
             convert String2Time
             offset 10.0
             flat-noise 10.0
-            percentage-noise 0.0
     // Shuffle PK - needs a temp key on the Dependencies node
     update ROOM Anonymize_ROOM
         shuffle ID ROOM_ID
@@ -728,7 +724,6 @@ task Advanced
             convert String2Date
             offset 365.0
             flat-noise 10.0
-            percentage-noise 0.0
 }
 // Forget Me - tasks
 task forgetMe

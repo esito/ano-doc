@@ -1,0 +1,89 @@
+---
+sidebar_position: 4
+sidebar_label: Randomize Dates
+sidebar:
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Randomize Dates
+
+:::tip Goal
+Write `randomize` rule logic to
+
+- Takes the **original values** of the type **date**, and adds random noise
+- Specify the random noise by using the `offset` and `flat-noise` parameters (`percentage-noise` excluded)
+
+:::
+
+## Code structure
+
+```ano
+        ...
+        randomize <column> <rule-name>
+            type date
+            format %tF
+            convert String2Date
+            offset <offset>
+            flat-noise <flat-noise>
+            percentage-noise 0.0
+
+        ...
+```
+
+- **type:** `date`
+- **format:** `%tF` - date format
+- **convert:** String2Date - an in-built convertion function.
+
+### Gaussian random noise parameters
+
+These parameters must be double (e.g. 0.0), even though the format of the ouput is not.
+
+- **offset:** A fixed (double) value, in number of days, that is added to the **original value**.
+- **flat-noise:** A fixed noise value, in number of days, that is multiplied with the random number **r**
+  - large _flat-noise:_ larger spread of generated values
+- **percentage-noise:** unused in `randomize-date`
+
+## Noise Formula
+
+1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
+2. We use **r**, together with given noise parameters to add noise to the **original value**
+
+### Noise formula for integers
+
+> **original_value** + _offset_ + (_fixed_ \* r)
+
+## `update` example:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table BOOKING
+    ...
+    column date FROMDATE
+    ...
+...
+task ... {
+    update BOOKING
+        randomize FROMDATE
+            type date
+            format %tF
+            convert String2Date
+            offset 300.0
+            flat-noise 5.0
+            percentage-noise 0.0
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>

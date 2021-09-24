@@ -30,6 +30,7 @@ Write `mask` rule logic to
 - Specify desired format output format
 - `<from>` and `<to>` values are included in the generated values.
 - Both are written using the format "HH:mm:ss" (24-hour time format)
+- Since random-time creates values of the format `HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
 
 ## `create` and `update` examples:
 
@@ -54,7 +55,7 @@ task ... {
         ...
         mask EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
             format %s
-            random-time "12:00:00" "13:00:00"
+            random-time 12:00:00 13:00:00
         ...
 }
 ```

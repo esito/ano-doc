@@ -68,10 +68,9 @@ A Work is initialized as following:
    - `update`, `create`, `delete`, `erase`, or `sar`
 2. `table name` (**Required**)
 3. A user defined `Work Task Name` (**Optional**)
-4. Indentation (**Required**)
-5. SQL statements (**Optional**)
-6. SQL `WHERE` clause (**Optional**)
-7. Anonymizations (**Required**)
+4. SQL statements (**Optional**)
+5. SQL `WHERE` clause (**Optional**)
+6. Anonymizations (**Required**)
 
 ```ano
 task MyGroupTaskName
@@ -140,11 +139,11 @@ The rule logic for a `mask` anonymization is written as follows:
    1. followed by the `column` name (**Required**)
    2. and your own name for this rule (**Optional?**)
 2. The keyword `format` (**Required**)
-   1. followed by `double quoted string` containing the string format (**Required**)
+   1. followed by ouput format specification (**Required**)
 3. The keyword `transform` (**Optional**)
    1. followed by a predefined string transformation method. The resulting anonymization value is processed.
 4. The keyword `unique`, if that is a desired constraint (**Optional**)
-5. Generated value source (**Required**)
+5. Generated value source (**Optional**)
    1. `random-[type]`
    2. `file`
    3. `column`
@@ -445,7 +444,7 @@ The `randomize` function is used to **apply noise** on one of the following form
 1. The keyword `randomize` (**Required**)
    1. followed by the `column` name (**Required**)
    2. and your own name for this rule (**Optional**)
-2. The keyowrd `type` (**Required**)
+2. The keyword `type` (**Required**)
    1. followed by the name of the format type (e.g. `integer`, `decimal`, `date`, `time`, or `datetime`)
 3. The keyword `format` (**Required**)
    1. followed by `double quoted string` containing the string format (**Required**)
