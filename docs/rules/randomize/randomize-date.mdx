@@ -27,7 +27,6 @@ Write `randomize` rule logic to
             convert String2Date
             offset <offset>
             flat-noise <flat-noise>
-            percentage-noise 0.0
         ...
 ```
 
@@ -51,7 +50,7 @@ These parameters must be double (e.g. 0.0), even though the format of the ouput 
 
 ### Noise formula for integers
 
-> **original_value** + _offset_ + (_fixed_ \* r)
+> **original_value** + _offset_ + (_flat-noise_ \* r)
 
 ## `update` example:
 
@@ -78,7 +77,6 @@ task ... {
             convert String2Date
             offset 300.0
             flat-noise 5.0
-            percentage-noise 0.0
         ...
 }
 ```

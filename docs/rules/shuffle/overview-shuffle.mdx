@@ -1,0 +1,51 @@
+---
+sidebar_position: 1
+sidebar_label: Shuffle a Column
+---
+
+# The `shuffle` anonymization rule
+
+:::tip Goal
+Write `shuffle` rule logic to
+
+- Shuffle the values of a column
+
+:::
+
+The shuffle function reorders the column values in a random order and ensures that no record retains the original column value.
+
+## Code structure
+
+```ano
+        ...
+        shuffle <column> <rule-name?>
+        ...
+```
+
+## `update` example:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table HOTEL
+    ...
+    column text NAME size 40
+    ...
+...
+task ... {
+    update HOTEL
+        shuffle NAME
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>
