@@ -1,0 +1,90 @@
+---
+sidebar_position: 2
+sidebar_label: Randomize Integers
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Randomize Integers
+
+:::tip Goal
+Write `randomize` rule logic to
+
+- Takes the **original values** of the type **integer**, and adds random noise
+- Specify the random noise by using the `offset`, `flat-noise`, and `percentage-noise` parameters
+
+:::
+
+## Code structure
+
+```ano
+        ...
+        randomize <column> <rule-name>
+            type integer
+            format %d
+            convert String2Integer
+            offset <offset>
+            flat-noise <flat-noise>
+            percentage-noise <percentage-noise>
+        ...
+```
+
+- **type:** `integer`
+- **format:** `%d` - integer format
+- **convert:** String2Integer - an in-built convertion function.
+
+### Gaussian random noise parameters
+
+These parameters must be double (e.g. 0.0), even though the format of the ouput is not.
+
+- **offset:** A fixed (double) value that is added to the **original value**.
+- **flat-noise:** A fixed noise value that is multiplied with the random number **r**
+  - large _flat-noise_ - larger spread of generated values
+- **percentage-noise:** A percentage (0.0% - 100.0%) of the original value that is multplied with the random number **r**
+  - large _percentage-noise_ - larger spread of generated values
+
+## Noise Formula
+
+1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
+2. We use **r**, together with given noise parameters to add noise to the **original value**
+
+### Noise formula for integers
+
+> **original_value** + _offset_ + (_flat-noise_ \* r) + (**original_value** \* _percentage-noise_ / 100) \* r
+
+The resulting value is cast from _double_ to _integer_.
+
+## `update` example:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table ROOMCATEGORY
+    ...
+    column integer MAXDISCOUNT size 10
+    ...
+...
+task ... {
+    update ROOMCATEGORY
+        randomize MAXDISCOUNT
+            type integer
+            format %d
+            convert String2Integer
+            offset 5.0                  // add 5 to all original values
+            flat-noise 0.0              // no flat noise
+            percentage-noise 20.0       // adds 20% of the original value as size to the random noise
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>

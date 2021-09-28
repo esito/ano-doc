@@ -1,0 +1,59 @@
+---
+sidebar_position: 9
+sidebar_label: Column
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `column`
+
+:::tip Goal
+Write `mask` rule logic to
+
+- put values into a table `column`, taken from `another column` of the same table.
+
+:::
+
+## Code Structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %s
+            column <another-column>
+        ...
+```
+
+- Make sure `<column>` and `another-column` is in the same table.
+
+## `update` example:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' }
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table HOTELROOMCATEGORY
+    ...
+    column date TODATE
+    ...
+...
+task ... {
+    update HOTELROOMCATEGORY
+        ...
+        mask TODATE             // mask TODATE by setting it equal to FROMDATE
+            format %s
+            column FROMDATE
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>

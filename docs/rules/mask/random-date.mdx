@@ -1,0 +1,89 @@
+---
+sidebar_position: 4
+sidebar_label: Random Date
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `random-date`
+
+:::tip Goal
+Write `mask` rule logic to
+
+- generate **random dates** from an interval defined by `<from>` and `<to>` properties
+- The `random-date` function generates values having standard format `YYYY-MM-DD`.
+
+:::
+
+## Code Structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %s
+            random-date <from> <to>      // [<from>, <to>]
+        ...
+```
+
+- Specify desired format output format
+- `<from>` and `<to>` values are included in the generated values.
+- Both are written using YYYY-MM-DD format
+- Since `random-date` creates values of the format `YYYY-MM-DD`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
+
+## `create` and `update` examples:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table HOTELROOMCATEGORY
+    ...
+    column date FROMDATE
+    ...
+...
+task ... {
+    update HOTELROOMCATEGORY
+        ...
+        mask FROMDATE HOTELROOMCATEGORY_FROMDATE
+            format %s
+            random-date 2020-01-01 2022-12-31
+        ...
+}
+```
+
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table HOTELROOMCATEGORY
+    ...
+    column date FROMDATE
+    ...
+...
+task ... {
+    create HOTELROOMCATEGORY
+        minimum-rows 50
+        ...
+        mask FROMDATE HOTELROOMCATEGORY_FROMDATE
+            format %s
+            random-date 2020-01-01 2022-12-31
+        ...
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Formatting
+
+If desired result is different than the form YYYY-MM-DD, simply change the format string.

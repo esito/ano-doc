@@ -1,0 +1,162 @@
+---
+sidebar_position: 4
+sidebar_label: Format
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `format`
+
+:::tip Goal
+Denote the masking result using `format`
+
+- may be a combination of literal string values and format string values using [java.util.Formatter](https://dzone.com/articles/java-string-format-examples)
+- Use "" if there are spaces
+  - e.g. `"%s %s"`
+
+:::
+
+### `format` - Format Types
+
+<table width="100%" >
+<tr>
+<th width="15%">
+
+Format
+
+</th>
+<th width="15%">
+
+Input
+
+</th>
+<th >
+
+Use format with following generated value source types:
+
+</th>
+</tr>
+<tr>
+<td>
+
+%s
+
+</td>
+<td>
+
+String
+
+</td>
+<td>
+
+- `file`
+- `column`
+
+</td>
+</tr>
+<tr>
+<td>
+
+%d
+
+</td>
+<td>
+
+Integer
+
+</td>
+<td >
+
+- `sequence`
+- `random-integer`
+
+</td>
+</tr>
+<tr>
+<td>
+
+%f
+
+</td>
+<td>
+
+Decimal
+
+</td>
+<td >
+
+- `random-decimal`
+
+</td>
+</tr>
+<tr>
+<td>
+
+%tF
+
+</td>
+<td>
+
+Date
+
+</td>
+<td >
+
+- `random-date`
+
+"yyyy-MM-dd" (ISO 8601 formatted dates)
+
+</td>
+</tr>
+<tr>
+<td>
+
+%tT
+
+</td>
+<td>
+
+Time
+
+</td>
+<td >
+
+- `random-time`
+
+"HH:mm:ss" (24-hour time format)
+
+</td>
+</tr>
+<tr>
+<td>
+
+%1\$tF %1\$tT
+
+</td>
+<td>
+
+DateTime
+
+</td>
+<td >
+
+- `random-datetime`
+
+"yyyy-MM-dd HH:mm:ss" (Database Timestamp format)
+
+</td>
+</tr>
+</table>
+
+## Notes
+
+- Without any format specifications the value is regarded as a constant.
+- The text constant NULL is regarded as SQL NULL.
+- Each format parameter must be mached with one input source. Eiher:
+  - `random-[type]`
+  - `file`
+  - `column`
+  - `sequence`
+
+See more examples at [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).

@@ -13,9 +13,9 @@ With Anonymizer you can generate Java applications that can be automated and run
 
 Anonymizer provides you with the following services:
 
-- [Anonymizer DBmasker](./products/dbmasker-product.md)
-- [Anonymizer DBerase](./products/dberase-product.md)
-- [Anonymizer DBano](./products/dbano-product.md)
+- [Anonymizer DBmasker](./services/dbmasker-product.md)
+- [Anonymizer DBerase](./services/dberase-product.md)
+- [Anonymizer DBano](./services/dbano-product.md)
 - [Anonymizer ANO DSL Language](#)
 
 ### Challenges introduced by GDPR
@@ -29,9 +29,10 @@ The two main challenges Anonymizer addresses are:
 
 Anonymizer provides you with services tailored to your database. These are services for
 
-- Masking of existing data
+- Anonymization of existing data
 - Synthetic data generation
 - Data erasure
+- Subject Access Request
 
 Anonymizer utilizes the ANO domain specific language (DSL) for writing masking, generating, and erasing rules. Using the ANO language, you will be able to write cascading logic and advanced rules for handling edge cases in your database design. You will write an `.ano` file that will contain all your rules.
 
@@ -45,7 +46,7 @@ The two services we provide are
 
 &nbsp;
 
-## [Get Started with DBmasker](./get-started/get-started-with-dbmasker/process-overview.md)
+## [Get Started with DBmasker](./get-started/get-started-with-dbmasker/dbmasker-get-started-overview.md)
 
 ### Blog
 

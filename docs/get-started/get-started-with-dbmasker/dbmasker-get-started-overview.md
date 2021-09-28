@@ -4,7 +4,7 @@ sidebar_position: 1
 label: process-overview
 ---
 
-# Get Started With DBMasker
+# Get Started With DBmasker
 
 ## Using DBmasker requires you to
 
