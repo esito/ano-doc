@@ -1,0 +1,91 @@
+---
+sidebar_position: 10
+sidebar_label: Sequence
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `sequence`
+
+:::tip Goal
+Write `mask` rule logic using the `sequence` input source to
+
+- insert a sequence of integers into a column
+- starting with the first INTEGER value and incremented by the second INTEGER value
+- If -1 is as the first INTEGER value, the sequence starts with the highest value stored in the column plus the increment
+
+:::
+
+## Code Structure
+
+```ano
+        ...
+        mask <column> <rule-name>
+            format %d
+            unique
+            sequence <start> <increment>
+            temporary-value 999999 // optional
+        ...
+```
+
+- Specify integer format `%d`
+- `<start>`: Value to start from. `-1` to start from highest existing value + increment
+- `<increment>`: how much to increment
+
+## `create` and `update` examples:
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+```ano
+table BOOKING
+    ...
+    column integer ID size 10
+    ...
+    primary-key ID
+...
+task ... {
+    update BOOKING
+        ...
+        mask ID
+            format %d
+            unique
+            sequence -1 1
+            temporary-value 999999
+}
+```
+
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table BOOKING
+    ...
+    column integer ID size 10
+    ...
+    primary-key ID
+...
+task ... {
+    create BOOKING
+        minimum-rows 100
+        ...
+        mask ID
+            format %d
+            unique
+            sequence -1 1
+            temporary-value 999999
+}
+```
+
+</TabItem>
+
+</Tabs>
