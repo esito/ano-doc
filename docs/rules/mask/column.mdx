@@ -17,24 +17,25 @@ Write `mask` rule logic to
 
 ## Code Structure
 
-```ano
-        ...
-        mask <column> <rule-name>
-            format %s
-            column <another-column>
-        ...
-```
-
-- Make sure `<column>` and `another-column` is in the same table.
-
-## `update` example:
-
 <Tabs
-  defaultValue="update"
+  defaultValue="structure"
   values={[
-    { label: 'update example', value: 'update' }
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' }
   ]}
 >
+
+<TabItem value="structure">
+
+```ano
+      ...
+      mask <column>
+          format %s
+          column <another-column>
+      ...
+```
+
+</TabItem>
 
 <TabItem value="update">
 
@@ -57,3 +58,6 @@ task ... {
 </TabItem>
 
 </Tabs>
+
+- `<column>` defined after `mask` recieves the values from `another-column` defined after `column`
+- Make sure `<column>` and `another-column` is in the same table.

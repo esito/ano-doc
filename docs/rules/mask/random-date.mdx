@@ -18,6 +18,17 @@ Write `mask` rule logic to
 
 ## Code Structure
 
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+	{ label: 'Create Example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
+
 ```ano
         ...
         mask <column> <rule-name>
@@ -26,20 +37,7 @@ Write `mask` rule logic to
         ...
 ```
 
-- Specify desired format output format
-- `<from>` and `<to>` values are included in the generated values.
-- Both are written using YYYY-MM-DD format
-- Since `random-date` creates values of the format `YYYY-MM-DD`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -84,6 +82,6 @@ task ... {
 
 </Tabs>
 
-## Formatting
-
-If desired result is different than the form YYYY-MM-DD, simply change the format string.
+- `<from>` and `<to>` values are included in the generated values.
+  - Both are written using `YYYY-MM-DD format`
+- Since `random-date` creates values of the format `YYYY-MM-DD`, the `%s` will result in strings of this format. For different formats, see [Formats](#)

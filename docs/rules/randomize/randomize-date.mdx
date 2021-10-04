@@ -6,6 +6,7 @@ sidebar:
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Noiseformula from '../../../src/mdx/noise-formula.mdx';
 
 # Randomize Dates
 
@@ -17,7 +18,15 @@ Write `randomize` rule logic to
 
 :::
 
-## Code structure
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+  ]}
+>
+
+<TabItem value="structure">
 
 ```ano
         ...
@@ -27,40 +36,10 @@ Write `randomize` rule logic to
             convert String2Date
             offset <offset>
             flat-noise <flat-noise>
-            percentage-noise 0.0
         ...
 ```
 
-- **type:** `date`
-- **format:** `%tF` - date format
-- **convert:** String2Date - an in-built convertion function.
-
-### Gaussian random noise parameters
-
-These parameters must be double (e.g. 0.0), even though the format of the ouput is not.
-
-- **offset:** A fixed (double) value, in number of days, that is added to the **original value**.
-- **flat-noise:** A fixed noise value, in number of days, that is multiplied with the random number **r**
-  - large _flat-noise:_ larger spread of generated values
-- **percentage-noise:** unused in `randomize-date`
-
-## Noise Formula
-
-1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
-2. We use **r**, together with given noise parameters to add noise to the **original value**
-
-### Noise formula for integers
-
-> **original_value** + _offset_ + (_fixed_ \* r)
-
-## `update` example:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -78,7 +57,6 @@ task ... {
             convert String2Date
             offset 300.0
             flat-noise 5.0
-            percentage-noise 0.0
         ...
 }
 ```
@@ -86,3 +64,12 @@ task ... {
 </TabItem>
 
 </Tabs>
+
+- **type:** `date`
+- **format:** `%tF` - date format
+- **convert:** String2Date - an in-built convertion function
+- **offset:** A fixed (double) value, in number of days, that is added to the **original value**
+- **flat-noise:** A fixed noise value, in number of days, that is multiplied with the random number **r**
+  - large _flat-noise:_ larger spread of generated values
+
+<Noiseformula type="date" />

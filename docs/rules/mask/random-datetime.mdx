@@ -19,28 +19,26 @@ Write `mask` rule logic to
 
 ## Code Structure
 
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+	{ label: 'Create Example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
+
 ```ano
         ...
         mask <column> <rule-name>
-            format %s
+            format %1\$tF %1\$tT
             random-datetime <from> <to>      // [<from>, <to>]
         ...
 ```
 
-- Specify desired format output format
-- `<from>` and `<to>` values are included in the generated values.
-- Both are written using the format `yyyy-MM-dd HH:mm:ss` (Database Timestamp format)
-- Since random-datetime creates values of the format `yyyy-MM-dd HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -54,7 +52,7 @@ task ... {
     update BOOKING
         ...
         mask BOOKINGCREATED BOOKING_BOOKINGCREATED
-            format %s
+            format %1\$tF %1\$tT
             random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
         ...
 }
@@ -75,7 +73,7 @@ task ... {
         minimum-rows 50
         ...
         mask BOOKINGCREATED BOOKING_BOOKINGCREATED
-            format %s
+            format %1\$tF %1\$tT
             random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
         ...
 }
@@ -85,6 +83,6 @@ task ... {
 
 </Tabs>
 
-## Formatting
-
-If desired result is different than the form "yyyy-MM-dd HH:mm:ss", simply change the format string.
+- `<from>` and `<to>` values are included in the generated values.
+  - Both are written using the format `yyyy-MM-dd HH:mm:ss` (Database Timestamp format)
+- Since random-datetime creates values of the format `yyyy-MM-dd HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)

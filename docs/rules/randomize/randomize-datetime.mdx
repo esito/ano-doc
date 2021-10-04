@@ -5,6 +5,7 @@ sidebar_label: Randomize Datetimes
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import Noiseformula from '../../../src/mdx/noise-formula.mdx';
 
 # Randomize Datetimes
 
@@ -16,7 +17,15 @@ Write `randomize` rule logic to
 
 :::
 
-## Code structure
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+  ]}
+>
+
+<TabItem value="structure">
 
 ```ano
         ...
@@ -26,40 +35,10 @@ Write `randomize` rule logic to
             convert String2DateTime
             offset <offset>
             flat-noise <flat-noise>
-            percentage-noise 0.0
         ...
 ```
 
-- **type:** `datetime`
-- **format:** `%1$tF %1$tT` - datetime format
-- **convert:** String2DateTime - an in-built convertion function.
-
-### Gaussian random noise parameters
-
-These parameters must be double (e.g. 0.0), even though the format of the ouput is not.
-
-- **offset:** A fixed (double) value, in seconds, that is added to the **original value**.
-- **flat-noise:** A fixed noise value, in seconds, that is multiplied with the random number **r**
-  - large _flat-noise_ - larger spread of generated values
-- **percentage-noise:** - unused in `randomize-date`
-
-## Noise Formula
-
-1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
-2. We use **r**, together with given noise parameters to add noise to the **original value**
-
-### Noise formula for integers
-
-> **original_value** + _offset_ + (_flat-noise_ \* r)
-
-## `update` example:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -73,11 +52,10 @@ task ... {
     update BOOKING
         randomize BOOKINGCREATED BOOKING_BOOKINGCREATED
             type datetime
-            format "%1$tF %1$tT"
+            format %1$tF %1$tT
             convert String2DateTime
             offset 10.0
             flat-noise 0.0
-            percentage-noise 0.0
         ...
 }
 ```
@@ -85,3 +63,14 @@ task ... {
 </TabItem>
 
 </Tabs>
+
+## Code structure
+
+- **type:** `datetime`
+- **format:** `%1$tF %1$tT` - datetime format
+- **convert:** String2DateTime - an in-built convertion function.
+- **offset:** A fixed (double) value, in seconds, that is added to the **original value**.
+- **flat-noise:** A fixed noise value, in seconds, that is multiplied with the random number **r**
+  - large _flat-noise_ - larger spread of generated values
+
+<Noiseformula type="datetime" />

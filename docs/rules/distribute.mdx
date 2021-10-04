@@ -1,0 +1,136 @@
+---
+sidebar_position: 12
+sidebar_label: Distribute
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `distribute`
+
+:::tip Goal
+Use the `distribute` rule to populate foreign key columns using actual primary-key values in the parent table.
+
+- Ensures consistency when performing anonymizations in tables containing foreign keys.
+- Use a distribution function to define what conditions must be satisfied on the foreign key distribution.
+
+:::
+
+## Code Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+	{ label: 'One Foreign Key Example', value: 'one' },
+	{ label: 'Two Foreign Keys Example', value: 'two' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+...
+foreign-key
+    <parent-table> <primary-key-or-unique-column>
+    <child-table> <foreign-key-column>
+...
+task <task> {
+    ...
+        distribute <distribution-function> <parameters>
+            table <parent-table> <parameters>
+                child <foreign-key>
+                parent <key>
+    ...
+}
+```
+
+</TabItem>
+
+<TabItem value="one">
+
+```ano
+table HOTEL
+    column integer ID size 10
+    column integer CHAIN_ID size 10
+    column ...
+    primary-key ID
+table HOTELCHAIN
+    column integer ID size 10
+    column ...
+    primary-key ID
+...
+foreign-key
+    HOTELCHAIN ID
+    HOTEL CHAIN_ID
+...
+task <task> {
+    ...
+    // Creating records in child table
+    create HOTEL
+        ...
+        // Even spread with deviation for occurrence of parents
+        distribute EvenWithDeviation ""
+            table HOTELCHAIN 2  // deviation = 2
+                child CHAIN_ID
+                parent ID
+        ...
+    ...
+}
+```
+
+</TabItem>
+
+<TabItem value="two">
+
+```ano
+
+table ROOM
+    column integer ID size 10
+    column integer CATEGORY_ID size 10
+    column integer HOTEL_ID size 10
+    column ...
+    primary-key ID
+table HOTEL
+    column integer ID size 10
+    column ...
+    primary-key ID
+table ROOMCATEGORY
+    column integer ID size 10
+    column ...
+    primary-key ID
+...
+foreign-key
+    ROOMCATEGORY ID
+    ROOM CATEGORY_ID
+foreign-key
+    HOTEL ID
+    ROOM HOTEL_ID
+...
+task <task> {
+    ...
+    // Creating records in child table
+    create ROOM
+        minimum-rows 50
+        ...
+        // AllCombinations - All combinations of CATEGORY_ID and HOTEL_ID are created at least once in table ROOM.
+        distribute AllCombinations ""
+            table ROOMCATEGORY ""
+                child CATEGORY_ID
+                parent ID
+            table HOTEL ""
+                child HOTEL_ID
+                parent ID
+        ...
+}
+```
+
+</TabItem>
+</Tabs>
+
+## In-built Distribution Functions
+
+- **AllCombinations** - All combinations of parents are satisfied at least once
+- **EvenWithDeviation** - Even spread with deviation for occurrence of parents
+  - takes a number as a param on the table level
+- **SimpleSpread** - Foreign key columns are randomly assigned among possible existing values in the parent table

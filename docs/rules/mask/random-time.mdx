@@ -19,6 +19,17 @@ Write `mask` rule logic to
 
 ## Code Structure
 
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+	{ label: 'Create Example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
+
 ```ano
         ...
         mask <column> <rule-name>
@@ -27,20 +38,7 @@ Write `mask` rule logic to
         ...
 ```
 
-- Specify desired format output format
-- `<from>` and `<to>` values are included in the generated values.
-- Both are written using the format "HH:mm:ss" (24-hour time format)
-- Since random-time creates values of the format `HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -85,6 +83,6 @@ task ... {
 
 </Tabs>
 
-## Formatting
-
-If desired result is different than the form HH:mm:ss, simply change the format string.
+- `<from>` and `<to>` values are included in the generated values.
+  - Both are written using the format "HH:mm:ss" (24-hour time format)
+- Since random-time creates values of the format `HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
