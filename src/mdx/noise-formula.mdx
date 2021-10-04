@@ -1,0 +1,23 @@
+## Noise Formula
+
+1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
+2. We use **r**, together with given noise parameters to add noise to the **original value**
+
+<h3>
+  Noise formula for <code>{props.type}</code>
+</h3>
+
+<div>
+  {props.type == 'integer' || props.type == 'decimal' ? (
+    <blockquote>
+      <b>original_value</b> + <i>offset</i> + (<i>flat-noise</i> * r) + (<b>original_value</b> * <i>percentage-noise</i>/
+      100) * r
+    </blockquote>
+  ) : (
+    <blockquote>
+      <b>original_value</b> + <i>offset</i> + (<i>flat-noise</i> * r)
+    </blockquote>
+  )}
+</div>
+
+<div>{props.type == 'integer' ? <p>The resulting value is cast from _double_ to _integer_.</p> : <p></p>}</div>

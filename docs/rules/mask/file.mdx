@@ -18,110 +18,39 @@ Write `mask` rule logic to
 ## Code Structure
 
 <Tabs
-  defaultValue="one"
+  defaultValue="structure"
   values={[
-    { label: 'one file input', value: 'one' },
-	{ label: 'multiple file inputs', value: 'multiple' },
+    { label: 'Structure', value: 'structure' },
+    { label: 'Structure Multiple Files', value: 'structure-multiple' },
+	{ label: 'Update Example', value: 'update' },
+	{ label: 'Create Example', value: 'create' },
   ]}
 >
 
-<TabItem value="one">
+<TabItem value="structure">
 
 ```ano
         ...
         mask <column> <rule-name>
             format %s
-            file src/main/resources/<file-name.txt> random-order // random-order is optional
+            file <file-location> random-order?
         ...
 ```
 
 </TabItem>
 
-<TabItem value="multiple">
+<TabItem value="structure-multiple">
 
 ```ano
         ...
         mask <column> <rule-name>
-            format "%s %s ..."
-            file src/main/resources/<file-name-1.txt> random-order // 1st %s
-            file src/main/resources/<file-name-2.txt> random-order // 2nd $s
-            ...
+            format "%s %s"
+            file <file-1-location> random-order?
+            file <file-2-location> random-order?
         ...
 ```
 
 </TabItem>
-
-</Tabs>
-
-- Specify desired output format string
-- Make sure the `.txt` files resides in the folder `src/main/resources/` in the generated project.
-- Pick values sequentially from the file (specify nothing) or randomly by adding the keyword `random-order`
-
-### Multiple file inputs
-
-The format strings can take any number of inputs:
-
-- 1st `%s` takes value from "file-name-1.txt", because it is the first specified
-- 2nd `%s` takes values from "file-name-2.txt"
-- etc.
-
-E.g.: With multiple inputs, the order of input files corresponds to the order of the `%s`´s in the `format` string
-
-## File Structure
-
-- One word per line
-- Each line is one value
-
-### File examples
-
-<Tabs
-  defaultValue="firstname"
-  values={[
-    { label: 'firstname.txt', value: 'firstname' },
-	{ label: 'email.txt', value: 'email' },
-  ]}
->
-
-<TabItem value="firstname">
-
-```txt
-Kayden
-Owen
-Kyle
-Bailey
-Brandon
-Landon
-Erik
-```
-
-</TabItem>
-
-<TabItem value="email">
-
-```txt
-gmail.com
-yahoo.com
-msn.com
-esito.no
-inmeta.no
-crayon.com
-```
-
-</TabItem>
-
-</Tabs>
-
----
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
 
 <TabItem value="update">
 
@@ -167,3 +96,51 @@ task ... {
 </TabItem>
 
 </Tabs>
+
+- Make sure the `.txt` files resides in the folder `src/main/resources/` in the generated project.
+- `random-order`: Optional keyword that decides if values are picked randomly or sequentially from the file.
+- With multiple input sources, the order of inputs corresponds to the order of the `%s`´s in the `format` string
+  - 1st `%s` of the format string recieves values from `<file-1-location>`, 2nd `%s` recieves from `<file-2-location>`
+
+## File Structure
+
+<Tabs
+  defaultValue="firstname"
+  values={[
+    { label: 'firstname.txt Example', value: 'firstname' },
+	{ label: 'email.txt Example', value: 'email' },
+  ]}
+>
+
+<TabItem value="firstname">
+
+```txt
+Kayden
+Owen
+Kyle
+Bailey
+Brandon
+Landon
+Erik
+```
+
+</TabItem>
+
+<TabItem value="email">
+
+```txt
+gmail.com
+yahoo.com
+msn.com
+esito.no
+inmeta.no
+crayon.com
+```
+
+</TabItem>
+
+</Tabs>
+
+- .txt files
+- One word per line
+- Each line is one value

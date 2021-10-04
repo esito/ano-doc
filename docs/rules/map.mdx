@@ -1,0 +1,109 @@
+---
+sidebar_position: 11
+sidebar_label: Map
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `map`
+
+:::tip Goal
+Use `map` to map results of anonymization rules with key/value paired files (key=value)
+
+- Use `map` with `output` to produce a mapping file containing key/value pairs from the anonymization rule
+- Use `map` with `input` to update columns using the mapped value.
+- Use `map` with `input-output` to first update the column using the mapping file, and then update the file in case there were new/missing values in the mapping file.
+
+:::
+
+## Code Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+	{ label: 'Map Input Example', value: 'map-input' },
+	{ label: 'Map Output Example', value: 'map-output' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+        ...
+        mask <column>
+            format %s
+            column <column>
+            map <input-file-name.txt> input
+        ...
+        shuffle <column>
+            map <output-file-name.txt> output encrypted
+        ...
+```
+
+</TabItem>
+
+<TabItem value="map-input">
+
+```ano
+    ...
+    // Use a Mapping file as input
+    update ADDRESS Anonymize_ADDRESS
+        mask HOMEADDRESS ADDRESS_HOMEADDRESS
+            format %s
+            column HOMEADDRESS
+            map address_map.txt input
+    ...
+```
+
+</TabItem>
+
+<TabItem value="map-output">
+
+```ano
+    // Export anonymization to mapping file
+    update HOTEL Anonymize_HOTEL
+        // Output results to an encrypted file
+        shuffle NAME HOTEL_NAME
+            map hotelmap.txt output encrypted
+
+```
+
+</TabItem>
+
+</Tabs>
+
+## Mapping File Structure
+
+<Tabs
+  defaultValue="address"
+  values={[
+    { label: 'home-address.txt Example', value: 'address' },
+  ]}
+>
+
+<TabItem value="address">
+
+```txt
+Fortune\ Street\ 94=Money Street 22
+Pearl\ Lane\ 102=High Street 100
+Bliss\ Street\ 3=Spring Lane 123
+Winter\ Passage\ 23=Norway Avenue 999
+Arcade\ Lane=Pine Street 1
+Serenity\ Passage\ 19=Lincoln Boulevard 99
+Fair\ Avenue\ 7=The Street 555
+Medieval\ Boulevard=The Lane 444
+Lawn\ Lane\ 32=The Avenue 333
+Poplar\ Avenue=The Way 222
+New\ Castle\ Lane\ 2=Old Castle Street 111
+Arctic\ Street\ 34=Big Street 1
+```
+
+</TabItem>
+
+</Tabs>
+
+- Each line contain one `key=value` pair
+  - `key`: original column value
+  - `value`: the anonymization value to replace it with

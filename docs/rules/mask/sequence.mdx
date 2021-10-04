@@ -19,6 +19,17 @@ Write `mask` rule logic using the `sequence` input source to
 
 ## Code Structure
 
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'update example', value: 'update' },
+	{ label: 'create example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
+
 ```ano
         ...
         mask <column> <rule-name>
@@ -29,19 +40,7 @@ Write `mask` rule logic using the `sequence` input source to
         ...
 ```
 
-- Specify integer format `%d`
-- `<start>`: Value to start from. `-1` to start from highest existing value + increment
-- `<increment>`: how much to increment
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -89,3 +88,7 @@ task ... {
 </TabItem>
 
 </Tabs>
+
+- Specify integer format `%d`
+- `<start>`: Value to start from. `-1` to start from highest existing value + increment
+- `<increment>`: how much to increment

@@ -1,0 +1,93 @@
+---
+sidebar_position: 12
+sidebar_label: Propagate
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `propagate`
+
+:::tip Goal
+Use `propagate` to update foreign keys with the same value as the primary key anonymization.
+
+:::
+
+## Code Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+	{ label: 'Example', value: 'example' },
+      ]}
+>
+
+<TabItem value="structure">
+
+```ano
+    update <parent-table>
+        mask ID
+            format %d
+            unique
+            sequence -1 1
+            temporary-value 999999
+            propagate <child-table-1>.parent_table_id, <child-table-2>.parent_table_id, <child-table-3>.parent_table_id
+
+```
+
+</TabItem>
+
+<TabItem value="example">
+
+```ano
+table ROOMCATEGORY
+    column integer ID
+        size 10
+    column ...
+    primary-key ID
+table HOTELROOMCATEGORY
+    column date FROMDATE
+    column integer HOTEL_ID size 10
+    column integer ROOMCATEGORY_ID size 10
+    column ...
+    primary-key HOTEL_ID, ROOMCATEGORY_ID, FROMDATE
+table BOOKING
+    column integer ID size 10
+    column integer ROOMCATEGORY_ID size 10
+    column ...
+    primary-key ID
+table ROOM
+    column integer ID
+        size 10
+    column integer CATEGORY_ID
+        size 10
+    column ...
+    primary-key ID
+...
+foreign-key
+    ROOMCATEGORY ID
+    HOTELROOMCATEGORY ROOMCATEGORY_ID
+foreign-key
+    ROOMCATEGORY ID
+    BOOKING ROOMCATEGORY_ID
+foreign-key
+    ROOMCATEGORY ID
+    ROOM CATEGORY_ID
+...
+task <task> {
+    // Update primary key
+    update ROOMCATEGORY
+        mask ID ROOMCATEGORY_ID
+            format %d
+            unique
+            sequence -1 1
+            temporary-value 999999
+            // Update the foreign key values to the same
+            propagate HOTELROOMCATEGORY.ROOMCATEGORY_ID, BOOKING.ROOMCATEGORY_ID, ROOM.CATEGORY_ID
+}
+```
+
+</TabItem>
+
+</Tabs>

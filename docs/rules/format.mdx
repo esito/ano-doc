@@ -1,42 +1,52 @@
 ---
-sidebar_position: 4
-sidebar_label: Format
+sidebar_position: 10
+sidebar_label: How to Format Results
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# `format`
+# How to `format` Results
 
 :::tip Goal
-Denote the masking result using `format`
+The goal of `format` is to let you write how the anonymization results should be formatted when stored in the database.
 
-- may be a combination of literal string values and format string values using [java.util.Formatter](https://dzone.com/articles/java-string-format-examples)
-- Use "" if there are spaces
-  - e.g. `"%s %s"`
+It may be a combinaton of literal string values and format strings and uses [java.util.Formatter](https://dzone.com/articles/java-string-format-examples).
 
+**Note:** When a transformation method is defined for a rule, the formatted value is the input to the transformation method. The output of the transformation is then stored in the database.
 :::
 
-### `format` - Format Types
+## Java Formatter Documentation
+
+For a thorough guide on the definiton of different flags (e.g. `%f`, `%tT`, ... ), see [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+
+## Deciding the format
+
+The column type in your table decides the format. Checks and specifications of the internal structure of each data value can be customized using the format string, and by writing custom transformation methods.
+
+### `format` - Common Flags
 
 <table width="100%" >
+<thead>
 <tr>
 <th width="15%">
 
-Format
+Format Specifier
 
 </th>
 <th width="15%">
 
-Input
+Type
 
 </th>
 <th >
 
-Use format with following generated value source types:
+Anonymization Input Sources
 
 </th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td>
 
@@ -50,8 +60,7 @@ String
 </td>
 <td>
 
-- `file`
-- `column`
+`file`, `column`
 
 </td>
 </tr>
@@ -68,15 +77,14 @@ Integer
 </td>
 <td >
 
-- `sequence`
-- `random-integer`
+`random-integer`, `sequence`, `randomize` (integer)
 
 </td>
 </tr>
 <tr>
 <td>
 
-%f
+%f, %.2f
 
 </td>
 <td>
@@ -86,7 +94,7 @@ Decimal
 </td>
 <td >
 
-- `random-decimal`
+`random-decimal`, `randomize` (decimal)
 
 </td>
 </tr>
@@ -103,9 +111,7 @@ Date
 </td>
 <td >
 
-- `random-date`
-
-"yyyy-MM-dd" (ISO 8601 formatted dates)
+`random-date`, `randomize` (date): "yyyy-MM-dd" (ISO 8601 formatted dates)
 
 </td>
 </tr>
@@ -122,9 +128,7 @@ Time
 </td>
 <td >
 
-- `random-time`
-
-"HH:mm:ss" (24-hour time format)
+`random-time`, `randomize` (time): "HH:mm:ss" (24-hour time format)
 
 </td>
 </tr>
@@ -141,22 +145,156 @@ DateTime
 </td>
 <td >
 
-- `random-datetime`
-
-"yyyy-MM-dd HH:mm:ss" (Database Timestamp format)
+`random-datetime`, `randomize` (datetime): "yyyy-MM-dd HH:mm:ss" (Database Timestamp format)
 
 </td>
 </tr>
+</tbody>
 </table>
 
-## Notes
+For more format specifier examples, see [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+
+### Note
 
 - Without any format specifications the value is regarded as a constant.
 - The text constant NULL is regarded as SQL NULL.
-- Each format parameter must be mached with one input source. Eiher:
-  - `random-[type]`
-  - `file`
-  - `column`
-  - `sequence`
+- Each format specifier must be mached with one input source.
 
-See more examples at [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+### Common ANO Examples
+
+<Tabs
+  defaultValue="integers/decimals"
+  values={[
+    { label: 'Integer / Decimal Columns', value: 'integers/decimals' },
+    { label: 'String Columns', value: 'strings' },
+    { label: 'Date Columns', value: 'dates' },
+    { label: 'Time Columns', value: 'times' },
+    { label: 'DateTime Columns', value: 'datetimes' },
+  ]}
+>
+
+<TabItem value="integers/decimals">
+
+```ano
+...
+    <rule> <integer-column>
+        format %d               // stores as integers
+    ...
+    <rule> <decimal-column>
+        format %f               // stores as decimals
+    ...
+        format %.2f             // stores as decimals with 2 decimal places
+        ...
+...
+```
+
+</TabItem>
+
+<TabItem value="strings">
+
+```ano
+...
+    <rule> <string-column>
+        ...
+        format %s               // simple string
+    ...
+        format "%s"             // same results as simple string
+    ...
+        format "%d"             // integer stored as string
+    ...
+        format "hello world!"   // simple literal string
+    ...
+        format "hello %s!"      // literal + string
+    ...
+        format "+47 %d"         // literal ("+47 ") + integer is stored as a string
+    ...
+        format "%s: %d"         // String constructed from two input sources
+    ...
+...
+```
+
+</TabItem>
+
+<TabItem value="dates">
+
+```ano
+...
+    <rule> <date-column>
+        format %tF                      // “yyyy-MM-dd“ (ISO 8601 formatted date)
+        ...
+        format "%1$tY-%1$tm-%1$td“      // also yields “yyyy-MM-dd“
+        ...
+        format %1\$tY-%1\$tm-%1\$td     // also yields “yyyy-MM-dd“
+        ...
+        format %tD	                    // "%tm/%td/%ty"
+        ...
+        format "%1$tm/%1$td/%1$ty"      // also yields "%tm/%td/%ty"
+...
+```
+
+</TabItem>
+
+<TabItem value="times">
+
+```ano
+...
+    <rule> <time-column>
+        format %tT                      // “HH:mm:ss“ (24-hours time format)
+        ...
+        format "%1$tH:%1$tM:%1$tS"      // also yields “HH:mm:ss“
+...
+```
+
+</TabItem>
+
+<TabItem value="datetimes">
+
+```ano
+...
+    <rule> <datetime-column>
+        format "%1\$tF %1\$tT"             // “yyyy-MM-dd HH:mm:ss“ (Database timestamp format)
+        ...
+        format "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"  // also yields “yyyy-MM-dd HH:mm:ss“
+...
+```
+
+</TabItem>
+</Tabs>
+
+## Integers and Decimals
+
+### Integers
+
+Use `%d`
+
+### Decimals
+
+Either use `%f` or `%.nf`, where `n` is the number of decimal places (e.g. `%.2f` for 2 decimal places).
+
+## Text Strings
+
+Either use `%s` or `"..."`. When using double quotes, you can write any of combination of format specifiers and literals into the string.
+
+Make sure each format specifier is matched with an input source (e.g. [Mask - Input Sources](./mask/overview-mask#types-of-input-sources)).
+
+## Dates, Times and Datetime
+
+### Dates
+
+Dates are usually stored with the ISO 8601 standard format `yyyy-MM-dd`. In this case use the format specifier `%tF`.
+
+If the format is different, check out [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+
+### Times
+
+Times are usually stored with the 24-Hour format `HH:mm:ss`. In this case use the format specifier `%tT`.
+
+If the format is different, check out [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+
+### Datetimes
+
+Datetimes are usually stored with the database timestamp format `yyyy-MM-dd HH:mm:ss`. In this case use the format specifier `%1\$tF %1\$tT`.
+
+If the format is different, check out [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
+
+## Using Transformations

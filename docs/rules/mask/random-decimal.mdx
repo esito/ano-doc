@@ -15,7 +15,18 @@ Write `mask` rule logic to
 
 :::
 
-## Code structure
+## Code Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+	{ label: 'Create Example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
 
 ```ano
         ...
@@ -25,18 +36,7 @@ Write `mask` rule logic to
         ...
 ```
 
-- Specify desired format output format
-- `<from>` and `<to>` values are included in the generated values.
-
-## `create` and `update` examples:
-
-<Tabs
-  defaultValue="update"
-  values={[
-    { label: 'update example', value: 'update' },
-	{ label: 'create example', value: 'create' },
-  ]}
->
+</TabItem>
 
 <TabItem value="update">
 
@@ -81,6 +81,4 @@ task ... {
 
 </Tabs>
 
-## Formatting
-
-If desired result is different than decimal, simply change the format string.
+- `<from>` and `<to>` values are included in the generated values.
