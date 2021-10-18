@@ -63,6 +63,8 @@ Use `map` when table values is to be anonymized equally across
         ...
 ```
 
+#### `structure`
+
 - The type of `<input-source>` does not matter. It may be a `file`, `random-[type]`, `randomize-[type]`, `shuffle`, etc.
 - The result from the `<format-string>` is what is stored into the mapping file as `anonymized_data`
 
@@ -79,7 +81,9 @@ Use `map` when table values is to be anonymized equally across
 
 ```
 
-1. Creates anonymizated values using values from `src/main/resources/address.txt`
+#### `output`
+
+1. Creates anonymized values using values from `src/main/resources/address.txt`
 2. Save the anonymizations as mappings of the form `real_data=anonymized_data` into `address_map.txt`
 
 </TabItem>
@@ -95,6 +99,8 @@ Use `map` when table values is to be anonymized equally across
                 map address_map.txt input
     ...
 ```
+
+#### `input`
 
 1. Anonymize values using mappings in `address_map.txt`
 2. If mappings does not exist, then create new anonymizations using values from the input-source `src/main/resources/address.txt`
@@ -113,6 +119,8 @@ Use `map` when table values is to be anonymized equally across
                 map address_map.txt input-output
     ...
 ```
+
+#### `input-output`
 
 1. Anonymize values using mappings in `address_map.txt`
 2. If mappings does not exist, then create a new anonymizations using values from the input-source `src/main/resources/address.txt`

@@ -7,26 +7,14 @@ id: faqs
 # FAQs - Frequently Asked Questions
 <!-- markdownlint-disable MD033 - makes html allowed -->
 
-<details>
-<summary>
-<b>Q1 What is this?</b></summary>
-lorem ispum
-asd
-</details>
+## Is Anonymizer standalone, or must it be integrated into my Software?
 
-<details>
-<summary>
-<b>Q2 What is this really?</b></summary>
-lorem ispum
-asd
-</details>
+Anonymizer provides a standalone application through the DBmasker Service.
+It does not need to be integrated into your own software or applications.
+It is it meant to be run against your database only. And only when a database needs anonymization.
+e.g. every time a database is copied from production to the test or development databases.
 
-&nbsp;
+## How can DBmasker be run against my database?
 
-## Q3 som other question?
-
-lorem ispum
-
-## Q4 som other question?
-
-lorem ispum
+You provide the database connector and the database connection string to the generated DBmasker application.
+The database connector is specified inside the `pom.xml`, and the connection string is specified in the `src/main/resources/config.properties` file.
