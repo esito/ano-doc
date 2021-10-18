@@ -9,12 +9,116 @@ import TabItem from '@theme/TabItem';
 # How to `format` Results
 
 :::tip Goal
-The goal of `format` is to let you write how the anonymization results should be formatted when stored in the database.
+The goal of `format` is to let you write how the anonymization results should be formatted as the output from the anonyimzation rule.
 
-It may be a combinaton of literal string values and format strings and uses [java.util.Formatter](https://dzone.com/articles/java-string-format-examples).
+It may be a combinaton of format specifiers (`%d`, `%s`, etc.) and literal string values, and uses [java.util.Formatter](https://dzone.com/articles/java-string-format-examples).
 
-**Note:** When a transformation method is defined for a rule, the formatted value is the input to the transformation method. The output of the transformation is then stored in the database.
+- Each format specifier refers, in most cases, to one input source. See the `datetime` example for an exception to this.
+- The output of the format string is what is stored in the database
+- **Note:** When a transformation method is defined for a rule, the formatted value is the input to the transformation method. The output of the transformation is then stored in the database
+
 :::
+
+### ANO `format` string Examples
+
+<Tabs
+  defaultValue="integers/decimals"
+  values={[
+    { label: 'Integer / Decimal Columns', value: 'integers/decimals' },
+    { label: 'String Columns', value: 'strings' },
+    { label: 'Date Columns', value: 'dates' },
+    { label: 'Time Columns', value: 'times' },
+    { label: 'DateTime Columns', value: 'datetimes' },
+  ]}
+>
+
+<TabItem value="integers/decimals">
+
+```ano
+...
+    <rule> <integer-column>
+        format %d               // output as integers
+    ...
+    <rule> <decimal-column>
+        format %f               // output as decimals
+    ...
+        format %.2f             // output as decimals with 2 decimal places
+        ...
+...
+```
+
+</TabItem>
+
+<TabItem value="strings">
+
+```ano
+...
+    <rule> <string-column>
+        ...
+        format %s               // simple string
+    ...
+        format "%s"             // same results as simple string
+    ...
+        format "%d"             // integer stored as string
+    ...
+        format "hello world!"   // simple literal string
+    ...
+        format "hello %s!"      // literal + string
+    ...
+        format "+47 %d"         // literal ("+47 ") + integer is stored as a string
+    ...
+        format "%s: %d"         // String constructed from two input sources
+    ...
+...
+```
+
+</TabItem>
+
+<TabItem value="dates">
+
+```ano
+...
+    <rule> <date-column>
+        format %tF                      // “yyyy-MM-dd“ (ISO 8601 formatted date)
+        ...
+        format "%1$tY-%1$tm-%1$td“      // also yields “yyyy-MM-dd“
+        ...
+        format %1\$tY-%1\$tm-%1\$td     // also yields “yyyy-MM-dd“
+        ...
+        format %tD	                    // "%tm/%td/%ty"
+        ...
+        format "%1$tm/%1$td/%1$ty"      // also yields "%tm/%td/%ty"
+...
+```
+
+</TabItem>
+
+<TabItem value="times">
+
+```ano
+...
+    <rule> <time-column>
+        format %tT                      // “HH:mm:ss“ (24-hours time format)
+        ...
+        format "%1$tH:%1$tM:%1$tS"      // also yields “HH:mm:ss“
+...
+```
+
+</TabItem>
+
+<TabItem value="datetimes">
+
+```ano
+...
+    <rule> <datetime-column>
+        format "%1\$tF %1\$tT"             // “yyyy-MM-dd HH:mm:ss“ (Database timestamp format)
+        ...
+        format "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"  // also yields “yyyy-MM-dd HH:mm:ss“
+...
+```
+
+</TabItem>
+</Tabs>
 
 ## Java Formatter Documentation
 
@@ -159,107 +263,6 @@ For more format specifier examples, see [Java String Format Examples](https://dz
 - Without any format specifications the value is regarded as a constant.
 - The text constant NULL is regarded as SQL NULL.
 - Each format specifier must be mached with one input source.
-
-### Common ANO Examples
-
-<Tabs
-  defaultValue="integers/decimals"
-  values={[
-    { label: 'Integer / Decimal Columns', value: 'integers/decimals' },
-    { label: 'String Columns', value: 'strings' },
-    { label: 'Date Columns', value: 'dates' },
-    { label: 'Time Columns', value: 'times' },
-    { label: 'DateTime Columns', value: 'datetimes' },
-  ]}
->
-
-<TabItem value="integers/decimals">
-
-```ano
-...
-    <rule> <integer-column>
-        format %d               // stores as integers
-    ...
-    <rule> <decimal-column>
-        format %f               // stores as decimals
-    ...
-        format %.2f             // stores as decimals with 2 decimal places
-        ...
-...
-```
-
-</TabItem>
-
-<TabItem value="strings">
-
-```ano
-...
-    <rule> <string-column>
-        ...
-        format %s               // simple string
-    ...
-        format "%s"             // same results as simple string
-    ...
-        format "%d"             // integer stored as string
-    ...
-        format "hello world!"   // simple literal string
-    ...
-        format "hello %s!"      // literal + string
-    ...
-        format "+47 %d"         // literal ("+47 ") + integer is stored as a string
-    ...
-        format "%s: %d"         // String constructed from two input sources
-    ...
-...
-```
-
-</TabItem>
-
-<TabItem value="dates">
-
-```ano
-...
-    <rule> <date-column>
-        format %tF                      // “yyyy-MM-dd“ (ISO 8601 formatted date)
-        ...
-        format "%1$tY-%1$tm-%1$td“      // also yields “yyyy-MM-dd“
-        ...
-        format %1\$tY-%1\$tm-%1\$td     // also yields “yyyy-MM-dd“
-        ...
-        format %tD	                    // "%tm/%td/%ty"
-        ...
-        format "%1$tm/%1$td/%1$ty"      // also yields "%tm/%td/%ty"
-...
-```
-
-</TabItem>
-
-<TabItem value="times">
-
-```ano
-...
-    <rule> <time-column>
-        format %tT                      // “HH:mm:ss“ (24-hours time format)
-        ...
-        format "%1$tH:%1$tM:%1$tS"      // also yields “HH:mm:ss“
-...
-```
-
-</TabItem>
-
-<TabItem value="datetimes">
-
-```ano
-...
-    <rule> <datetime-column>
-        format "%1\$tF %1\$tT"             // “yyyy-MM-dd HH:mm:ss“ (Database timestamp format)
-        ...
-        format "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"  // also yields “yyyy-MM-dd HH:mm:ss“
-...
-```
-
-</TabItem>
-</Tabs>
 
 ## Integers and Decimals
 

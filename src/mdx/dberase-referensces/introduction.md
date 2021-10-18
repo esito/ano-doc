@@ -40,6 +40,9 @@ The two services we provide are
 
 - **DBmasker**: Helps you anonymize (a copy of) your entire database.
   - Provides you with an application that masks data according to your logic. Whenever you copy your production database to test or development environments, you simply run this application against the database copy in test and development environments.
+- **DBerase**: Helps your customers erase personal data in production database.
+  - Provides you a web service with a REST endpoint against your production database. According to your logic, you can either delete, mask or decouple customer data on request.
+
 
 &nbsp;
 

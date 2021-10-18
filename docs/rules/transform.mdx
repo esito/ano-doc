@@ -1,0 +1,132 @@
+---
+sidebar_position: 14
+sidebar_label: Transform
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `transform` and transformation functions
+
+:::tip Goal
+Use the `transform` keyword to refer to an in-built or a custom transformation function. The transformation is performed after the anonyization rule logic, on the output of the anonyzation rule (while convertions are performed before). e.g. to the result of the format string of a `mask` rule.
+
+- A transformation takes a string as input, and produces a string as output.
+- When a transformation is used, the output of the transformation is stored directly to the database.
+
+:::
+
+## Ano Structure and Examples
+
+<Tabs
+  defaultValue="inbuilt-structure"
+  values={[
+    { label: 'In-Built Structure', value: 'inbuilt-structure' },
+	{ label: 'Custom Structure', value: 'custom-structure' },
+    { label: 'In-Built Example', value: 'inbuilt-example' },
+	{ label: 'Custom Example', value: 'custom-example' },
+  ]}
+>
+
+<TabItem value="inbuilt-structure">
+
+```ano
+...
+    update <table>
+        mask <column>
+            format "%s random literal"
+            transform <tranformation-function>
+            unique
+            column <column>
+...
+```
+
+</TabItem>
+
+<TabItem value="custom-structure">
+
+```ano
+... // importing custom function
+transformation <package-location>.<transformation-function>
+...
+task <task> {
+...
+    update <table>
+        mask <column>
+            format "%s random literal"
+            transform <tranformation-function>
+            unique
+            column <column>
+...
+}
+```
+
+</TabItem>
+
+<TabItem value="inbuilt-example">
+
+```ano
+...
+    update CUSTOMER
+        mask EMAIL
+            format "%s"
+            transform Email
+            unique
+            column NAME
+...
+```
+
+</TabItem>
+
+<TabItem value="custom-example">
+
+```ano
+... // importing custom function
+transformation example.anonymizer.transformations.PostCodeGeneralization
+...
+task <task> {
+...
+    update ADDRESS
+        mask POSTALCODE ADDRESS_POSTALCODE
+            format %s
+            transform PostCodeGeneralization
+            column POSTALCODE
+...
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+- **In-Built Structure:** Take the original `<column>` values as string values, append `" random literal"` to them, and then pass this through a `<transformation-function>`. The result is stored back to the column.
+- **Custom Transformation:** If the transformation function is not one of the in-built ones, but is custom made, make sure to import it in the `.ano` file using the `transformation` keyword.
+
+## In-Built transformation functions
+
+- Email - Translates whitespace, hyphen and underscores and removes other special characters. This results in a valid email address
+- CreditCard - Adjusts the last digit for MOD10 validation
+
+### Email
+
+The output of the format string is parsed in the following way:
+
+- Letters `a-z` are cast to lower case, but remains unchanged
+- Numbers `0-9` remains unchanged
+- Norwegian letters are replaced: `æ`->`ae`, `ø`->`oe`, `å`->`aa`
+- Whitespaces ` `, hyphens `-` and underscores `_` are replaced by a point `.`
+- Consecutive points `..` are replaced by a single point `.`
+- If there is no at sign `@` in the string, then the literal `@mail.com` is appended to the end of the string
+  - Else if there is an at sign `@`, but it is the last character of the string, then the literal `mail.com` is appended
+  - Else if there is an at sign `@`, and it is not the last character of the string, then nothing is appended
+- All other characters are removed
+
+### CreditCard
+
+The output of the format string must contain only integers, e.g. "0123456789123456". It is parsed and the last digit is **replaced**.
+
+- The transfomration uses the Luhn algorithm for Credit Card encoding. It replaces the last digit for MOD10 validation.
+
+## Custom Transformations
+
+If you want to write your own transformation, see [Custom Transformations](../custom-code/custom-transformations) for details.

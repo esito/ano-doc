@@ -15,7 +15,7 @@ Write `mask` rule logic to
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -24,6 +24,7 @@ Write `mask` rule logic to
     { label: 'Update Example', value: 'update' },
 	{ label: 'Create Example', value: 'create' },
 	{ label: 'Different Format Example', value: 'different-format' },
+	{ label: 'Huge Number Example', value: 'huge-number' },
   ]}
 >
 
@@ -42,17 +43,16 @@ Write `mask` rule logic to
 <TabItem value="update">
 
 ```ano
-table ROOM
-    ...
-    column integer ROOMNO size 10
-    ...
-...
+table birth_certificate
+	column integer birth_pregnancy_week
+    column ...
+
 task ... {
-    update ROOM
+    update birth_certificate
         ...
-        mask ROOMNO ROOM_ROOMNO
-            format %d
-            random-integer 101 399
+		mask birth_pregnancy_week
+			format %d
+			random-integer 25 45
         ...
 }
 ```
@@ -62,20 +62,20 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table ROOM
-    ...
-    column integer ROOMNO size 10
-    ...
-...
+table birth_certificate
+	column integer birth_pregnancy_week
+    column ...
+
 task ... {
-    create ROOM
+    create birth_certificate
         minimum-rows 50
         ...
-        mask ROOMNO ROOM_ROOMNO
-            format %d
-            random-integer 101 399
+		mask birth_pregnancy_week
+			format %d
+			random-integer 25 45
         ...
 }
+
 ```
 
 </TabItem>
@@ -100,8 +100,33 @@ task ... {
 
 </TabItem>
 
+<TabItem value="huge-number">
+
+```ano
+
+task ... {
+    update <table>
+        ...
+        mask <column>
+            format "%d%d"                    // 16 digit number
+            random-integer 10001000 99909990 // 8 digit number
+            random-integer 10001000 99909990 // 8 digit number
+        ...
+}
+```
+
+</TabItem>
+
 </Tabs>
 
 - `<from>` and `<to>` values are included in the generated values.
 - If desired result is different than integer, simply change the format string.
   - For strings, simply format with double quoutes `"%d"`, and the generated interger will become strings.
+
+## Limits
+
+- `random-integer` uses `java.lang.Integer`. Values can thus _only_ be generated from the range `[-2147483648, 2147483647]`, i.e. 9-10 digit numbers.
+
+### Workaround
+
+- If a larger or smaller value is sought than the allowed range, then use multiple 'random-integer' together, and concatenate them inside a string, as per example above.

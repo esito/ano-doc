@@ -1,9 +1,9 @@
 ---
 sidebar_position: 1
-sidebar_label: Custom ANOnymization Examples
+sidebar_label: Overview
 ---
 
-# ANOnymization Examples
+# Overview - Custom Implementation Examples
 
 <!-- markdownlint-disable MD033 - makes html allowed -->
 

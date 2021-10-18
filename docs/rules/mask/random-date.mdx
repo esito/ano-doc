@@ -13,10 +13,11 @@ Write `mask` rule logic to
 
 - generate **random dates** from an interval defined by `<from>` and `<to>` properties
 - The `random-date` function generates values having standard format `YYYY-MM-DD`.
+  - `%tF`
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -42,17 +43,16 @@ Write `mask` rule logic to
 <TabItem value="update">
 
 ```ano
-table HOTELROOMCATEGORY
+table birth_certificate
     ...
-    column date FROMDATE
+	column date birth_date
     ...
 ...
 task ... {
-    update HOTELROOMCATEGORY
-        ...
-        mask FROMDATE HOTELROOMCATEGORY_FROMDATE
-            format %s
-            random-date 2020-01-01 2022-12-31
+	update birth_certificate
+		mask birth_date
+			format %tF
+			random-date 2020-01-01 2021-12-31
         ...
 }
 ```
@@ -62,18 +62,16 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table HOTELROOMCATEGORY
+table birth_certificate
     ...
-    column date FROMDATE
+	column date birth_date
     ...
 ...
 task ... {
-    create HOTELROOMCATEGORY
-        minimum-rows 50
-        ...
-        mask FROMDATE HOTELROOMCATEGORY_FROMDATE
-            format %s
-            random-date 2020-01-01 2022-12-31
+	create birth_certificate minimum-rows 50
+		mask birth_date
+			format %tF
+			random-date 2020-01-01 2021-12-31
         ...
 }
 ```
@@ -84,4 +82,5 @@ task ... {
 
 - `<from>` and `<to>` values are included in the generated values.
   - Both are written using `YYYY-MM-DD format`
-- Since `random-date` creates values of the format `YYYY-MM-DD`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
+- `random-date` creates values of the format `YYYY-MM-DD`, the `%tF` will result in strings of this format. For different formats, see [Formats](#)
+- Note the lack of double quotes `"` around the values after the `random-date` keyword. This is the correct syntax.

@@ -9,34 +9,228 @@ import TabItem from '@theme/TabItem';
 # `convert`
 
 :::tip Goal
-Use the `convert` function when the a type convertion is needed.
+Use the `convert` keyword to refer to an in-built or a custom convertion function. A convertion is performed on values before the rest of the anonymization rule logic (while transformations are performed after).
+Use cases for `convert` are:
+
+- During `randomize` you need to ensure the type format of the column to add noise correctly.
+- During `mask` you need to convert an input source before performing the masking operation
+  - e.g. before creating a customized format string, combining input sources or passing the format result to a transformation function.
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
   values={[
     { label: 'Structure', value: 'structure' },
-	{ label: 'Example', value: 'one' },
+	{ label: 'Randomize Example', value: 'randomize' },
+	{ label: 'Mask Example', value: 'mask' },
   ]}
 >
 
 <TabItem value="structure">
 
 ```ano
-1
+    update <table>
+        mask <column>
+            format %s
+            column <column>
+                convert <convertion-function>
+        ...
+        randomize <colummn>
+            type <type>
+            format <format>
+            convert <convertion-function>
+            offset <offset>
+            flat-noise <flat-noise>
+            percentage-noise <percentage-noise>
+
 ```
 
 </TabItem>
 
-<TabItem value="one">
+<TabItem value="randomize">
 
 ```ano
-2
+        ...
+        randomize INITIALPRICE
+            type decimal
+            format %.2f
+            convert String2Decimal
+            offset 0.0
+            flat-noise 0.0
+            percentage-noise 1.0
+        ...
+```
+
+</TabItem>
+
+<TabItem value="mask">
+
+```ano
+... // importing custom functions
+conversion example.anonymizer.conversions.ParseDigits
+transformation example.anonymizer.transformations.PostCodeGeneralization
+...
+task <task> {
+    ...
+    update ADDRESS
+        mask POSTALCODE
+            format %s
+            column POSTALCODE
+                convert ParseDigits
+}
 ```
 
 </TabItem>
 
 </Tabs>
+
+## In-built Convertion functions
+
+All input to the randomize function is read as a string.
+Replace `<convertion-function>` with the correct convertion function, defined by the input source type and desired format:
+
+<table width="100%" >
+<thead>
+<tr>
+<th>
+
+Type
+
+</th>
+<th>
+
+Convertion Function
+
+</th>
+<th>
+
+Return type
+
+</th>
+<th >
+
+Expected format from convertion
+
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+
+Date
+
+</td>
+<td>
+
+String2Date
+
+</td>
+<td>
+
+java.time.LocalDate
+
+</td>
+<td>
+
+yyyy-MM-dd
+
+</td>
+</tr>
+<tr>
+<td>
+
+DateTime
+
+</td>
+<td>
+
+String2DateTime
+
+</td>
+<td>
+
+java.time.LocalDateTime
+
+</td>
+<td>
+
+yyyy-MM-dd HH:mm:ss
+
+</td>
+</tr>
+<tr>
+<td>
+
+Time
+
+</td>
+<td>
+
+String2Time
+
+</td>
+<td>
+
+java.time.Time
+
+</td>
+<td>
+
+HH:mm:ss
+
+</td>
+</tr>
+<tr>
+<td>
+
+Integer
+
+</td>
+<td>
+
+String2Integer
+
+</td>
+<td>
+
+java.lang.Integer
+
+</td>
+<td>
+
+Decimal integer with or without sign
+
+</td>
+</tr>
+<tr>
+<td>
+
+Decimal
+
+</td>
+<td>
+
+String2Decimal
+
+</td>
+<td>
+
+java.lang.Double
+
+</td>
+<td>
+
+Decimal number as accepted by the valueOf method in class Double
+
+</td>
+</tr>
+</tbody>
+</table>
+
+## Custom Convertions
+
+If you want to write your own convertions, see [Custom Convertions](../custom-code/custom-convertions) for details.
