@@ -9,9 +9,20 @@ import TabItem from '@theme/TabItem';
 # `propagate`
 
 :::tip Goal
-Use `propagate` to update foreign keys with the same value as the primary key anonymization. e.g. when changing the primary key (or a unique key) of a parent table, the foreign key column in child tables must also be updated. The association is preserved.
+Use `propagate` to anonymize values of a table column, and then do the same anonymization on the same values in other table columns.
+Useful for preserving foreign key constraints, and to ensure data integrity after anonymization is complete.
 
 :::
+
+## Use cases for `propagate`
+
+Use propagate when
+
+- there are a foreign key constraint(s) to the column you are anonymizing
+- when columns in different tables must be anonymized the same, even though there does not exist a foreign key constraint
+  - Without the foreign key constraint, you can ensure both tables are fully anonymized by
+    - first update the one table and `propagate` the update to the other table
+    - then update the other table with a `where` clause, so the updates are only performed on the subset of values that were not updated by the propagate
 
 ## Ano Structure and Examples
 
@@ -19,7 +30,9 @@ Use `propagate` to update foreign keys with the same value as the primary key an
   defaultValue="structure"
   values={[
     { label: 'Structure', value: 'structure' },
-	{ label: 'Example', value: 'example' },
+	{ label: 'Foreign Key Example', value: 'fk-example' },
+	{ label: 'No Foreign Key Example', value: 'nofk-example' },
+	{ label: 'Two Foreign Keys Example', value: 'two-fk-example' },
       ]}
 >
 
@@ -38,46 +51,124 @@ Use `propagate` to update foreign keys with the same value as the primary key an
 
 </TabItem>
 
-<TabItem value="example">
+<TabItem value="fk-example">
 
 ```ano
-table ROOMCATEGORY
+table Customer
+	column integer customerNo
+    primary-key customerNo
+    ...
+table Address
     column integer ID size 10
-    column ...
-    primary-key ID
-table BOOKING
-    column integer ID size 10
-    column integer ROOMCATEGORY_ID size 10  // the foreign key
-    column ...
-    primary-key ID
-table ROOM
-    column integer ID size 10
-    column integer CATEGORY_ID size 10      // the foreign key
+	column integer customer_customerNo
     column ...
     primary-key ID
 ...
 foreign-key
-    ROOMCATEGORY ID
-    BOOKING ROOMCATEGORY_ID
-foreign-key
-    ROOMCATEGORY ID
-    ROOM CATEGORY_ID
+	Customer customerNo
+	Address customer_customerNo
 ...
 task <task> {
-    // Update primary key
-    update ROOMCATEGORY
-        mask ID ROOMCATEGORY_ID
-            format %d
-            unique
-            sequence -1 1
-            temporary-value 999999
-            // Update the foreign key values to the same
-            propagate BOOKING.ROOMCATEGORY_ID, ROOM.CATEGORY_ID
+    // Update primary key and propagate to the foreign key
+	update Customer
+		mask customerNo
+			format %d
+			unique
+			sequence 1000 1
+			temporary-value 999999
+			propagate Address.customer_customerNo
 }
 ```
+
+#### Foreign Key Example
+
+Note that `Address` have a foreign key constraint to `Customer`, so every `Address.customer_customerNo` value must exist in `Customer.customerNo`
+
+- We update `customerNo` in parent table `Customer`, and propagate the update to child table `Address`.
+
+</TabItem>
+
+<TabItem value="nofk-example">
+
+```ano
+table Customer
+	column integer customerNo
+    primary-key customerNo
+    ...
+table Address
+    column integer ID size 10
+	column integer customer_customerNo
+    column ...
+    primary-key ID
+...
+task <task> {
+	update Customer
+		mask customerNo
+			format %d
+			unique
+			sequence 1000 1
+			temporary-value 999999
+			propagate Address.customer_customerNo
+
+	update Address
+		where "Address.customer_customerNo NOT IN (SELECT DISTINCT Customer.customerNo FROM Customer)"
+		mask customer_customerNo
+			format %d
+			unique
+			sequence 100 1
+			temporary-value 999999
+}
+```
+
+#### No Foreign Key Example
+
+There is no foreign key constraint on `Address` to `Customer`. This means values of `Address.customer_customerNo` may or may not exist in `Customer.customerNo`.
+
+- When they exists, then update the values through `propagate`
+- When they do not exist, then update the values separately, using a `where` clause. The `where` clause allows us to only update values in `Address` not hit by the propagate from `Customer`
+
+</TabItem>
+
+<TabItem value="two-fk-example">
+
+```ano
+table Customer
+	column integer customerNo
+    primary-key customerNo
+    ...
+table Address
+    column integer ID size 10
+	column integer customer_customerNo
+    column ...
+table Booking
+	column integer id
+	column integer customer_customerNo
+    column ...
+...
+foreign-key
+	Customer customerNo
+	Booking customer_customerNo
+foreign-key
+	Customer customerNo
+	Address customer_customerNo
+
+task <task> {
+	update Customer
+		mask customerNo
+			format %d
+			unique
+			sequence 1000 1
+			temporary-value 999999
+			propagate Address.customer_customerNo, Booking.customer_customerNo
+}
+```
+
+#### Two Foreign Keys Example
+
+Both `Booking` and `Address` have foreign key constraints to `Customer`
+
+- When updating `customerNo` in `Customer`, then `propagate` `customer_customerNo` to both `Booking` and `Address`.
 
 </TabItem>
 
 </Tabs>
-
-- **Example:** Note that `ROOMCATEGORY` is a parent table to both `BOOKING` and `ROOM` child tables. Meaning that the `ID` column of `ROOMCATEGORY` is referred to by both child tables. When we change the values of the `ID` in the parent, all occurences of the `ID` must also be changed in the foreign key columns of the child tables. This is what `propagate` is doing.
