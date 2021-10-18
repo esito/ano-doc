@@ -17,7 +17,7 @@ Write `mask` rule logic to
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -43,17 +43,16 @@ Write `mask` rule logic to
 <TabItem value="update">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column time EARLIESTCHECKINTIME
+  	column time birth_time
     ...
 ...
 task ... {
-    update BOOKING
-        ...
-        mask EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
-            format %s
-            random-time 12:00:00 13:00:00
+	  update birth_certificate
+		    mask birth_time
+			      format %tT
+			      random-time 00:00:00 23:59:59
         ...
 }
 ```
@@ -63,18 +62,16 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column time EARLIESTCHECKINTIME
+  	column time birth_time
     ...
 ...
 task ... {
-    create BOOKING
-        minimum-rows 50
-        ...
-        mask EARLIESTCHECKINTIME BOOKING_EARLIESTCHECKINTIME
-            format %s
-            random-time 12:00:00 13:00:00
+	  create birth_certificate minimum-rows 50
+		    mask birth_time
+			      format %tT
+			      random-time 00:00:00 23:59:59
         ...
 }
 ```
@@ -85,4 +82,5 @@ task ... {
 
 - `<from>` and `<to>` values are included in the generated values.
   - Both are written using the format "HH:mm:ss" (24-hour time format)
-- Since random-time creates values of the format `HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
+- `random-time` creates values of the format `HH:mm:ss`, the `%tT` will result in strings of this format. For different formats, see [Formats](#)
+- Note the lack of double quotes `"` around the values after the `random-time` keyword. This is the correct syntax.

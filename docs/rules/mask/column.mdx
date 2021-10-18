@@ -15,13 +15,14 @@ Write `mask` rule logic to
 
 :::
 
-## Code Structure
+## Ano Structure and Example
 
 <Tabs
   defaultValue="structure"
   values={[
     { label: 'Structure', value: 'structure' },
-    { label: 'Update Example', value: 'update' }
+    { label: 'Update Example', value: 'update' },
+    { label: 'Update with Convert Example', value: 'update-convert' },
   ]}
 >
 
@@ -52,6 +53,25 @@ task ... {
             format %s
             column FROMDATE
         ...
+}
+```
+
+</TabItem>
+
+<TabItem value="update-convert">
+
+```ano
+table birth_certificate
+    ...
+	  column text personal_number size 11
+    ...
+...
+task ... {
+	  update birth_certificate
+		    mask personal_number
+			      format "%1$td%1$tm%1$ty12345" // Using date format specifiers requires convert String2Date
+			      column birth_date
+				        convert String2Date
 }
 ```
 

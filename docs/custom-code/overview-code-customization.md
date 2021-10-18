@@ -1,9 +1,9 @@
 ---
 sidebar_position: 1
-sidebar_label: Code Structure and Customization
+sidebar_label: Overview
 ---
 
-# Code Structure and Customization
+# Code Structure and Customization Overview
 
 By using our DBMasker Service, you will generate a Java 8 application based upon the provided `.ano` file. You are invited to implement customized masking/anonymization logic into this Java 8 application.
 

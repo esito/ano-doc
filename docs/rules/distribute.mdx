@@ -9,14 +9,14 @@ import TabItem from '@theme/TabItem';
 # `distribute`
 
 :::tip Goal
-Use the `distribute` rule to populate foreign key columns using actual primary-key values in the parent table.
+Use the `distribute` rule to populate foreign key columns in child tables by only using primary-key (or unique key) values existing in parent tables.
 
-- Ensures consistency when performing anonymizations in tables containing foreign keys.
-- Use a distribution function to define what conditions must be satisfied on the foreign key distribution.
+- Ensures that all values in the foreign key columns refers to actual key values in the parent tables.
+- Uses a `<distribution function>` to define what conditions must be satisfied on the foreign key distribution.
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -134,3 +134,7 @@ task <task> {
 - **EvenWithDeviation** - Even spread with deviation for occurrence of parents
   - takes a number as a param on the table level
 - **SimpleSpread** - Foreign key columns are randomly assigned among possible existing values in the parent table
+
+## Custom Distributions
+
+If you want to write your own distribution, see [Custom Distributions](../custom-code/custom-distributions) for details.

@@ -15,7 +15,7 @@ Write `mask` rule logic to
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -41,18 +41,15 @@ Write `mask` rule logic to
 <TabItem value="update">
 
 ```ano
-table HOTELROOMCATEGORY
-    ...
-    column decimal ACTUALPRICE size 10  scale 2
-    ...
+table birth_certificate
+	column ...
+	column decimal birth_weight
 ...
 task ... {
-    update HOTELROOMCATEGORY
-        ...
-        mask ACTUALPRICE HOTELROOMCATEGORY_ACTUALPRICE
-            format %f
-            random-decimal 499.00 2599.00
-        ...
+    update birth_certificate
+        mask birth_weight
+            format %.2f
+            random-decimal 2500 5500
 }
 ```
 
@@ -61,19 +58,15 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table HOTELROOMCATEGORY
-    ...
-    column decimal ACTUALPRICE size 10  scale 2
-    ...
+table birth_certificate
+	column ...
+	column decimal birth_weight
 ...
 task ... {
-    create HOTELROOMCATEGORY
-        minimum-rows 50
-        ...
-        mask ACTUALPRICE HOTELROOMCATEGORY_ACTUALPRICE
-            format %f
-            random-decimal 499.00 2599.00
-        ...
+    create birth_certificate minimum-rows 50
+        mask birth_weight
+            format %.2f
+            random-decimal 2500 5500
 }
 ```
 

@@ -13,11 +13,11 @@ Write `mask` rule logic to
 
 - generate **random datetimes** from an interval defined by `<from>` and `<to>` properties
 - The `random-datetime` function generates values having format `yyyy-MM-dd HH:mm:ss` (Database Timestamp format)
-  - `%1\$tF %1\$tT`
+  - `"%1$tF %1$tT"`
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -33,7 +33,7 @@ Write `mask` rule logic to
 ```ano
         ...
         mask <column> <rule-name>
-            format %1\$tF %1\$tT
+            format "%1$tF %1$tT"
             random-datetime <from> <to>      // [<from>, <to>]
         ...
 ```
@@ -43,18 +43,17 @@ Write `mask` rule logic to
 <TabItem value="update">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column datetime BOOKINGCREATED
+    column datetime created
     ...
 ...
 task ... {
-    update BOOKING
-        ...
-        mask BOOKINGCREATED BOOKING_BOOKINGCREATED
-            format %1\$tF %1\$tT
-            random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
-        ...
+	  update birth_certificate
+  		mask created
+		    	format "%1$tF %1$tT"
+			    random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
+      ...
 }
 ```
 
@@ -63,19 +62,17 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column datetime BOOKINGCREATED
+    column datetime created
     ...
 ...
 task ... {
-    create BOOKING
-        minimum-rows 50
-        ...
-        mask BOOKINGCREATED BOOKING_BOOKINGCREATED
-            format %1\$tF %1\$tT
-            random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
-        ...
+	  create birth_certificate minimum-rows 50
+  		mask created
+		    	format "%1$tF %1$tT"
+			    random-datetime 2020-01-01 07:00:00 2020-01-15 23:59:59
+      ...
 }
 ```
 
@@ -85,4 +82,5 @@ task ... {
 
 - `<from>` and `<to>` values are included in the generated values.
   - Both are written using the format `yyyy-MM-dd HH:mm:ss` (Database Timestamp format)
-- Since random-datetime creates values of the format `yyyy-MM-dd HH:mm:ss`, the `%s` will result in strings of this format. For different formats, see [Formats](#)
+- `random-datetime` creates values of the format `yyyy-MM-dd HH:mm:ss`, the `"%1$tF %1$tT"` will result in strings of this format. For different formats, see [Formats](#)
+- Note the lack of double quotes `"` around the values after the `random-datetime` keyword. This is the correct syntax.

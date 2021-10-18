@@ -17,7 +17,7 @@ Write `mask` rule logic using the `sequence` input source to
 
 :::
 
-## Code Structure
+## Ano Structure and Examples
 
 <Tabs
   defaultValue="structure"
@@ -36,7 +36,7 @@ Write `mask` rule logic using the `sequence` input source to
             format %d
             unique
             sequence <start> <increment>
-            temporary-value 999999 // optional
+            temporary-value 999999 // optional temporary value for a not null constraint
         ...
 ```
 
@@ -45,20 +45,21 @@ Write `mask` rule logic using the `sequence` input source to
 <TabItem value="update">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column integer ID size 10
+    column integer ID
+    column integer alternative_ID
     ...
     primary-key ID
 ...
 task ... {
-    update BOOKING
+    update birth_certificate
         ...
-        mask ID
-            format %d
-            unique
-            sequence -1 1
-            temporary-value 999999
+		mask alternative_ID
+			format %d
+			unique
+			sequence -1 1
+			temporary-value 999999
 }
 ```
 
@@ -67,21 +68,21 @@ task ... {
 <TabItem value="create">
 
 ```ano
-table BOOKING
+table birth_certificate
     ...
-    column integer ID size 10
+    column integer ID
+    column integer alternative_ID
     ...
     primary-key ID
 ...
 task ... {
-    create BOOKING
-        minimum-rows 100
+	create birth_certificate minimum-rows 50
         ...
-        mask ID
-            format %d
-            unique
-            sequence -1 1
-            temporary-value 999999
+		mask alternative_ID
+			format %d
+			unique
+			sequence 100000 1
+			temporary-value 999999
 }
 ```
 
