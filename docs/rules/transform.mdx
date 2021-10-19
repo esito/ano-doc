@@ -9,61 +9,68 @@ import TabItem from '@theme/TabItem';
 # `transform` and transformation functions
 
 :::tip Goal
-Use the `transform` keyword to refer to an in-built or a custom transformation function. The transformation is performed after the anonyization rule logic, on the output of the anonyzation rule (while convertions are performed before). e.g. to the result of the format string of a `mask` rule.
+Use `transform` to parse the values created by the anonymization rule. The transform is a java function that takes the output of the `format` string as input, and processes them before storing the results to the database.
 
-- A transformation takes a string as input, and produces a string as output.
-- When a transformation is used, the output of the transformation is stored directly to the database.
+The difference between a `convert` and a `transform` is that a `convert` is done on an `input source` and a `transform` is done on the output of the anonymization rule, i.e. the output of the `format` string.
 
 :::
+
+## Use cases for `transform`
+
+Use `transform` to ensure that the generated anonymized data follows business specific structural rules.
 
 ## Ano Structure and Examples
 
 <Tabs
-  defaultValue="inbuilt-structure"
+  defaultValue="structure"
   values={[
-    { label: 'In-Built Structure', value: 'inbuilt-structure' },
+    { label: 'Structure', value: 'structure' },
 	{ label: 'Custom Structure', value: 'custom-structure' },
-    { label: 'In-Built Example', value: 'inbuilt-example' },
-	{ label: 'Custom Example', value: 'custom-example' },
+    { label: 'Email transform Example', value: 'email-example' },
+	{ label: 'CreditCard transform Example', value: 'credit-card-example' },
   ]}
 >
 
-<TabItem value="inbuilt-structure">
+<TabItem value="structure">
 
 ```ano
 ...
-    update <table>
-        mask <column>
-            format "%s random literal"
-            transform <tranformation-function>
-            unique
-            column <column>
+        <rule> <column>
+            format %s
+            transform <tranformation>
+            <input-source>
 ...
 ```
+
+- Passes the value of `%s` to the `<transformation>` function. The result is then stored database.
 
 </TabItem>
 
 <TabItem value="custom-structure">
 
 ```ano
-... // importing custom function
-transformation <package-location>.<transformation-function>
-...
+transformation <package-location>.<transformation>
+
 task <task> {
-...
-    update <table>
-        mask <column>
-            format "%s random literal"
-            transform <tranformation-function>
-            unique
-            column <column>
-...
+    ...
+        <rule> <column>
+            format %s
+            transform <tranformation>
+            <input-source>
 }
 ```
 
+- **Custom Transformation:** If you use a custom transformation and not an built in one, then import it in the `.ano` file using the `transformation` keyword
+- import the custom function from its package in the java project
+
+
+- `transformation example.anonymizer.transformations.PostCodeGeneralization
+
+  `
+
 </TabItem>
 
-<TabItem value="inbuilt-example">
+<TabItem value="email-example">
 
 ```ano
 ...
@@ -78,54 +85,51 @@ task <task> {
 
 </TabItem>
 
-<TabItem value="custom-example">
+<TabItem value="credit-card-example">
 
 ```ano
-... // importing custom function
-transformation example.anonymizer.transformations.PostCodeGeneralization
-...
-task <task> {
-...
-    update ADDRESS
-        mask POSTALCODE ADDRESS_POSTALCODE
-            format %s
-            transform PostCodeGeneralization
-            column POSTALCODE
-...
-}
+    update Customer
+        mask CreditCard
+            format "%d%d"
+            transform CreditCard
+            random-integer 40005000 60000000
+            random-integer 10001000 99919991
 ```
+
+- Note that in order to produce 16 digit integer, we must produce 2 integers of 8 size each, and concatenate them in a string. This is because of the size limit of the Java.lang.Integer class in Java.
 
 </TabItem>
 
 </Tabs>
 
-- **In-Built Structure:** Take the original `<column>` values as string values, append `" random literal"` to them, and then pass this through a `<transformation-function>`. The result is stored back to the column.
-- **Custom Transformation:** If the transformation function is not one of the in-built ones, but is custom made, make sure to import it in the `.ano` file using the `transformation` keyword.
-
-## In-Built transformation functions
-
-- Email - Translates whitespace, hyphen and underscores and removes other special characters. This results in a valid email address
-- CreditCard - Adjusts the last digit for MOD10 validation
+## Built in transformation functions
 
 ### Email
 
-The output of the format string is parsed in the following way:
+The `Email` builtin transformation function does the following to the format string output:
 
-- Letters `a-z` are cast to lower case, but remains unchanged
-- Numbers `0-9` remains unchanged
-- Norwegian letters are replaced: `æ`->`ae`, `ø`->`oe`, `å`->`aa`
-- Whitespaces ` `, hyphens `-` and underscores `_` are replaced by a point `.`
-- Consecutive points `..` are replaced by a single point `.`
-- If there is no at sign `@` in the string, then the literal `@mail.com` is appended to the end of the string
-  - Else if there is an at sign `@`, but it is the last character of the string, then the literal `mail.com` is appended
-  - Else if there is an at sign `@`, and it is not the last character of the string, then nothing is appended
+- Letters are lowercased: `A-Z`->`a-z`
+- Numbers and lowercased letters are unchanged
+- Some country specific letters are replaced:
+  - `æ`->`ae`
+  - `ø`->`oe`
+  - `å`->`aa`
+- Some symbols are replaced by a dot:
+  - (whitespace)` `->`.`
+  - `-`->`.`
+  - `_`->`.`
+  - `..`->`.`
 - All other characters are removed
+- Checks if string contains `@`:
+  - if not, then append `@mail.com` to the end of the string.
+  - if last character, then append `mail.com` to the end of the string.
+  - else, nothing is appended.
 
 ### CreditCard
 
-The output of the format string must contain only integers, e.g. "0123456789123456". It is parsed and the last digit is **replaced**.
+The `CreditCard` builtin transformation function uses the Luhn algorithm for Credit Card encoding. It replaces the last digit for MOD10 checksum validation.
 
-- The transfomration uses the Luhn algorithm for Credit Card encoding. It replaces the last digit for MOD10 validation.
+- The format string must be digits for the transform to work, e.g. "1234567890123456".
 
 ## Custom Transformations
 

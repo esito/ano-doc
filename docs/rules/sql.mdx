@@ -1,19 +1,25 @@
 ---
 sidebar_position: 1
-sidebar_label: Sql
+sidebar_label: Custom Sql
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# SQL
+# Custom SQL
 
 :::tip Goal
-Write `shuffle` rule logic to reorder existing column values.
+Cases may arise that `ano` rule logic cannot address. Use custom sql-statements alongside tasks and rules to handle these cases.
 
-- The shuffle reorders the column values in a random order and ensures that no record retains the original column value.
+- `where` allows you to explicitly write the content of a WHERE clause for a table select statement.
+- `sql-before` allows you to write full CRUD statements that are run before tasks are run.
+- `sql-after` allows you to write full CRUD statements that are run after tasks are run.
 
 :::
+
+## Use cases for custom sql-statements
+
+All `ano` logic translates directly to sql in code.
 
 ## Ano Structure and Example
 
@@ -29,26 +35,12 @@ Write `shuffle` rule logic to reorder existing column values.
 
 ```ano
         ...
-        shuffle <column> <rule-name?>
         ...
 ```
 
 </TabItem>
 
 <TabItem value="update">
-
-```ano
-table HOTEL
-    ...
-    column text NAME size 40
-    ...
-...
-task ... {
-    update HOTEL
-        shuffle NAME
-      ...
-}
-```
 
 </TabItem>
 
