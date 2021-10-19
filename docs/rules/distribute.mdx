@@ -9,12 +9,22 @@ import TabItem from '@theme/TabItem';
 # `distribute`
 
 :::tip Goal
-Use the `distribute` rule to populate foreign key columns in child tables by only using primary-key (or unique key) values existing in parent tables.
+Use `distribute` when creating values for a column by picking values from another table's column.
 
-- Ensures that all values in the foreign key columns refers to actual key values in the parent tables.
-- Uses a `<distribution function>` to define what conditions must be satisfied on the foreign key distribution.
+- Every value created in the child table using `distribute` will be taken from the parent table column.
+- Choose a `<distribution>` function that decides how parent table values will be distributed in the child column. E.g. that all parent values must appear at least once.
 
 :::
+
+## Use cases for `distribute`
+
+Use `distribute` to create
+
+- foreign key column values using existing parent key column values
+- values in a column based upon a set of values from other columns
+- a desired distribution of rows in a table, based upon the occurence of values in other tables
+
+`distribute` is only usable in `create` work tasks.
 
 ## Ano Structure and Examples
 
@@ -22,118 +32,139 @@ Use the `distribute` rule to populate foreign key columns in child tables by onl
   defaultValue="structure"
   values={[
     { label: 'Structure', value: 'structure' },
-	{ label: 'One Foreign Key Example', value: 'one' },
-	{ label: 'Two Foreign Keys Example', value: 'two' },
+	{ label: 'SimpleSpread Example', value: 'SimpleSpread' },
+	{ label: 'EvenWithDeviation Example', value: 'EvenWithDeviation' },
+	{ label: 'AllCombinations Example', value: 'AllCombinations' },
   ]}
 >
 
 <TabItem value="structure">
 
 ```ano
-...
-foreign-key
-    <parent-table> <primary-key-or-unique-column>
-    <child-table> <foreign-key-column>
-...
 task <task> {
-    ...
-        distribute <distribution-function> <parameters>
-            table <parent-table> <parameters>
+    create <table> mininum-rows <#rows>
+        distribute <distribution> <params> // params optional
+            table <parent-table> <params>  // params optional
                 child <foreign-key>
                 parent <key>
-    ...
 }
 ```
 
 </TabItem>
 
-<TabItem value="one">
+<TabItem value="EvenWithDeviation">
 
 ```ano
 table HOTEL
-    column integer ID size 10
     column integer CHAIN_ID size 10
-    column ...
-    primary-key ID
+    ...
 table HOTELCHAIN
     column integer ID size 10
-    column ...
-    primary-key ID
-...
-foreign-key
-    HOTELCHAIN ID
-    HOTEL CHAIN_ID
-...
-task <task> {
     ...
-    // Creating records in child table
-    create HOTEL
+task <task> {
+    create HOTEL minimum-rows 50
         ...
-        // Even spread with deviation for occurrence of parents
-        distribute EvenWithDeviation ""
-            table HOTELCHAIN 2  // deviation = 2
+        distribute EvenWithDeviation
+            table HOTELCHAIN 2          // param deviation = 2
                 child CHAIN_ID
                 parent ID
-        ...
-    ...
+
 }
 ```
 
 </TabItem>
 
-<TabItem value="two">
+<TabItem value="SimpleSpread">
 
 ```ano
-
-table ROOM
-    column integer ID size 10
-    column integer CATEGORY_ID size 10
-    column integer HOTEL_ID size 10
-    column ...
-    primary-key ID
-table HOTEL
-    column integer ID size 10
-    column ...
-    primary-key ID
-table ROOMCATEGORY
-    column integer ID size 10
-    column ...
-    primary-key ID
-...
-foreign-key
-    ROOMCATEGORY ID
-    ROOM CATEGORY_ID
-foreign-key
-    HOTEL ID
-    ROOM HOTEL_ID
-...
-task <task> {
+table Address
+    column integer CUSTOMER_CUSTOMERNO
     ...
-    // Creating records in child table
-    create ROOM
-        minimum-rows 50
+table Customer
+    column integer customerNo
+    ...
+task <task> {
+	create Address minimum-rows 5
         ...
-        // AllCombinations - All combinations of CATEGORY_ID and HOTEL_ID are created at least once in table ROOM.
-        distribute AllCombinations ""
-            table ROOMCATEGORY ""
-                child CATEGORY_ID
-                parent ID
-            table HOTEL ""
-                child HOTEL_ID
-                parent ID
-        ...
+		distribute SimpleSpread
+		table Customer
+			child customer_customerNo
+			parent customerNo
 }
 ```
 
 </TabItem>
+
+<TabItem value="AllCombinations">
+
+```ano
+table Booking
+    column integer customer_customerNo
+    column integer hotel_id
+    column integer roomCategory_id
+    ...
+table Customer
+    column integer customerNo
+    ...
+table Hotel
+	column integer id
+    ...
+table RoomCategory
+    column integer id
+    ...
+task <task> {
+	create Booking minimum-rows 100
+         ...
+		distribute AllCombinations
+		table Customer
+			child customer_customerNo
+			parent customerNo
+		table Hotel
+			child hotel_id
+			parent id
+		table RoomCategory
+			child roomCategory_id
+			parent id
+}
+```
+
+</TabItem>
+
 </Tabs>
+
+## How many rows are created?
+
+The number of rows is either `minimum-rows`, as defined on the `create` work task, or the number of rows necessary to satisfy the condition of the distribution function.
 
 ## In-built Distribution Functions
 
-- **AllCombinations** - All combinations of parents are satisfied at least once
-- **EvenWithDeviation** - Even spread with deviation for occurrence of parents
-  - takes a number as a param on the table level
-- **SimpleSpread** - Foreign key columns are randomly assigned among possible existing values in the parent table
+### SimpleSpread
+
+- Foreign key column(s) are randomly assigned values among possible existing values in the parent table(s) column
+
+#### Number of rows
+
+The number of rows will be equal to what is specified in `minimum-rows` on the `create` work task.
+
+### EvenWithDeviation
+
+- Even spread with deviation for occurrence of parents
+- takes a number as a parameter on the table level
+
+#### Number of rows
+
+The number of rows will be equal to what is specified in `minimum-rows` on the `create` work task.
+
+### AllCombinations
+
+- All combinations of parents are satisfied at least once
+
+#### Number of rows
+
+The number of rows will be at least the mulitplication value of the number of rows of each parent.
+
+**Example:** Suppose a child table has three parent tables, i.e. it has three foreign key columns. Given that parents have `100`, `500`, and `800` rows, the number of rows created in the child is at least `100 * 500 * 800` rows = `40 000 000` rows.
+But if the `minimum-rows` number is bigger than this value, then `minimum-rows` number of rows will be created instead.
 
 ## Custom Distributions
 

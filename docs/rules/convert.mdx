@@ -9,14 +9,22 @@ import TabItem from '@theme/TabItem';
 # `convert`
 
 :::tip Goal
-Use the `convert` keyword to refer to an in-built or a custom convertion function. A convertion is performed on values before the rest of the anonymization rule logic (while transformations are performed after).
-Use cases for `convert` are:
+Use `convert` to parse the values of an input source, using a java method, before it enters the anonymization logic described in the `.ano` file.
 
-- During `randomize` you need to ensure the type format of the column to add noise correctly.
-- During `mask` you need to convert an input source before performing the masking operation
-  - e.g. before creating a customized format string, combining input sources or passing the format result to a transformation function.
+The difference between a `convert` and a `transform` is that a `convert` is done on an `input source` and a `transform` is done on the output of the anonymization rule, i.e. the output of the `format` string.
 
 :::
+
+## Use cases for `convert`
+
+Use `convert` when writing
+
+- `randomize` rules, because the input source values are read as strings by default
+- `mask` rules, when you want to convert an input source before doing the anonymization operation
+  - This may be required by your business logic
+    - e.g. converting a date field to an int field giving current age since date
+
+For simple conversions, use the in-built convertion functions described below. For business specific logic, you will need to write your own conversion function.
 
 ## Ano Structure and Examples
 
@@ -24,8 +32,8 @@ Use cases for `convert` are:
   defaultValue="structure"
   values={[
     { label: 'Structure', value: 'structure' },
-	{ label: 'Randomize Example', value: 'randomize' },
-	{ label: 'Mask Example', value: 'mask' },
+	{ label: 'String2Decimal Randomize Example', value: 'randomize' },
+	{ label: 'Custom ParseDigits Example', value: 'mask' },
   ]}
 >
 
@@ -69,12 +77,10 @@ Use cases for `convert` are:
 <TabItem value="mask">
 
 ```ano
-... // importing custom functions
+// importing custom conversion function
 conversion example.anonymizer.conversions.ParseDigits
-transformation example.anonymizer.transformations.PostCodeGeneralization
-...
+
 task <task> {
-    ...
     update ADDRESS
         mask POSTALCODE
             format %s
