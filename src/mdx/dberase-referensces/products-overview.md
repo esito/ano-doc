@@ -54,17 +54,19 @@ Paid
 <tr>
 <td>
 
-DBAno
+DBErase
 
 </td>
 <td>
 
-Reverse engineers your database structure into ANO syntax.
+Deals with GDPR Forget Me Support.
+
+Provides you a web service with a REST endpoint against your production database. According to your logic, you can either delete, mask or decouple customer data on request
 
 </td>
 <td>
 
-Free
+Paid
 
 </td>
 </tr>
@@ -77,6 +79,23 @@ DBimport
 <td>
 
 Reverse engineers your database structure into java JPA classes.
+
+</td>
+<td>
+
+Free
+
+</td>
+</tr>
+<tr>
+<td>
+
+DBAno
+
+</td>
+<td>
+
+Reverse engineers your database structure into ANO syntax.
 
 </td>
 <td>
