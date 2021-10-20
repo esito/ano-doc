@@ -1,0 +1,89 @@
+---
+sidebar_position: 16
+sidebar_label: Sql where expressions
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `where`
+
+:::tip Goal
+Cases may arise when you need to combine a `where` clause with your Work Tasks.
+
+:::
+
+:::warning Custom SQL notes
+
+- There will be no check of SQL syntax
+- Any occurrences of double quotes or backslash inside a SQL statement must be escaped with a backslash: \" and \\.
+- A single statement cannot be divided on serveral lines. Multiple SQL statements may be written divided by newline
+
+:::
+
+## Use cases for `where`
+
+A `where` clause can be used
+
+- to filter rows in `update` and `delete` work tasks
+
+## Ano Structure and Example
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Example', value: 'update' },
+    { label: 'Delete Example', value: 'delete' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+    update <table1>
+        where "..."
+        <table1-anonymizations>
+
+    delete <table2>
+        where "..." {
+        <table2-deletions>
+        }
+```
+
+</TabItem>
+
+<TabItem value="update">
+
+```ano
+    update Address
+        where "Address.customer_customerNo NOT IN (SELECT DISTINCT Customer.customerNo FROM ano_hotel.Customer)"
+        mask customer_customerNo mask_customer_customerNo_leftover_from_propagate
+            format %d
+            unique
+            sequence 100 1
+            temporary-value 999999
+
+```
+
+</TabItem>
+
+<TabItem value="delete">
+
+```ano
+    delete HOTELCHAIN
+        where "ID = 0" {
+        cascade HOTEL parent ID child CHAIN_ID {
+            cascade BOOKING parent ID child HOTEL_ID {
+                cascade STAY parent ID child BOOKING_ID {
+                    cascade NIGHT parent SERIALNO, CUSTOMER_CUSTOMERNO
+                    child STAY_SERIALNO, STAY_CUSTOMER_CUSTOMERNO
+                }
+            }
+        }
+    }
+```
+
+</TabItem>
+
+</Tabs>

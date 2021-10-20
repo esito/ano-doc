@@ -1,0 +1,144 @@
+---
+sidebar_position: 15
+sidebar_label: Sql-before and sql-after
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `sql-before` and `sql-after`
+
+:::tip Goal
+There may arise cases in your database structure that requires certain complete SQL statements to run before and after the anonymizations can be done.
+
+- `sql-before` allows you to write complete SQL statements that are run before tasks.
+- `sql-after` allows you to write complete SQL statements that are run after tasks.
+
+These complete SQL statements may be run before and after
+
+1. the task root (e.g. before all task groups)
+2. a specific task group (e.g. a specific `task <task> {...}`)
+3. a specific work task (e.g. a specific `update <table>`)
+
+:::
+
+:::warning Custom SQL notes
+
+- There will be no check of SQL syntax
+- Any occurrences of double quotes or backslash inside a SQL statement must be escaped with a backslash: \" and \\.
+- A single statement cannot be divided on serveral lines. Multiple SQL statements may be written divided by newline
+
+:::
+
+## Use cases for custom `sql-before` and `sql-after`
+
+The `sql-before` and `sql-after` may be useful to
+
+- temporarily remove table constraints
+- temporarliy allow inserts into primary-key columns
+- delete rows according to conditions, i.e. delete rows with null values
+- do other CRUD operations you require, but that are not handled by ano-logic
+
+## Ano Structure and Example
+
+<Tabs
+  defaultValue="placement"
+  values={[
+    { label: 'Placements in .ano', value: 'placement' },
+    { label: 'Work Task Example', value: 'work-task' },
+  ]}
+>
+
+<TabItem value="placement">
+
+```ano
+// Root SQL statements
+sql-before "SELECT 1;"            // before all tasks
+sql-after "SELECT 1;"             // after all tasks
+
+task <task2>
+// Task Group SQL statements
+sql-before "SELECT 2.1;"            // before <task1>
+sql-after "SELECT 2.1;"             // after <task1>
+{
+    update <table1>
+        // Work Task SQL statements
+  	  	sql-before "SELECT 3.1;"  // before update <table1>
+        sql-after "SELECT 3.1;"   // after update <table1>
+        <table1-anonymizations>
+
+    update <table2>
+        sql-before "SELECT 3.2;"  // before update <table2>
+        sql-after "SELECT 3.2;"   // before update <table2>
+        <table2-anonymizations>
+}
+
+
+task <task2>
+sql-before "SELECT 2.2;"            // before <task2>
+sql-after "SELECT 2.2;"             // after <task2>
+{
+  ...
+}
+
+```
+
+</TabItem>
+
+<TabItem value="work-task">
+
+```ano
+table Customer
+    column text lastname size 50
+    ...
+
+task <task> {
+    update Customer
+        sql-before "delete from Customer where lastname is null"
+        mask lastname
+            format %s
+            file src/main/resources/lastname.txt random-order
+}
+```
+
+#### Work Task Example
+
+- We do not want table `Customer` rows where `lastname = null` to be part of the database, so we delete these before performing the anonymization
+
+</TabItem>
+
+</Tabs>
+
+## How to trigger execution of the SQL statements
+
+### Task Root SQL statements
+
+The task Root SQL statements are only executed when you specifically use the `run` command only, in the DBmasker command line:
+
+> run
+
+If you perform a `run <task-group>` or a `run <work-task>`, Task Root SQL statements will **NOT** be executed.
+
+Note that `run` will trigger all SQL Statements.
+
+### Task Group SQL statements
+
+The task group SQL statements are only executed when you specifically use the `run` or the `run <task-group>` commands, in the DBmasker command line:
+
+> run
+
+> run `<task-group>`
+
+If you perform a `run <work-task>`, Task Group SQL statements will **NOT** be executed.
+
+Note that `run <task-group>` will also trigger all Work Task SQL statements residing in that specific Task Group.
+
+### Work Task SQL statements
+
+The work task SQL statements are executed whenever the work task is triggered, either by `run`, by `run <task-group>` where the work task resides, or by the specific `run <work-task>` command.
+
+> run
+
+> run `<task-group>`
+
+> run `<work-task>`

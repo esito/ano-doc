@@ -52,15 +52,8 @@ Use `map` when table values is to be anonymized equally across
 ```ano
         ...
             format <format-string>
-            <input-source> <map-output.txt> output
-        ...
-            format %s
-            random-integer 1000 9999 <map-input.txt> input
-        ...
-            format %s
-            file <file_path> random-order
-              <map-input-output.txt> input-output
-        ...
+            <input-source>
+                map <map-output.txt> output
 ```
 
 #### `structure`
