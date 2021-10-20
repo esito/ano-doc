@@ -4,7 +4,7 @@ sidebar_label: DBerase H2 Example Project
 ---
 
 # DBerase example project with H2
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 We have prepared a hotel booking example project consisting of
 

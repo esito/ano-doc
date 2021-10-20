@@ -1,4 +1,3 @@
-<!-- markdownlint-disable MD033 - makes html allowed -->
 
 # DBmasker ANO syntax
 
@@ -6,7 +5,8 @@ ref. <https://esito-conf.inmeta.com/display/DBMAS/DBmasker+ANO+syntax>
 
 ## Creating the ANO file
 
-The DBmasker service takes one input: the ANO file, which contains the data schema information and the rules you write. In the following is the ANO syntax described in a simplified EBNF based railroad diagrams. Three symbols are used:
+The DBmasker service takes one input: the ANO file, which contains the data schema information and the rules you write.
+In the following is the ANO syntax described in a simplified EBNF based railroad diagrams. Three symbols are used:
 
 <table header-style="none" width="100%" >
 <tr>
@@ -163,7 +163,8 @@ The **setnull** terminal indicates that the association represented by the forei
 
 # The user defined classes section
 
-Some masking parts use functions to manipulate values and add rows to the database and you may create user defined specialized classes _(All interfaces and abstract classes are explained in the javadoc)_:
+Some masking parts use functions to manipulate values and add rows to the database and
+you may create user defined specialized classes _(All interfaces and abstract classes are explained in the javadoc)_:
 
 <table header-style="none" width="100%" >
 <tr>
@@ -178,12 +179,14 @@ Description
 <tr>
 <td >
 
-conversions
+Conversions
 
 </td>
 <td>
 
-Package containing custom conversion classes. Defined for randomized or masked columns using a column input source. Converts input strings into another string format or can convert string into another data type for randomized columns. Implements no.esito.anonymizer.IConversion interface.
+Package containing custom conversion classes. Defined for randomized or masked columns using a column input source.
+Converts input strings into another string format or can convert string into another data type for randomized columns.
+Implements no.esito.anonymizer.IConversion interface.
 
 Built in conversions used for converting string input to various other data types:
 
@@ -230,7 +233,7 @@ Package containing custom transformation classes. Defined for masked columns. Us
 
 Built in transformations:
 
-- Email - Translates space, hyphen and underscore resutling in a valid email address
+- Email - Translates space, hyphen and underscore resulting in a valid email address
 - CreditCard - Adjust last digit for MOD10 validation
 
 </td>
@@ -261,19 +264,24 @@ The CLASS represents a user defined class with full java package specification.
 
 ## The tasks and rules section
 
-A Task is either a TaskGroup or a WorkTask. TaskGroups can have infinite child tasks of both kinds while WorkTasks only contain rules. A WorkTask is one of update, create, delete, erase or sar. Naming tasks follow these rules:
+A Task is either a TaskGroup or a WorkTask.
+TaskGroups can have infinite child tasks of both kinds while Work Tasks only contain rules.
+A WorkTask is one of update, create, delete, erase or sar. Naming tasks follow these rules:
 
-- Group tasks names must be unique while work task names must be unique within a group task
+- Group tasks names must be unique while Work Task names must be unique within a group task
 - Group tasks on the same level in the task hierarchy must have unique names
 - Work tasks on the same level in the task hierarchy must have unique names
-- Group tasks cannot have the same name as any of the work tasks it contains. If the work task does not have an explicit defined name it is the default name that is forbidden, i.e. the work task Delete HOTEL gets by default the name Delete_HOTEL
+- Group tasks cannot have the same name as any of the Work Tasks it contains.
+- If the Work Task does not have an explicit defined name it is the default name that is forbidden,
+- i.e., the Work Task Delete HOTEL gets by default the name Delete_HOTEL
 - The name comparison is case insensitive to prevent file name collisions on case insensitive file systems
 
-Running TaskGroups, will run all child tasks in defined sequence. Running WorkTasks, will run all tasks with same name regardless of which TaskGroup they belong and in the sequence they are defined.
+Running TaskGroups, will run all child tasks in defined sequence. Running Work Tasks,
+will run all tasks with same name regardless of which TaskGroup they belong and in the sequence they are defined.
 
-We will often use the common phrase task both for TaskGroup and WorkTask.
+We will often use the common phrase task both for Task Group and WorkTask.
 
-A TaskGroup contains tasks which can be both TaskGroups and WorkTasks. The purpose is to group tasks as an entity.
+A TaskGroup contains tasks which can be both Task Groups and Work Tasks. The purpose is to group tasks as an entity.
 
 A WorkTask is one of
 
@@ -334,7 +342,7 @@ task
 </td>
 <td>
 
-A combination of tasks, both taskgroups and worktasks.
+A combination of tasks, both taskgroups and Work Tasks.
 
 </td>
 </tr>
@@ -347,7 +355,7 @@ update
 </td>
 <td>
 
-Updates or Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e. foreign keys). The table anonymizations are organized by task and the table anonymization node contains separate child nodes for each column that is to be anonymized.
+Updates or Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e., foreign keys). The table anonymizations are organized by task and the table anonymization node contains separate child nodes for each column that is to be anonymized.
 
 </td>
 </tr>
@@ -419,9 +427,9 @@ A subject access request (SAR) is a concept in GDPR that describes requests by i
 
 The **TASK** represents a task name and **sql** represents SQL statements run before and after the task defined operations.
 
-The update, create, delete, erase and sar are all worktasks and may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER". A NAME may be given and it will override the implicit name.
+The update, create, delete, erase and sar are all Work Tasks and may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER". A NAME may be given and it will override the implicit name.
 
-> The **update**, **create**, **delete**, **erase** and **sar** are all worktasks and may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER". A **NAME** may be given and it will override the implicit name.
+> The **update**, **create**, **delete**, **erase** and **sar** are all Work Tasks and may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER". A **NAME** may be given and it will override the implicit name.
 
 &nbsp;
 
@@ -429,7 +437,7 @@ The update, create, delete, erase and sar are all worktasks and may be run as a 
 
 ![alt text](/img/docs/ano-syntax/sql.png 'Sql')
 
-The **SQL** represents complete SQL statements. The statement must be written inside double quotes ("statement”) and any occurrences of double quotes or backslash must be escaped with a backslash: \" and \\. There will be no check of SQL syntax and a statement cannot be divided on serveral lines. Multiple SQL statements may be written divided by newline.
+The **SQL** represents complete SQL statements. The statement must be written inside double quotes ("statement”) and any occurrences of double quotes or backslash must be escaped with a backslash: \" and \\. There will be no check of SQL syntax and a statement cannot be divided on several lines. Multiple SQL statements may be written divided by newline.
 
 &nbsp;
 
@@ -641,9 +649,9 @@ Possible selection keys are the primary key and unique indexes. The default sele
 
 The **EXPRESSION** represents a logical expression. The expression must be written inside double quotes ("expression”) and any occurrences of double quotes or backslash must be escaped with a backslash: \" and \\.
 
-The worktasks update, delete, erase and sar can all have a where clause defined to filter the data rows.
+The Work Tasks update, delete, erase and sar can all have a where clause defined to filter the data rows.
 
-The worktasks delete, erase and sar can take values entered in a command or the API. This is defined in the where clause with the **%PARAMETERn%** notation. **Note**: You can use %PARAMETER% instead of %PARAMETER1%.
+The Work Tasks delete, erase and sar can take values entered in a command or the API. This is defined in the where clause with the **%PARAMETERn%** notation. **Note**: You can use %PARAMETER% instead of %PARAMETER1%.
 
 ##### %PARAMETER% use
 
@@ -681,7 +689,7 @@ Command use: erase country Paris France
 
 ### Creating masking/anonymization rules
 
-Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e. foreign keys). The table anonymizations are organized by worktasks and the table anonymization statement contains separate statements for each column that is to be anonymized.
+Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e., foreign keys). The table anonymizations are organized by Work Tasks and the table anonymization statement contains separate statements for each column that is to be anonymized.
 
 An anonymization rule is one of
 
@@ -1032,7 +1040,7 @@ The sample below shows anonymizations of a CUSTOMER table using all **mask** var
 
 ```
 update CUSTOMER
-    // Create random norwegian phone number
+    // Create random Norwegian phone number
     mask PHONE
         format "+47 %d"
         random-integer 10001000 99909990
@@ -1208,7 +1216,7 @@ Decimal number as accepted by the valueOf method in class Double
 
 &nbsp;
 
-#### Anonymization for types Integer, Decimal:
+#### Anonymization for types Integer, Decimal
 
 <table width="100%" >
 <tr>
@@ -1232,7 +1240,7 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-_gaussion-distribution _ (flat-noise + column value _ percentage-noise) + offset_
+_gaussion-distribution_ (flat-noise + column value _percentage-noise) + offset_
 
 </td>
 </tr>
@@ -1301,7 +1309,7 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-_gaussian-distribution _ flat-noise + offset\*
+_gaussian-distribution_ flat-noise + offset\*
 
 </td>
 </tr>
@@ -1357,7 +1365,7 @@ Noise addition
 <td>
 
 Grouping of various attributes that adds noise. [Gaussian formula](https://en.wikipedia.org/wiki/Normal_distribution):
-_gaussian-distribution _ flat-noise + offset\*
+_gaussian-distribution_ flat-noise + offset\*
 
 </td>
 </tr>

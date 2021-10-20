@@ -3,7 +3,7 @@ sidebar_label: Introduction
 sidebar_position: 1
 id: intro
 ---
-
+<!-- markdownlint-disable MD013 - makes html allowed -->
 
 # Get Started
 
@@ -40,7 +40,6 @@ The services we provide are
   - The DBano service requires all your table `create` statements. It translates these from different database dialects to the the agnostic `ano` DSL language. The `.ano` file is where you will write anonymization rules.
 - **DBmasker**: Generates for you an application based upon the `.ano` file, that will help you anonymize (a copy of) your entire database.
   - Generates a Java application that has been tailored according to the logic in the `.ano` file, to anonymize your data according to your logic. Whenever you copy your production database to test or development environments, you simply run this application against the database copy in test and development environments.
-
 
 &nbsp;
 

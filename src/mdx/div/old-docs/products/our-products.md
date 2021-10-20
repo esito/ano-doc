@@ -4,7 +4,7 @@ id: our-products
 ---
 
 # Introducing the products
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 ## Anonymize your test data and make GDPR a breeze
 

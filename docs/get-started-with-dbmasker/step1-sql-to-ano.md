@@ -4,21 +4,20 @@ label: translate-database--schemastructure
 ---
 
 # Step 1 - Translate Your Database Structure to ANO
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 :::info Goals
 
-1. We want to export the table definitions of all tables you will anonymize, alongside their table constraints (PrimaryKeys, Foreign Keys, Uniqueness, Allowed Values, etc.) into a single `.sql` file.
+1. We want to export the table definitions of all tables you will anonymize, alongside their table constraints (Primary Keys, Foreign Keys, Uniqueness, Allowed Values, etc.) into a single `.sql` file.
 
 2. We want to use the **DBano Service** to translate the database structure from this `.sql` file into an `.ano` file.
 :::
 
 ## 1. Connect to your database
 
-Using your preferred Database Management tool (e.g. DBeaver)
+Using your preferred Database Management tool
 
 ## 2. Export database DDL statements from the schema level
-
 
 | <img src="/img/docs/generate_sql.png" width="400" /> |
 |:--:|
@@ -152,7 +151,7 @@ ALTER TABLE ano_hotel.Room ADD CONSTRAINT Room_hotel_idF FOREIGN KEY (hotel_id) 
 
 <img src="/img/docs/ano_dashboard_dbano.png" width="800" />
 
-1. Select the DBAno Service.
+1. Select the DBano Service.
 2. Upload the `<create_tables>.sql` file and download ANO file
 
 Resulting `<create_tables>.ano` file now describes your database structure in the ANO domain specific language.
@@ -273,7 +272,7 @@ task MyTaskName
             format "%s %s"
             file src/main/resources/firstname.txt random-order
             file src/main/resources/lastname.txt random-order
-		// Create random norwegian phone number
+		// Create random Norwegian phone number
 		mask PHONE CUSTOMER_PHONE
 			format "+47 %d"
 			random-integer 10001000 99909990

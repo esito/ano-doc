@@ -5,9 +5,16 @@ sidebar_label: Custom Conversions
 
 # Custom Conversions
 
-Conversions are defined for randomized columns or for masked columns using a column input source or text field input source. When used for a column input source, the conversion is used for manipulating the string format and converting the column from one string format to another. When used for a text field, the conversion is used to manipulate the text file entry. When used for a randomized column, it converts the string (The column is always read as a string) into another data type.
+Conversions are defined for randomized columns or for masked columns using a column
+input source or text field input source. When used for a column input source,
+the conversion is used for manipulating the string format and converting the column
+from one string format to another. When used for a text field,
+the conversion is used to manipulate the text file entry.
+When used for a randomized column, it converts the string
+(The column is always read as a string) into another data type.
 
-All custom conversions must be created in the `src/main/java/<java package>.conversions` package.
+All custom conversions must be created in the 
+`src/main/java/<java package>.conversions` package.
 
 <br/>
 
@@ -45,9 +52,14 @@ public class ParseDigits implements IConversion {
 
 <br/>
 
-### Using text files with multiple columns of data
+## Using text files with multiple columns of data
 
-If the input source text file contains multiple columns of data, a conversion may be created to assign the correct delimited value. For example, a text file containing a City, State and Zip Code delimited by a tab can have an associated conversion file to select the first entry as illustrated below. All columns can use the same input text file with similar conversion methods and as long as it is using sequence and repeatable random it will pick the same line from text file.
+If the input source text file contains multiple columns of data,
+a conversion may be created to assign the correct delimited value.
+For example, a text file containing a City, State and Zip Code delimited by a tab can have an associated conversion file
+to select the first entry as illustrated below.
+All columns can use the same input text file with similar conversion methods and
+as long as it is using sequence and repeatable random it will pick the same line from text file.
 
 <br/>
 

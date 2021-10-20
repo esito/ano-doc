@@ -5,7 +5,8 @@ sidebar_label: Custom Transformations
 
 # Custom Transformations
 
-Transformations are defined for Masked columns and are used for transforming column values before being written to the database. All custom transformations must be created in the src/main/java/\<java package\>.transformations package.
+Transformations are defined for Masked columns and are used for transforming column values before being written to the database.
+All custom transformations must be created in the src/main/java/\<java package\>.transformations package.
 
 <br/>
 

@@ -1,6 +1,7 @@
 # Tax ID number
 
-Tax ID numbers vary for each country, and thus may require different algorithms for validation. The example here is for a Norwegian Tax ID with two Modula 11 checksum numbers.
+Tax ID numbers vary for each country, and thus may require different algorithms for validation.
+The example here is for a Norwegian Tax ID with two Modula 11 checksum numbers.
 
 ## Mask Tax ID
 
@@ -26,12 +27,13 @@ task MyTaskName
 - transformation "Person_NO" is custom code and location must be registered in top section
 - a random date and a random 5 digit number will be used for the number
 - the custom transformation "Person_NO" is used to fix the string in order to validate to Norwegian Tax ID checksum
-- String format: https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html
+- String format: <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>
 
 Norwegian Tax ID
 
 - DDMMYY - date of birth
-- XXX - Sequence number where even number identifies a female and odd a male. The first number also identifies century born in.
+- XXX - Sequence number where even number identifies a female and odd a male.
+- The first number also identifies century born in.
 - CC - Modula 11 checksum numbers
 
 Notice the skip routine, in the Norwegian Tax id a tenth of the numbers are invalid because of the Modula 11 checksum may sometimes give two digits.

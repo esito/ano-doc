@@ -9,7 +9,7 @@ label: writing-masking-tasks
 
 - We want to edit the `.ano` file from last step to contain all our anonymization and masking needs.
 
-Alll masking tasks will be written into the `<schema>.ano` file from last step. They will be written at the end of the file **below** all `TABLE`, `FOREIGN KEY` and other reference statements.
+All masking tasks will be written into the `<schema>.ano` file from last step. They will be written at the end of the file **below** all `TABLE`, `FOREIGN KEY` and other reference statements.
 
 <details><summary><b>Task Placement Example</b> - create_tables.ano </summary>
 <p>
@@ -36,11 +36,11 @@ task MyTaskName
             format "%s %s"
             file src/main/resources/firstname.txt random-order
             file src/main/resources/lastname.txt random-order
-		// Create random norwegian phone number
+		// Create random Norwegian phone number
 		mask PHONE CUSTOMER_PHONE
 			format "+47 %d"
 			random-integer 10001000 99909990
-        // Create random creditcard with checksum that validates
+        // Create random credit card with checksum that validates
         mask CREDITCARD CUSTOMER_CREDITCARD
             format "41428340%d"
             transform CreditCard    // Run the CreditCard transformation to set correct checksum digits
@@ -58,9 +58,9 @@ task MyTaskName
 
 We perform pure anonymizations on table `Customer` by replacing existing values with random new values
 
-- Create random norwegian phone number
+- Create random Norwegian phone number
 
-- Create random creditcard with checksum that validates
+- Create random credit card with checksum that validates
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -105,11 +105,11 @@ task Anonymize
 {
 	// Anonymize - Mask various fields
 	update Customer Anonymize_CUSTOMER
-		// Create random norwegian phone number
+		// Create random Norwegian phone number
 		mask phone CUSTOMER_PHONE
 			format "+47 %d"
 			random-integer 10001000 99909990
-		// Create random creditcard with checksum that validates
+		// Create random credit card with checksum that validates
 		mask creditCard CUSTOMER_CREDITCARD
 			format "41428340%d"
 			transform CreditCard

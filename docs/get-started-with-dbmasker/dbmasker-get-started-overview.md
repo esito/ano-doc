@@ -16,15 +16,15 @@ label: process-overview
 
 ## But first - Identify your sensitive data
 
-Look through your database and ask yourself what data should must be masked. Decide which columns in which tables of your relational database that should not be shown to developers and testers. Following are examples of data that would normally need masking:
+Look through your database and ask yourself what data should be masked. Decide which columns in which tables of your relational database that should not be shown to developers and testers. Following are examples of data that would normally need masking:
 
 - Names
-- birth dates
-- phone number
-- address
+- Birth dates
+- Phone number
+- Address
 - ID numbers
-- credit card information
-- etc...
+- Credit card information
+- Etc...
 
 ## Access to DBmasker Service
 

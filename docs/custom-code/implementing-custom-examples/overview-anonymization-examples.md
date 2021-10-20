@@ -5,7 +5,7 @@ sidebar_label: Overview
 
 # Overview - Custom Implementation Examples
 
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 ## Samples for simple anonymization tasks
 

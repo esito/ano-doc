@@ -6,16 +6,17 @@ id: dbmasker-product
 # DBmasker
 
 Ref: https://esito-conf.inmeta.com/display/DBMAS/DBmasker
+<!-- markdownlint-disable MD013 - makes html allowed -->
 
-# Introduction
+## Introduction
 
 Data anonymization is all about protecting private and sensitive data. It involves masking or obfuscating data using various techniques. These techniques typically convert identifiable personal data into a non-identifiable form which includes encrypting data, scrambling data, replacing data with random values or simply deleting data. This removes the ability to identify individuals and ensures that sensitive data becomes anonymous.
 
-# Why anonymize data
+## Why anonymize data
 
 Rapid technological development and globalization have created new challenges with regard to protection of sensitive and private data. Data is often shared among organizational departments or even among other organizations. Given the sensitivity of personal data, especially among the financial and healthcare industries, data needs protection from external and internal misuse. Many organizations violate privacy policies when copying sensitive production data to non-production environments such as testing, development, training and analytics or sharing/publishing information to third parties. This can be avoided by using data anonymization.
 
-# DBmasker
+## The service
 
 DBmasker is a service that helps organizations manage the tasks associated with masking data in a robust and secure manner. It allows the user to create multiple tasks, each performing different masking or anonymization actions. The process involves the following:
 

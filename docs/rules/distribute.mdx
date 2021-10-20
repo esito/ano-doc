@@ -22,9 +22,9 @@ Use `distribute` to create
 
 - foreign key column values using existing parent key column values
 - values in a column based upon a set of values from other columns
-- a desired distribution of rows in a table, based upon the occurence of values in other tables
+- a desired distribution of rows in a table, based upon the occurrence of values in other tables
 
-`distribute` is only usable in `create` work tasks.
+`distribute` is only usable in `create` Work Tasks.
 
 ## Ano Structure and Examples
 
@@ -134,7 +134,7 @@ task <task> {
 
 ## How many rows are created?
 
-The number of rows is either `minimum-rows`, as defined on the `create` work task, or the number of rows necessary to satisfy the condition of the distribution function.
+The number of rows is either `minimum-rows`, as defined on the `create` Work Task, or the number of rows necessary to satisfy the condition of the distribution function.
 
 ## Built in Distribution Functions
 
@@ -144,7 +144,7 @@ The number of rows is either `minimum-rows`, as defined on the `create` work tas
 
 #### Number of rows
 
-The number of rows will be equal to what is specified in `minimum-rows` on the `create` work task.
+The number of rows will be equal to what is specified in `minimum-rows` on the `create` Work Task.
 
 ### EvenWithDeviation
 
@@ -153,7 +153,7 @@ The number of rows will be equal to what is specified in `minimum-rows` on the `
 
 #### Number of rows
 
-The number of rows will be equal to what is specified in `minimum-rows` on the `create` work task.
+The number of rows will be equal to what is specified in `minimum-rows` on the `create` Work Task.
 
 ### AllCombinations
 
@@ -161,9 +161,9 @@ The number of rows will be equal to what is specified in `minimum-rows` on the `
 
 #### Number of rows
 
-The number of rows will be at least the mulitplication value of the number of rows of each parent.
+The number of rows will be at least the multiplication value of the number of rows of each parent.
 
-**Example:** Suppose a child table has three parent tables, i.e. it has three foreign key columns. Given that parents have `100`, `500`, and `800` rows, the number of rows created in the child is at least `100 * 500 * 800` rows = `40 000 000` rows.
+**Example:** Suppose a child table has three parent tables, i.e., it has three foreign key columns. Given that parents have `100`, `500`, and `800` rows, the number of rows created in the child is at least `100 * 500 * 800` rows = `40 000 000` rows.
 But if the `minimum-rows` number is bigger than this value, then `minimum-rows` number of rows will be created instead.
 
 ## Custom Distributions

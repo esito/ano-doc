@@ -16,9 +16,9 @@ There may arise cases in your database structure that requires certain complete 
 
 These complete SQL statements may be run before and after
 
-1. the task root (e.g. before all task groups)
-2. a specific task group (e.g. a specific `task <task> {...}`)
-3. a specific work task (e.g. a specific `update <table>`)
+1. The task root (e.g., before all Task Groups)
+2. A specific Task Group (e.g., a specific `task <task> {...}`)
+3. A specific Work Task (e.g., a specific `update <table>`)
 
 :::
 
@@ -26,7 +26,7 @@ These complete SQL statements may be run before and after
 
 - There will be no check of SQL syntax
 - Any occurrences of double quotes or backslash inside a SQL statement must be escaped with a backslash: \" and \\.
-- A single statement cannot be divided on serveral lines. Multiple SQL statements may be written divided by newline
+- A single statement cannot be divided on several lines. Multiple SQL statements may be written divided by newline
 
 :::
 
@@ -34,10 +34,10 @@ These complete SQL statements may be run before and after
 
 The `sql-before` and `sql-after` may be useful to
 
-- temporarily remove table constraints
-- temporarliy allow inserts into primary-key columns
-- delete rows according to conditions, i.e. delete rows with null values
-- do other CRUD operations you require, but that are not handled by ano-logic
+- Temporarily remove table constraints
+- Temporarily allow inserts into primary-key columns
+- Delete rows according to conditions, i.e., delete rows with null values
+- Do other CRUD operations you require, but that are not handled by ano-logic
 
 ## Ano Structure and Example
 
@@ -123,7 +123,7 @@ Note that `run` will trigger all SQL Statements.
 
 ### Task Group SQL statements
 
-The task group SQL statements are only executed when you specifically use the `run` or the `run <task-group>` commands, in the DBmasker command line:
+The Task Group SQL statements are only executed when you specifically use the `run` or the `run <task-group>` commands, in the DBmasker command line:
 
 > run
 
@@ -135,7 +135,7 @@ Note that `run <task-group>` will also trigger all Work Task SQL statements resi
 
 ### Work Task SQL statements
 
-The work task SQL statements are executed whenever the work task is triggered, either by `run`, by `run <task-group>` where the work task resides, or by the specific `run <work-task>` command.
+The Work Task SQL statements are executed whenever the Work Task is triggered, either by `run`, by `run <task-group>` where the Work Task resides, or by the specific `run <work-task>` command.
 
 > run
 

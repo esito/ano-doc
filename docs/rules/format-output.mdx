@@ -9,23 +9,29 @@ import TabItem from '@theme/TabItem';
 # `format` the output
 
 :::tip Goal
-The `format <format>` is used in almost all the work task rules, and describes how the output of the rule is formatted when stored into the database. E.g. the output format of the `mask`, `randomize`, `shuffle`, etc.
+The `format <format>` is used in almost all the Work Task rules,
+and describes how the output of the rule is formatted when stored into the database.
+E.g. the output format of the `mask`, `randomize`, `shuffle`, etc.
 
-the `<format>` part will be a combination of
+The `<format>` part will be a combination of
 
-- format specifiers `%d`, `%.2f`, `%s`, `%tF`, `%tT`
-- literal strings: `"My literal string"`
+- Format specifiers `%d`, `%.2f`, `%s`, `%tF`, `%tT`
+- Literal strings: `"My literal string"`
 
-By default, each format specifier refers to its own `<input source>`. It is possible to draw data from one input source into multiple format specifiers (using `1$`, `2$`, etc.), as is the case for DateTime input sources.
+By default, each format specifier refers to its own `<input source>`.
+It is possible to draw data from one input source into multiple format specifiers
+(using `1$`, `2$`, etc.), as is the case for DateTime input sources.
 :::
 
 :::warning Note
 
 - Format specifiers alone can be written without double quotes `""`. Else it should be quoted (`"my phone number is: %d"`)
-- When a `transform <transformation>` is used, the formatted output is the input to the java transformation method specified in `<transformation>`. The result of the transformation is what will be stored back to the database
+- When a `transform <transformation>` is used, the formatted output is the input to
+  the java transformation method specified in `<transformation>`.
+  The result of the transformation is what will be stored back to the database
 - Without any format specifications the value is regarded as a constant
 - The text constant `NULL` is regarded as `SQL NULL`
-- Each format specifier must be mached with one input source
+- Each format specifier must be matched with one input source
 
 :::
 
@@ -181,7 +187,7 @@ The `<input source>` most often decides for you which format specifier you want.
 
 ## Java Formatter Documentation
 
-For a thorough guide on the definiton of different flags (e.g. `%f`, `%tT`, ... ), see
+For a thorough guide on the definition of different flags (e.g., `%f`, `%tT`, ... ), see
 
 - [Java String Format Examples](https://dzone.com/articles/java-string-format-examples)
 - [Java Formatter Flags](http://www.java2s.com/Tutorials/Java/Java_Format/0080__Java_Format_Flags.htm)

@@ -32,19 +32,21 @@ We will less formally use the term **tasks** for both Task Groups and Work Tasks
 
 ### Naming Conventions
 
-Names are case insensitive, and should be unique.
+Names are case insensitive and should be unique.
 
 * Task Group names must be unique
 * Work Task names must be unique within its Task Group
   * **NOTE**: It is possible for Work Tasks to have the same name in different Task Groups
 * Task Groups and Work Tasks must have different names
-  * **NOTE**: If the Work Task does not have an explicit name defined, it will be given a default name. Make sure this does not conflict with the Task Group name or other Work Task names
+  * **NOTE**: If the Work Task does not have an explicit name defined,
+    it will be given a default name. Make sure this does not conflict with the Task Group name or other Work Task names
     * **Example**: The Work Task `Delete HOTEL` gets by default the name **Delete_HOTEL** when no name is explicitly specified.
-
 
 ### Running Tasks
 
-Running a Task Group will run all its tasks in defined sequence. Running Work Tasks will run all Work Tasks with the same name, regardless of which Task Group they belong to, and in the sequence they are defined.
+Running a Task Group will run all its tasks in defined sequence.
+Running Work Tasks will run all Work Tasks with the same name,
+regardless of which Task Group they belong to, and in the sequence, they are defined.
 
 ## Work Task Types
 

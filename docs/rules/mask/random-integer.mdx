@@ -92,7 +92,7 @@ task ... {
     update CUSTOMER
         ...
         mask PHONE <rule-name>
-            format "+47 %d"                     // String format of norwegian phone numbers
+            format "+47 %d"                     // String format of Norwegian phone numbers
             random-integer 10001000 99909990
         ...
 }
@@ -125,7 +125,7 @@ task ... {
 
 ## Limits
 
-- `random-integer` uses `java.lang.Integer`. Values can thus _only_ be generated from the range `[-2147483648, 2147483647]`, i.e. 9-10 digit numbers.
+- `random-integer` uses `java.lang.Integer`. Values can thus _only_ be generated from the range `[-2147483648, 2147483647]`, i.e., 9-10 digit numbers.
 
 ### Workaround
 
