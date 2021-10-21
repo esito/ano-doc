@@ -5,7 +5,7 @@ sidebar_label: Overview
 
 # Rules Overview
 
-Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e. foreign keys). The table anonymizations are organized by worktasks and the table anonymization statement contains separate statements for each column that is to be anonymized.
+Anonymizations are organized by table and performed on one or more of its columns and on columns from dependent tables (i.e., foreign keys). The table anonymizations are organized by Work Tasks and the table anonymization statement contains separate statements for each column that is to be anonymized.
 
 An anonymization rule is one of
 
@@ -350,7 +350,7 @@ The sample below shows anonymizations of a CUSTOMER table using all **mask** var
 
 ```
 update CUSTOMER
-    // Create random norwegian phone number
+    // Create random Norwegian phone number
     mask PHONE
         format "+47 %d"
         random-integer 10001000 99909990

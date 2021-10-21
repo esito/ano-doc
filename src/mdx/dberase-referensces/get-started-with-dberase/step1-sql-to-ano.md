@@ -4,7 +4,7 @@ label: translate-database--schemastructure
 ---
 
 # Step 1 - Translate Your Database Structure to ANO
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 :::info Goals
 
@@ -15,7 +15,7 @@ label: translate-database--schemastructure
 
 ## 1. Connect to your database
 
-Using your preferred Database Management tool (e.g. DBeaver)
+Using your preferred Database Management tool (e.g., DBeaver)
 
 ## 2. Export database DDL statements from the schema level
 
@@ -273,7 +273,7 @@ task MyTaskName
             format "%s %s"
             file src/main/resources/firstname.txt random-order
             file src/main/resources/lastname.txt random-order
-		// Create random norwegian phone number
+		// Create random Norwegian phone number
 		mask PHONE CUSTOMER_PHONE
 			format "+47 %d"
 			random-integer 10001000 99909990

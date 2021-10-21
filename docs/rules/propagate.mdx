@@ -16,15 +16,15 @@ Useful for preserving foreign key constraints, and to ensure data integrity afte
 
 ## Use cases for `propagate`
 
-Use propagate when
+Use `propagate` when
 
-- there are a foreign key constraint(s) to the column you are anonymizing
+- There is a foreign key constraint(s) to the column you are anonymizing
 - when columns in different tables must be anonymized the same, even though there does not exist a foreign key constraint
   - Without the foreign key constraint, you can ensure both tables are fully anonymized by
-    - first update the one table and `propagate` the update to the other table
-    - then update the other table with a `where` clause, so the updates are only performed on the subset of values that were not updated by the propagate
+    - First update the one table and `propagate` the update to the other table
+    - Then update the other table with a `where` clause, so the updates are only performed on the subset of values that were not updated by the propagate
 
-`propagate` is only usable in `update` work tasks.
+`propagate` is only usable in `update` Work Tasks.
 
 ## Ano Structure and Examples
 
@@ -86,7 +86,7 @@ task <task> {
 
 Note that `Address` have a foreign key constraint to `Customer`, so every `Address.customer_customerNo` value must exist in `Customer.customerNo`
 
-- We update `customerNo` in parent table `Customer`, and propagate the update to child table `Address`.
+- We update `customerNo` in parent table `Customer` and propagate the update to child table `Address`.
 
 </TabItem>
 
@@ -126,7 +126,7 @@ task <task> {
 
 There is no foreign key constraint on `Address` to `Customer`. This means values of `Address.customer_customerNo` may or may not exist in `Customer.customerNo`.
 
-- When they exists, then update the values through `propagate`
+- When they exist, then update the values through `propagate`
 - When they do not exist, then update the values separately, using a `where` clause. The `where` clause allows us to only update values in `Address` not hit by the propagate from `Customer`
 
 </TabItem>

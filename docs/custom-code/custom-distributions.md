@@ -6,7 +6,9 @@ sidebar_label: Custom Distributions
 
 # Custom Distributions
 
-Distributions are defined for dependent tables when creating data for tables. It is used for determining the distribution of foreign keys between the parent and child tables. All custom distributions must be created in the src/main/java/\<java package\>.distributions package.
+Distributions are defined for dependent tables when creating data for tables.
+It is used for determining the distribution of foreign keys between the parent and child tables.
+All custom distributions must be created in the src/main/java/\<java package\>.distributions package.
 
 <br/>
 
@@ -15,7 +17,7 @@ Distributions are defined for dependent tables when creating data for tables. It
 
 ```java
 /**
- * Simple distribution where it ensures a minimum occurances of each parent
+ * Simple distribution where it ensures a minimum occurrences of each parent
  * when creating new records
  */
 public class MinPerParent implements IDistribution {

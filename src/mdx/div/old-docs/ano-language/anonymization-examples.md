@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 # ANOnymization Examples
 

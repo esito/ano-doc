@@ -13,16 +13,18 @@ Use `map` to create a mapping file describing how production data is anonymized 
 
 - Use `map` with `output` to produce a mapping file containing `key=value` pairs resulting from an anonymization rule
 - Use `map` with `input` to update a column according to the `key=value` pairs in the provided mapping file
-- Use `map` with `input-output` to first update a column according to the mapping file, and then update the mapping file in cases there are missing `key=value` pairs
+- Use `map` with `input-output` to first update a column according to the mapping file,
+  and then update the mapping file in cases there are missing `key=value` pairs
 
 :::
 :::warning Warning
 
 - Mapping files contains production data. Protect it as such.
-- run a `map` work task only **once** on a column of a data set
+- Run a `map` Work Task only **once** on a column of a data set
   - Running a `map` rule **twice** on the same column in the same data set may result in **data integrity problems**
     - the first `map` will work on real data, the second `map` will work on anonymized data
-    - After the second run, in the cases of `output` and `input-output`, the mapping file created/updated will no longer properly map real production values to anonymized values
+    - After the second run, in the cases of `output` and `input-output`,
+      the mapping file created/updated will no longer properly map real production values to anonymized values
 
 :::
 
@@ -30,10 +32,10 @@ Use `map` to create a mapping file describing how production data is anonymized 
 
 Use `map` when table values is to be anonymized equally across
 
-- different databases or schemas
-- different versions of the same database, e.g. equally over time
-- tables in the same database, but that are not connected properly
-- different .csv files
+- Different databases or schemas
+- Different versions of the same database, e.g., equally over time
+- Tables in the same database, but that are not connected properly
+- Different .csv files
 
 ## Ano Structure and Examples
 
@@ -97,7 +99,7 @@ Use `map` when table values is to be anonymized equally across
 
 1. Anonymize values using mappings in `address_map.txt`
 2. If mappings does not exist, then create new anonymizations using values from the input-source `src/main/resources/address.txt`
-   - Values created from the input source will not be stored to the mapping file. Use `input-ouput` for this.
+   - Values created from the input source will not be stored to the mapping file. Use `input-output` for this.
 
 </TabItem>
 

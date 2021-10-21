@@ -81,7 +81,7 @@ foreign-key
 	ADDRESS CUSTOMER_CUSTOMERNO
 
 // - - - SECTION 2 -USER DEFINED CLASSES - - - //
-conversion example.anonymizer.conversions.ParseDigits
+Conversion example.anonymizer.conversions.ParseDigits
 transformation example.anonymizer.transformations.PostCodeGeneralization
 distribution example.anonymizer.distributions.MinPerParent
 
@@ -90,7 +90,7 @@ task Anonymize
 {
 	// Anonymize - Mask various fields
 	update CUSTOMER Anonymize_CUSTOMER
-		// Create random norwegian phone number
+		// Create random Norwegian phone number
 		mask PHONE CUSTOMER_PHONE
 			format "+47 %d"
 			random-integer 10001000 99909990
