@@ -38,7 +38,7 @@ import TabItem from '@theme/TabItem';
 task ... {                                   		// Task Group
     ...
     update CUSTOMER Anonymize_CUSTOMER                          // update Work Task
-        // Create random norwegian phone number
+        // Create random Norwegian phone number
         mask PHONE CUSTOMER_PHONE								// mask rule
             format "+47 %d"
             random-integer 10001000 99909990
@@ -199,12 +199,12 @@ The **random-[type]** input source is used to insert a value drawn from a random
 - `random-date`
 - `random-datetime`
 
-**Example:** Create random norwegian phone numbers
+**Example:** Create random Norwegian phone numbers
 
 ```ano
 task ... {
     update <table>
-        // Create random norwegian phone number
+        // Create random Norwegian phone number
         mask PHONE <rule-name>
             format "+47 %d"
             random-integer 10001000 99909990      // random integer drawn from given interval

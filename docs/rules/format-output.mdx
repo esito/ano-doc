@@ -1,0 +1,193 @@
+---
+sidebar_position: 2
+sidebar_label: Format of the output
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# `format` of the output
+
+:::tip Goal
+The `format <format>` is used in almost all the Work Task rules,
+and describes how the output of the rule is formatted when stored into the database.
+E.g. the output format of the `mask`, `randomize`, `shuffle`, etc.
+
+The `<format>` part will be a combination of
+
+- Format specifiers `%d`, `%.2f`, `%s`, `%tF`, `%tT`
+- Literal strings: `"My literal string"`
+
+By default, each format specifier refers to its own `<input source>`.
+It is possible to draw data from one input source into multiple format specifiers
+(using `1$`, `2$`, etc.), as is the case for DateTime input sources.
+:::
+
+:::info Note
+
+- Format specifiers alone can be written without double quotes `""`. Else it should be quoted (`"my phone number is: %d"`)
+- When a `transform <transformation>` is used, the formatted output is the input to
+  the java transformation method specified in `<transformation>`.
+  The result of the transformation is what will be stored back to the database
+- Without any format specifications the value is regarded as a constant
+- The text constant `NULL` is regarded as `SQL NULL`
+- Each format specifier must be matched with one input source
+
+:::
+
+## Constructing the format string
+
+### Deciding the format specifier
+
+The `<input source>` most often decides for you which format specifier you want.
+
+1. `%d` - random-integer, sequence, randomize (integer)
+1. `%f` - random-decimal, randomize (decimal)
+1. `%s` - file, column
+1. `%tF` - random-date, randomize (date)
+1. `%tT` - random-time, randomize (time)
+1. `"%1$tF %1$tT"` - random-datetime, randomize (datetime)
+
+### ANO `format <format>` Examples
+
+<Tabs
+  defaultValue="numbers"
+  values={[
+    { label: 'Numbers', value: 'numbers' },
+    { label: 'Strings', value: 'strings' },
+    { label: 'Dates/Times/DateTimes', value: 'dates' },
+    { label: 'Multiple Input Sources', value: 'multiple-inputs' },
+    { label: 'Multiple Specifiers', value: 'multiple-specifiers' },
+  ]}
+>
+
+<TabItem value="numbers">
+
+```ano
+// ---- Numbers ----
+    <rule>
+        format %d               // integers
+        <input-source>
+    <rule>
+        format %f               // decimals
+        <input-source>
+    <rule>
+        format %.2f             // decimals with 2 decimal places
+        <input-source>
+    <rule>
+        format %.4f             // decimals with 4 decimal places
+        <input-source>
+```
+
+</TabItem>
+
+<TabItem value="strings">
+
+```ano
+// ---- text strings ----
+    <rule>
+        format %s               // simple text string
+        <input-source>
+    <rule>
+        format "%s"             // same as above
+        <input-source>
+    <rule>
+        format "%d"             // integer stored as text string
+        <input-source>
+    <rule>
+        format "hello world!"   // literal. No input source
+    <rule>
+        format "hello %s!"      // literal + text string input source
+        <input-source>
+    <rule>
+        format "+47 %d"         // literal + integer stored as string
+        <input-source>
+    <rule>
+        format "%s: %d"         // two input sources
+        <input-source>          // <- %s
+        <input-source>          // <- %d
+```
+
+</TabItem>
+
+<TabItem value="dates">
+
+```ano
+// ---- Date / Time / DateTime ----
+    <rule>
+        format %tF                      // “yyyy-MM-dd“ "2030-01-31"
+        <input-source>
+    <rule>
+        format "%1$tY-%1$tm-%1$td“      // Same “yyyy-MM-dd“
+        <input-source>
+    <rule>
+        format %tD	                    // "MM/dd/YY" "01/31/2030"
+        <input-source>
+    <rule>
+        format "%1$tm/%1$td/%1$ty"      // same "MM/dd/YY"
+        <input-source>
+    <rule>
+        format %tT                      // “HH:mm:ss“ "16:00:00" (24-hours time format)
+        <input-source>
+    <rule>
+        format "%1$tH:%1$tM:%1$tS"      // same “HH:mm:ss“
+        <input-source>
+    <rule>
+        format "%1$tF %1$tT"            // “yyyy-MM-dd HH:mm:ss“ 2030-01-31 16:05:00“ (Database timestamp format)
+        <input-source>
+    <rule>
+        format "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"  // same  “yyyy-MM-dd HH:mm:ss“
+        <input-source>
+```
+
+</TabItem>
+
+<TabItem value="multiple-inputs">
+
+```ano
+    <rule>
+        format "%s: %d"         // two input sources
+        <input-source>          // <- %s
+        <input-source>          // <- %d
+    <rule>
+        format "%s %s (%d)"     // three input sources
+        <input-source>          // <- first %s
+        <input-source>          // <- second %s
+        <input-source>          // <- %d
+
+```
+
+</TabItem>
+
+<TabItem value="multiple-specifiers">
+
+```ano
+    <rule>
+        format "%1$tY-%1$tm-%1$td“      // '1$' means use first input source
+        <input-source>                  // Date type input source
+    <rule>
+        format "%1$tm/%1$td/%1$ty"      //  %tm/%td/%ty fails since we expect 3 input sources
+        <input-source>                  // Date type input source
+    <rule>
+        format "%1$tF %1$tT"            // “yyyy-MM-dd HH:mm:ss“ 2030-01-31 16:05:00“ (Database timestamp format)
+        <input-source>                  // DateTime type input source
+    <rule>
+        format "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"  // same  “yyyy-MM-dd HH:mm:ss“
+        <input-source>                  // DateTime type input source
+    <rule>
+        format "%1$tF %2$s %1$tT"       // second input source in the middle
+        <input-source>
+        <input-source>
+
+```
+
+</TabItem>
+
+</Tabs>
+
+## Java Formatter Documentation
+
+For a thorough guide on the definition of different flags (e.g., `%f`, `%tT`, ... ), see
+
+- [Java String Format Examples](https://dzone.com/articles/java-string-format-examples)
+- [Java Formatter Flags](http://www.java2s.com/Tutorials/Java/Java_Format/0080__Java_Format_Flags.htm)

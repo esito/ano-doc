@@ -4,7 +4,7 @@ label: registration
 ---
 
 # Registration Process
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 ## Login / Create an Account
 

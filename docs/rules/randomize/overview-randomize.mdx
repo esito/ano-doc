@@ -19,7 +19,7 @@ The randomize function is used to apply noise on numeric and date column values.
     randomize <column-name> <rule-name?>            // ´?´ means optional
         type <type>
         format <format>
-        convert <convertion>
+        convert <conversion>
         transform? <transformation?>
         unique?
         offset? <offset-decimal?>                       // random variable
@@ -46,11 +46,11 @@ Replace `<type>` with correct format. Standard formats are:
 
 For other formats see [formats](../format).
 
-## `convert <convertion>` - Convertion functions for randomize
+## `convert <conversion>` - Convertion functions for randomize
 
 All input to the randomize function is read as a string.
 You must therefore specify a function to convert from the String type to the input type.
-Replace `<convertion>` with correct convertion function, defined by the type:
+Replace `<conversion>` with correct conversion function, defined by the type:
 
 <table width="100%" >
 <thead>
@@ -201,7 +201,7 @@ Used to transform column value before being written to the database. (See Replac
 
 Built in transformations:
 
-- Email - Translates space, hyphen and underscore resutling in a valid email address
+- Email - Translates space, hyphen and underscore resulting in a valid email address
 - CreditCard - Adjust last digit for MOD10 validation
 
 ## Noise Variables
@@ -224,7 +224,7 @@ Note that the type denotes what is added:
 
 ### `percentage-noise <percentage-noise>`
 
-`percentage-noise` allows addition of a randomized percentage of the original value. The given perentage of the original value is multiplied with a random number before addition.
+`percentage-noise` allows addition of a randomized percentage of the original value. The given percentage of the original value is multiplied with a random number before addition.
 
 ## Noise Formula
 

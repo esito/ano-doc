@@ -50,7 +50,7 @@ DBmasker is a stateless cloud service that generates anonymization programs base
 task Anonymize
     // Anonymize - Mask various fields
     update CUSTOMER
-        // Create random norwegian phone number
+        // Create random Norwegian phone number
         mask PHONE
             format "+47 %d"
             random integer 10001000 99909990

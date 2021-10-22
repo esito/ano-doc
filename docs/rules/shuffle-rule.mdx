@@ -1,12 +1,12 @@
 ---
-sidebar_position: 1
-sidebar_label: Shuffle a Column
+sidebar_position: 4
+sidebar_label: Shuffle rule
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# The `shuffle` anonymization rule
+# Shuffle rule
 
 :::tip Goal
 Write `shuffle` rule logic to reorder existing column values.
@@ -39,14 +39,11 @@ Write `shuffle` rule logic to reorder existing column values.
 
 ```ano
 table HOTEL
-    ...
     column text NAME size 40
-    ...
 ...
 task ... {
     update HOTEL
         shuffle NAME
-      ...
 }
 ```
 

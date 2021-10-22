@@ -11,7 +11,9 @@ import TabItem from '@theme/TabItem';
 :::tip Goal
 Use `convert` to parse the values of an input source, using a java method, before it enters the anonymization logic described in the `.ano` file.
 
-The difference between a `convert` and a `transform` is that a `convert` is done on an `input source` and a `transform` is done on the output of the anonymization rule, i.e. the output of the `format` string.
+The difference between a `convert` and a `transform` is that a `convert`
+is done on an `input source` and a `transform` is done on the output of the anonymization rule
+, i.e., the output of the `format` string.
 
 :::
 
@@ -22,9 +24,9 @@ Use `convert` when writing
 - `randomize` rules, because the input source values are read as strings by default
 - `mask` rules, when you want to convert an input source before doing the anonymization operation
   - This may be required by your business logic
-    - e.g. converting a date field to an int field giving current age since date
+    - E.g., converting a date field to an int field giving current age since date
 
-For simple conversions, use the in-built convertion functions described below. For business specific logic, you will need to write your own conversion function.
+For simple conversions, use the built-in conversion functions described below. For business specific logic, you will need to write your own conversion function.
 
 ## Ano Structure and Examples
 
@@ -44,12 +46,12 @@ For simple conversions, use the in-built convertion functions described below. F
         mask <column>
             format %s
             column <column>
-                convert <convertion-function>
+                convert <conversion-function>
         ...
         randomize <colummn>
             type <type>
             format <format>
-            convert <convertion-function>
+            convert <conversion-function>
             offset <offset>
             flat-noise <flat-noise>
             percentage-noise <percentage-noise>
@@ -96,7 +98,7 @@ task <task> {
 ## Built in Convertion functions
 
 All input to the randomize function is read as a string.
-Replace `<convertion-function>` with the correct convertion function, defined by the input source type and desired format:
+Replace `<conversion-function>` with the correct conversion function, defined by the input source type and desired format:
 
 <table width="100%" >
 <thead>
@@ -118,7 +120,7 @@ Return type
 </th>
 <th >
 
-Expected format from convertion
+Expected format from conversion
 
 </th>
 </tr>
@@ -237,6 +239,6 @@ Decimal number as accepted by the valueOf method in class Double
 </tbody>
 </table>
 
-## Custom Convertions
+## Custom Conversions
 
-If you want to write your own convertions, see [Custom Convertions](../custom-code/custom-convertions) for details.
+If you want to write your own conversions, see [Custom Conversions](../custom-code/custom-conversions) for details.

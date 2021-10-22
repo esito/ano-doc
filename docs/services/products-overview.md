@@ -30,19 +30,20 @@ Free or paid
 <tr>
 <td>
 
-DBMasker
+DBmasker
 
 </td>
 <td>
 
 Generates anonymization applications based on tasks and rules written in the ANO language. It supports
 
-* data masking and anonymization
-* creation of database subsets for test and development
-* creation of synthetic data that complies to your test cases
-* protection of access to personally identifiable data from developers
+* Data masking and anonymization
+* Creation of database subsets for test and development
+* Creation of synthetic data that complies to your test cases
+* Protection of access to personally identifiable data from developers
 
-Whenever you copy your production database to test or development environments, you simply run this application against the database copy in test and development environments.
+Whenever you copy your production database to test or development environments,
+you simply run this application against the database copy in test and development environments.
 
 </td>
 <td>
@@ -54,7 +55,7 @@ Paid
 <tr>
 <td>
 
-DBAno
+DBano
 
 </td>
 <td>

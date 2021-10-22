@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 :::tip Goal
 Use `transform` to parse the values created by the anonymization rule. The transform is a java function that takes the output of the `format` string as input, and processes them before storing the results to the database.
 
-The difference between a `convert` and a `transform` is that a `convert` is done on an `input source` and a `transform` is done on the output of the anonymization rule, i.e. the output of the `format` string.
+The difference between a `convert` and a `transform` is that a `convert` is done on an `input source` and a `transform` is done on the output of the anonymization rule, i.e., the output of the `format` string.
 
 :::
 
@@ -37,7 +37,7 @@ Use `transform` to ensure that the generated anonymized data follows business sp
 ...
         <rule> <column>
             format %s
-            transform <tranformation>
+            transform <transformation>
             <input-source>
 ...
 ```
@@ -55,12 +55,12 @@ task <task> {
     ...
         <rule> <column>
             format %s
-            transform <tranformation>
+            transform <transformation>
             <input-source>
 }
 ```
 
-- **Custom Transformation:** If you use a custom transformation and not an built in one, then import it in the `.ano` file using the `transformation` keyword
+- **Custom Transformation:** If you use a custom transformation and not a built-in one, then import it in the `.ano` file using the `transformation` keyword
 - import the custom function from its package in the java project
 
 
@@ -106,7 +106,7 @@ task <task> {
 
 ### Email
 
-The `Email` builtin transformation function does the following to the format string output:
+The `Email` built-in transformation function does the following to the format string output:
 
 - Letters are lowercased: `A-Z`->`a-z`
 - Numbers and lowercased letters are unchanged
@@ -127,9 +127,9 @@ The `Email` builtin transformation function does the following to the format str
 
 ### CreditCard
 
-The `CreditCard` builtin transformation function uses the Luhn algorithm for Credit Card encoding. It replaces the last digit for MOD10 checksum validation.
+The `CreditCard` built-in transformation function uses the Luhn algorithm for Credit Card encoding. It replaces the last digit for MOD10 checksum validation.
 
-- The format string must be digits for the transform to work, e.g. "1234567890123456".
+- The format string must be digits for the transform to work, e.g., "1234567890123456".
 
 ## Custom Transformations
 

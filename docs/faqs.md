@@ -5,16 +5,19 @@ id: faqs
 ---
 
 # FAQs - Frequently Asked Questions
-<!-- markdownlint-disable MD033 - makes html allowed -->
 
 ## Is Anonymizer standalone, or must it be integrated into my Software?
 
 Anonymizer provides a standalone application through the DBmasker Service.
 It does not need to be integrated into your own software or applications.
 It is it meant to be run against your database only. And only when a database needs anonymization.
-e.g. every time a database is copied from production to the test or development databases.
+E.g., every time a database is copied from production to the test or development databases.
 
 ## How can DBmasker be run against my database?
 
 You provide the database connector and the database connection string to the generated DBmasker application.
 The database connector is specified inside the `pom.xml`, and the connection string is specified in the `src/main/resources/config.properties` file.
+
+## Can I run DBmasker on a my OS?
+
+Yes. Since DBmasker is a Java application it is operative system agnostic. It requires you to have the Java Runtime Environment installed.

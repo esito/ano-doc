@@ -3,14 +3,14 @@ sidebar_position: 4
 id: dbano-product
 ---
 # DBano
-
+<!-- markdownlint-disable MD013 - makes html allowed -->
 ref: https://esito-conf.inmeta.com/display/DBMAS/DBano
 
 ## Introduction
 
 The DBano service generates ANO files describing database structure using the ANO DSL language described in DBmasker ANO syntax.
 
-The generated result contains tables, columns, primary-keys, unique constraints and foreign key definitions and may be extended with anonymization/masking rules. The service takes database schema sql files as input.
+The generated result contains tables, columns, primary-keys, unique constraints and foreign key definitions and may be extended with anonymization/masking rules. The service takes database schema SQL files as input.
 
 <br/>
 

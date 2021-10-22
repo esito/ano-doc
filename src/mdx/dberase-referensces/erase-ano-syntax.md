@@ -4,7 +4,7 @@ sidebar_label: ANO for DBerase
 ---
 
 # Creating the ANO file for the DBerase project
-<!-- markdownlint-disable MD033 - makes html allowed -->
+
 
 The DBerase service has syntax equal to a subset of the DBmasker syntax with some restrictions. The complete syntax is available here: DBmasker ANO syntax.
 

@@ -2,7 +2,7 @@
 
 This requires you to have an associated text file with names to be used for masking. Put this file in the "resources" folder.
 
-## Mask first name and last name
+## Mask hotel name
 
 ```ano
 task MyTaskName
@@ -16,7 +16,7 @@ task MyTaskName
 }
 ```
 
-## Mask first name and last name
+## Mask company name
 
 ```ano
 task MyTaskName

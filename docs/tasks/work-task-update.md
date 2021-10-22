@@ -4,18 +4,18 @@ sidebar_label: Update
 ---
 
 # Update
-<!-- markdownlint-disable MD033 - makes html allowed -->
 
 The **update** Work Task lets you write Rules that anonymizes (changes or replaces) the values in table columns.
 
-A common use case is to run all **update** Work Tasks against your development database, right after production data has been copied into it.
+A common use case is to run all **update** Work Tasks against your development database,
+right after production data has been copied into it.
 
 ```ano
 task AllUpdateTasks {                                   // Task Group
     ...
     update CUSTOMER Anonymize_CUSTOMER                          // update Work Task
         sql-before "delete from CUSTOMER where CUSTOMER_NAME is null" selection-key CUSTOMER_NAME
-        // Create random norwegian phone number
+        // Create random Norwegian phone number
         mask PHONE CUSTOMER_PHONE
             format "+47 %d"
             random-integer 10001000 99909990
@@ -99,16 +99,17 @@ An anonymization is written as following:
    - `randomize`: to add noise to existing data, to become unrecognizable
    - `shuffle`: to reorder existing data values, and ensures no record keeps its original value
 2. `map` keyword for file mapping (**Optional**)
-   - use map to update similar values in another database
-   - output file with key/value pairs for writing data to file
-   - input file with key/value pairs for masking anonymization
+   - Use map to update similar values in another database
+   - Output file with key/value pairs for writing data to file
+   - Input file with key/value pairs for masking anonymization
 3. `temporary-value` keyword to set a temporary value on primary keys or unique keys (**Optional**)
 4. `propagate` (**Optional**)
    - Use propagate to update foreign keys with the same value as the primary key mask
 
 ## Anonymizations Rules
 
-According to whether you do table `update`, `create`, `delete`, `erase` or `sar`, you will create rules. A rule act on one column, but can be propagated to other tables and a column there.
+According to whether you do table `update`, `create`, `delete`, `erase` or `sar`, you will create rules.
+A rule act on one column, but can be propagated to other tables and a column there.
 
 There are 3 Rule types
 
@@ -125,7 +126,6 @@ Resulting anonymizations can be in an any of the following format types:
 - time (HH:mm:ss)
 - datetime (yyyy-MM-dd HH:mm:ss)
 
-
 ## `mask` - rules
 
 <figure>
@@ -136,12 +136,12 @@ Resulting anonymizations can be in an any of the following format types:
 The rule logic for a `mask` anonymization is written as follows:
 
 1. The keyword `mask` (**Required**)
-   1. followed by the `column` name (**Required**)
-   2. and your own name for this rule (**Optional?**)
+   1. Followed by the `column` name (**Required**)
+   2. Then by your own name for this rule (**Optional?**)
 2. The keyword `format` (**Required**)
-   1. followed by ouput format specification (**Required**)
+   1. Followed by output format specification (**Required**)
 3. The keyword `transform` (**Optional**)
-   1. followed by a predefined string transformation method. The resulting anonymization value is processed.
+   1. Followed by a predefined string transformation method. The resulting anonymization value is processed.
 4. The keyword `unique`, if that is a desired constraint (**Optional**)
 5. Generated value source (**Optional**)
    1. `random-[type]`
@@ -167,7 +167,8 @@ task ... {
 
 ### Generated value sources
 
-The `mask` function masks the values of columns by replacing all or part of the data with generated values taken from various input sources. A mask may use any of the following input sources:
+The `mask` function masks the values of columns by replacing all or part of the data with generated values taken
+from various input sources. A mask may use any of the following input sources:
 
 <table header-style="none" width="100%">
 <tr>
@@ -178,7 +179,8 @@ random-[type]
 </td>
 <td>
 
-The **random-[type]** input source is used to insert a value drawn from a random sequence as defined by the **from** and **to** properties. The **random-[type]** is one of
+The **random-[type]** input source is used to insert a value drawn from a random sequence as defined by the **from** and
+**to** properties. The **random-[type]** is one of
 
 - `random-integer`
 - `random-decimal`
@@ -186,12 +188,12 @@ The **random-[type]** input source is used to insert a value drawn from a random
 - `random-date`
 - `random-datetime`
 
-**Example:** Create random norwegian phone numbers
+**Example:** Create random Norwegian phone numbers
 
 ```ano
 task ... {
     update <table>
-        // Create random norwegian phone number
+        // Create random Norwegian phone number
         mask PHONE <rule-name>
             format "+47 %d"
             random-integer 10001000 99909990      // random integer drawn from given interval
@@ -209,7 +211,8 @@ file
 </td>
 <td>
 
-The **file** input source is used to insert a string value taken from the file defined in the file property. It picks a line from the file sequentially or randomly depending on the **random-order** property.
+The **file** input source is used to insert a string value taken from the file defined in the file property.
+It picks a line from the file sequentially or randomly depending on the **random-order** property.
 
 **Example:** Create random names from input files of firstnames and lastnames
 
@@ -235,7 +238,8 @@ column
 </td>
 <td>
 
-The **column** input source is used to insert the specified column value into the masked parent column. You can only specify a column from the mask table.
+The **column** input source is used to insert the specified column value into the masked parent column.
+You can only specify a column from the mask table.
 
 **Example:** set todate = fromdate
 
@@ -259,9 +263,11 @@ sequence
 </td>
 <td>
 
-The **sequence** input source is used to insert a sequence of integers into the column records starting with the **start** property value and incremented by the **increment** property value.
+The **sequence** input source is used to insert a sequence of integers into the column records starting with the **start**
+property value and incremented by the **increment** property value.
 
-**Example:** auto increment starting at the highest (which is specified as from but not inlcuding -1), with increments of 1
+**Example:** auto increment starting at the highest (which is specified as from but not including -1),
+with increments of 1
 
 ```ano
 task ... {
@@ -281,7 +287,8 @@ task ... {
 
 ### `format` - Format Types
 
-The `format` denotes the masking result and may be a combination of literal string values and format strings using java.util.Formatter. Use "" if there are spaces.
+The `format` denotes the masking result and may be a combination of literal string values and
+format strings using java.util.Formatter. Use "" if there are spaces.
 
 <table width="100%" >
 <tr>
@@ -415,7 +422,7 @@ DateTime
 
 Without any format specifications the value is regarded as a constant. The text constant NULL is regarded as SQL NULL.
 
-Each format parameter must be mached with one input source. Eiher:
+Each format parameter must be matched with one input source. Either:
 
 - `random-[type]`
 - `file`
@@ -424,7 +431,9 @@ Each format parameter must be mached with one input source. Eiher:
 
 See more examples at [Java String Format Examples](https://dzone.com/articles/java-string-format-examples).
 
-The transform **TRANSFORMATION** class is one of the classes defined in the user defined transformation classes section. The transform() method takes String as input and delivers a String object. The class must implement the ITransformation interface. See **Email** and **CreditCard** as samples below.
+The transform **TRANSFORMATION** class is one of the classes defined in the user defined transformation classes section.
+The transform() method takes String as input and delivers a String object.
+The class must implement the ITransformation interface. See **Email** and **CreditCard** as samples below.
 
 ## `randomize` - rules
 
@@ -442,26 +451,28 @@ The `randomize` function is used to **apply noise** on one of the following form
 - datetime
 
 1. The keyword `randomize` (**Required**)
-   1. followed by the `column` name (**Required**)
-   2. and your own name for this rule (**Optional**)
+   1. Followed by the `column` name (**Required**)
+   2. Then by your own name for this rule (**Optional**)
 2. The keyword `type` (**Required**)
-   1. followed by the name of the format type (e.g. `integer`, `decimal`, `date`, `time`, or `datetime`)
+   1. Followed by the name of the format type (e.g., `integer`, `decimal`, `date`, `time`, or `datetime`)
 3. The keyword `format` (**Required**)
-   1. followed by `double quoted string` containing the string format (**Required**)
+   1. Followed by `double quoted string` containing the string format (**Required**)
 4. The keyword `convert` (**Required**)
    1. The input value to the anonymization is passed through the convert.
-   2. Why? Input must be 'string'.
+       - Use this when the anonymization requires a specific type since the db values are read as string, e.g., random-integer requires int  
 5. The keyword `transform` (**Optional**)
    1. The output value of the anonymization is passed through the transformation method.
 6. The keyword `unique` if that is a desired constraint (**Optional**)
 
-The algorithm is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly to make it hard to recognize. Supported types are Integer, Decimal, Date, Time and DateTime.
+The algorithm is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly
+ to make it hard to recognize. Supported types are Integer, Decimal, Date, Time and DateTime.
 
 ### random
 
 ![alt text](/img/docs/ano-syntax/random.png 'Random')
 
-All input to the randomize function is read as a string. You must therefore specify a function to convert from the String type to the input type, defined by the type property:
+All input to the randomize function is read as a string. You must therefore specify a function to convert
+from the String type to the input type, defined by the type property:
 
 <table width="100%" >
 <tr>
@@ -597,7 +608,6 @@ Decimal number as accepted by the valueOf method in class Double
 </td>
 </tr>
 </table>
-
 
 ## `shuffle` Rules
 
