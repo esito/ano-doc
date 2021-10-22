@@ -18,6 +18,6 @@ E.g., every time a database is copied from production to the test or development
 You provide the database connector and the database connection string to the generated DBmasker application.
 The database connector is specified inside the `pom.xml`, and the connection string is specified in the `src/main/resources/config.properties` file.
 
-## Can I run DBmasker on a Windows OS?
+## Can I run DBmasker on a my OS?
 
-Yes, DBmasker is a Java application, and is therefore operative system agnostic. It requires you to have the Java 8 Runtime Environment installed.
+Yes. Since DBmasker is a Java application it is operative system agnostic. It requires you to have the Java Runtime Environment installed.

@@ -3,7 +3,6 @@ sidebar_label: Introduction
 sidebar_position: 1
 id: intro
 ---
-<!-- markdownlint-disable MD013 - makes html allowed -->
 
 # Get Started
 

@@ -1,0 +1,186 @@
+---
+sidebar_position: 2
+sidebar_label: Ano File Structure
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Ano File Structure
+
+:::tip TL;DR
+
+The ANO DSL Language is written into `.ano` files. An `.ano` file have four sections:
+
+1. Database Schema Information (describes your database tables)
+2. Foreign Key Constraints (optional)
+3. User Defined Classes (optional)
+4. Tasks and Rules
+
+:::
+
+:::info Recommendation
+
+- [Install Visual Studio Code](https://code.visualstudio.com/) to write `.ano` files
+- This allows you to [install and use our ANO extension](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano)
+  - It provides error checking, syntax highlighting, syntax completion, hover information, and on-save formatting
+
+:::
+
+:::note Note
+
+- Our [**DBano service**](#) will write the first two sections of the file for you
+- Both **Foreign Key Constrains** and **User Defined Classes** sections are optional
+- The **Tasks and Rules** section is where all your anonymization logic will be written
+
+:::
+
+## The `.ano` File Example
+
+<Tabs
+  defaultValue="ano"
+  values={[
+    { label: 'Structure', value: 'ano' },
+    { label: 'customer_address_db.ano', value: 'ano-example' },
+  ]}
+>
+
+<TabItem value="ano">
+
+```ano
+// - - - - Database Schema Information - - - - //
+
+table ...
+    column ...
+    column ...
+    primary-key ...
+    unique-key ... ...
+table ...
+
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    <parent> <parent-key>
+    <child> <foeign-key>
+
+// - - - - User Defined Classes (Optional) - - - - //
+
+conversion <package.path>
+transformation <package.path>
+distribution <package.path>
+
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update <table>
+        <rule-logic>
+            ...
+    update <table2>
+        <rule-logic>
+            ...
+
+}
+
+task CreateTasks
+{ ...
+}
+
+
+task DeleteTasks
+{ ...
+}
+```
+
+</TabItem>
+
+<TabItem value="ano-example">
+
+```ano
+// - - - - Database Schema Information - - - - //
+
+table Customer
+    column integer id
+    column integer customerNo
+    column text email
+        size 40
+    column text name
+        size 40
+    column datetime created
+    primary-key id
+    unique-key customerNo customerNo
+
+table Address
+    column integer id
+    column text homeAddress
+        size 40
+    column text postalCode
+    column integer customerNo // Foreign key
+    primary-key id
+
+
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    Customer customerNo
+    Address customerNo
+
+
+// - - - - User Defined Classes (Optional) - - - - //
+
+// conversion no.esito.anonymizer.conversions.ParseDigits
+transformation no.esito.anonymizer.transformations.Email
+// distribution no.esito.anonymizer.distributions.MinPerParent
+
+
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            random-integer 1000 9999
+
+    update Customer UpdateCustomerNameNumberAndCreated
+        sql-before "delete from Customer where name is NULL"
+
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order map name_map.txt output
+
+        mask customerNo UpdateCustomerNoAndPropagateToAddressFk
+            format %d
+            unique
+            sequence 10000 1 // start at 10000, increment by 1
+            propagate Address.customerNo
+
+        shuffle created // name defaults to 'shuffle_created'
+
+    update Customer UpdateCustomerEmailNotNullSubset
+        where "email is not null"
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. E.g. firstname.lastname@mail.com
+            unique
+            column name
+}
+
+task CreateTasks
+{ ...
+}
+
+
+task DeleteTasks
+{ ...
+}
+```
+
+</TabItem>
+
+</Tabs>
