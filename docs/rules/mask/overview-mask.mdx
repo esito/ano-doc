@@ -5,13 +5,14 @@ sidebar_label: Overview
 
 # Overview of the `mask` rules
 
-The mask rules anonymizes the values of columns by replacing all or
-part of the data with generated values taken from various **input sources**.
+:::tip Overview
 
-<figure>
-  <img src="/img/docs/ano-syntax/mask.png" alt="" />
-  <figcaption> The Ano Structure of the mask Rules </figcaption>
-</figure>
+The `mask` rule generates values for the column fields.
+
+- In an `update`, it will replace existing column values
+- In a `create`, it will populate new rows of values
+
+:::
 
 ## ANO syntax for mask rules
 
@@ -25,7 +26,7 @@ part of the data with generated values taken from various **input sources**.
 ...
 ```
 
-## Types of input sources
+## Input sources
 
 ### `random-[type]`
 
@@ -53,8 +54,8 @@ you can use one of the conversions defined to convert the data type. See convert
 ### `sequence`
 
 The `sequence` input source is used to insert a sequence of integers into the column starting with the first INTEGER value
- and incremented by the second INTEGER value. If -1 is selected,
- the sequence starts with the highest value stored in the column plus the increment.
+and incremented by the second INTEGER value. If -1 is selected,
+the sequence starts with the highest value stored in the column plus the increment.
 
 ## `unique`
 
