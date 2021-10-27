@@ -1,0 +1,122 @@
+---
+sidebar_position: 2
+sidebar_label: Configure Application
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# How to Configure the Java Application
+
+:::tip Goal
+Configure the application by adding
+
+- the database driver to the maven dependencies, in the `pom.xml`
+- the database URL to the `src/main/resources/config.properties`
+
+:::
+
+### Database Driver (pom.xml)
+
+Navigate to `pom.xml`. Add the correct Maven JDBC Driver dependency.
+
+#### pom.xml (Sql Server dependency)
+
+<Tabs
+  defaultValue="sqlserver"
+  values={[
+    { label: 'SQL Server Example', value: 'sqlserver' },
+    { label: 'MySql Example', value: 'mysql' },
+  ]}
+>
+
+<TabItem value="sqlserver">
+
+```xml
+    ...
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>9.4.0.jre8</version> <!-- Note jre8, not jre11 or jre16 -->
+    </dependency>
+    ...
+```
+
+</TabItem>
+
+<TabItem value="mysql">
+
+```xml
+    ...
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.26</version>
+    </dependency>
+    ...
+```
+
+</TabItem>
+</Tabs>
+
+#### Tips:
+
+Find the correct Maven Dependency by
+
+- [Search for database provider in the Maven Repository](https://mvnrepository.com/search?q=jdbc)
+- [Visiting this blog](https://vladmihalcea.com/jdbc-driver-maven-dependency/)
+
+**Note:** The dependency **must be Java 8 compatible**.
+
+## Database URL and Credentials
+
+Navigate to `src/main/resources/config.properties`. Provide the URL and credentials for the database connection here.
+
+### config.properties
+
+<Tabs
+  defaultValue="sqlserver"
+  values={[
+    { label: 'SQL Server Example', value: 'sqlserver' },
+    { label: 'MySql Example', value: 'mysql' },
+  ]}
+>
+
+<TabItem value="sqlserver">
+
+```properties
+# Database connection parameters
+connection.host         = localhost
+connection.port         = 1433
+connection.db           = master
+connection.schema       = pii_tables
+connection.user         = username
+connection.password     = password
+connection.driverClass  = com.microsoft.sqlserver.jdbc.SQLServerDriver
+connection.url          = jdbc:sqlserver://localhost:1433;database=master
+file.encryptionkey      =
+sql.wrapper             = "
+```
+
+</TabItem>
+
+<TabItem value="mysql">
+
+```properties
+# Database connection parameters
+connection.host         = localhost
+connection.port         = 3306
+connection.db           = pii_tables
+connection.schema       =
+connection.user         = username
+connection.password     = password
+connection.driverClass  = com.mysql.cj.jdbc.Driver
+connection.url          = jdbc:mysql://localhost:3306/pii_tables
+file.encryptionkey      =
+sql.wrapper             = `
+```
+
+</TabItem>
+</Tabs>
+
+- Make sure to change `sql.wrapper` to backticks (`` ` ``) when using a MySql database. Other databases may use double quotes `"`
