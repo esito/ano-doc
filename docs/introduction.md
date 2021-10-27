@@ -42,7 +42,7 @@ The services we provide are
 
 &nbsp;
 
-## [Get Started with DBmasker](./get-started-with-dbmasker/dbmasker-get-started-overview.md)
+## [Get Started with DBmasker](./quickstart/overview-quickstart)
 
 ### Blog
 

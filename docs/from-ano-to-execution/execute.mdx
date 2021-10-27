@@ -1,0 +1,59 @@
+---
+sidebar_position: 3
+sidebar_label: Execute Application
+---
+
+# How to Execute the Java Applications
+
+:::tip Goal
+After the Java Application is configured, you will execute it to run the anonymization tasks.
+
+1. DBmasker command line tools
+2. Execute using Intellij
+3. Execute using the Command Line only
+
+:::
+
+## Execute tasks using Intellij
+
+1. Open the Java application in Intellij as a Maven project
+2. Click `Add Configuration...`
+3. Click `add new` and select `Application`
+4. Under **Build and Run**, provide the _Main class_
+   - Default is `example.anonymizer.Anonymizer`
+5. In the _Program Arguments_, write `cmd`
+
+## Execute using the Command Line
+
+Run the maven install command
+
+> mvn install
+
+This will provide you with a `target/<name>-0.0.1.jar` file. Execute this file by using
+
+> java -jar target/<name\>-0.0.1.jar cmd
+
+## The DBmasker command line tools
+
+"cmd" is a command that takes continued input from standard input. The program displays the command help text and is ready for commands.
+
+```
+Reading internal config.properties
+Commands:
+trace                 - shows more messages
+help                  - shows this page
+config                - creates a local config.properties used for changing connection parameters
+ping                  - test database connection
+tasks                 - outputs list of tasks
+run                   - runs all tasks except erase and sar tasks
+run <tasks>           - runs a list of space delimited tasks, erase and sar actions are excluded
+erase <task> <params> - runs erase actions for a specified task with a series of space delimited parameters
+                        if parameter contains a space, surround it with quotation marks
+sar <task> <params>   - creates a SAR export for a specified task with a series of space delimited parameters
+                        xml and json files will be created in working directory
+cmd                   - takes continued input from standard input (stdin)
+quit                  - quits program
+>
+```
+
+Use the `run` command to execute the tasks.
