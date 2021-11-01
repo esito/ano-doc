@@ -33,7 +33,13 @@ The [format](./format-output) of the output of a rule strategy can be formatted 
 
 The output of the anonymization rule may be transformed using [`transform`](./transform).
 
-## Handle foreign keys
+## Handle constraints
 
-To handle foreign keys during the anonymization processs, you may want to [propagate](./propagate) anonymizations of a primary key column to foreign key columns in other tables.
+### foreign keys
+
+To handle table dependencies during the anonymization process, such as foreign key constraints, you may want to [propagate](./propagate) anonymizations of a primary key column to foreign key columns in other tables.
 Or you may want to populate a foreign key columns in child tables by using a [distribution](./distribute) of primary key values available in parent tables.
+
+### unique keys
+
+The `unique` keyword may be placed in a task rule to ensure the values stored in the database are unique. This may fail, depending on the input sources and sizes of tables. Not all input sources provide an infinite number of values. E.g. `random-integer` is finite while `random-decimal` is approximately infinite.

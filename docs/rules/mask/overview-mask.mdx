@@ -3,88 +3,103 @@ sidebar_position: 1
 sidebar_label: Overview
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Overview of the `mask` rules
 
 :::tip Overview
 
-The `mask` rule generates values for the column fields.
+The `mask` rule generates values using input sources.
 
-- In an `update`, it will replace existing column values
-- In a `create`, it will populate new rows of values
+- In an `update`, the rules replaces existing column values
+- In a `create`, the rules populate new rows of values
 
 :::
 
-## ANO syntax for mask rules
+## ANO Structure
 
 ```ano
 ...
-    mask <column-name> <rule-name?>     // ´?´ means optional
-        format <format>
-        transform? <transformation?>
-        unique?
-        <input-sources>
+task <task-name> {
+
+    <update-or-create> <table> <task-name?>
+        mask <column-name> <rule-name?>     // ´?´ means optional
+            format <format>
+            transform? <transformation?>
+            unique?
+            <input-sources>
+                convert? <convertion?>
+                map? <mapping-file?> <mapping-rule?>
+}
 ...
 ```
 
-## Input sources
+### Explained
+
+- The `mask` keyword is followed by the column that is being anonymized by the rule
+- [`format`](../format-output.mdx) describes the output of the mask rule
+- [`transform`](../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
+- `unique` will make the rule respect the unique constraint of the table column
+- `input-sources` define where input where the values are sourced from
+- [`convert`](../convert.mdx) refers to a java convertion function in the DBmasker project that will take the input source values as inputs before passing it to the rule
+- [`map`](../map.mdx) refers to a mapping file that may be used as an `input`, `output` or `input-output` of the rule
+
+## Mask Input Sources
+
+<Tabs
+  defaultValue="random-type"
+  values={[
+    { label: 'random-[type]', value: 'random-type' },
+    { label: 'File', value: 'file' },
+	{ label: 'Column', value: 'column' },
+	{ label: 'Sequence', value: 'sequence' },
+  ]}
+>
+
+<TabItem value="random-type">
 
 ### `random-[type]`
 
 The `random-[type]` input source is used to insert a value drawn from a
 random sequence as defined by the `<from>` and `<to>` properties. The `random-[type]` is one of
 
-- `random-integer`
-- `random-decimal`
-- `random-time`
-- `random-date`
-- `random-datetime`
+- [`random-integer`](random-integer.mdx)
+- [`random-decimal`](random-decimal.mdx)
+- [`random-time`](random-time.mdx)
+- [`random-date`](random-date.mdx)
+- [`random-datetime`](random-datetime.mdx)
+
+</TabItem>
+
+<TabItem value="file">
 
 ### `file`
 
-The `file` input source is used to insert a string value taken from the file defined in the FILE terminal.
+The [`file`](file.mdx) input source is used to insert a string value taken from the file defined in the location string.
 It picks a line from the file sequentially or randomly depending on the `random-order` property.
 A conversion class can be selected to manipulate the string selected from the text file. See convert.
 
+</TabItem>
+
+<TabItem value="column">
+
 ### `column`
 
-The `column` input source is used to insert the specified column value into the masked parent column.
-You can only specify a column from the same table. If the column being anonymized is not a string,
-you can use one of the conversions defined to convert the data type. See convert.
+The [`column`](column.mdx) input source is used to insert the specified column value into the masked column.
+You can only specify a column from the same table. If a column being anonymized is not a string,
+you can use one of the conversions defined to convert the data type. See [`convert`](../convert.mdx).
+
+</TabItem>
+
+<TabItem value="sequence">
 
 ### `sequence`
 
-The `sequence` input source is used to insert a sequence of integers into the column starting with the first INTEGER value
+The [`sequence`](sequence) input source is used to insert a sequence of integers into the column starting with the first INTEGER value
 and incremented by the second INTEGER value. If -1 is selected,
 the sequence starts with the highest value stored in the column plus the increment.
 
-## `unique`
+</TabItem>
 
-Ensures uniqueness of values in columns.
-
-## `transform` Transformations
-
-Used to transform column value before being written to the database. (See ReplaceDigits.java in AnonymizerHotel example).
-Implements no.esito.anonymizer.ITransformation interface.
-May be written yourself and added to the source code of the generated project.
-
-Built in transformations:
-
-- Email - Translates space, hyphen and underscore resulting in a valid email address
-- CreditCard - Adjust last digit for MOD10 validation
-
-## `convert` Conversions
-
-Defined for randomized or masked columns using a column input source.
-
-Converts input strings into another string format or can convert string into another data type for randomized columns.
-Implements no.esito.anonymizer.IConversion interface.
-May be written yourself and added to the source code of the generated project.
-
-Built in conversions used for converting string input to various other data types:
-
-- ParseDigits - remove all non-digits
-- String2Date - convert to java.time.LocalDate
-- String2DateTime - convert to java.time.LocalDateTime
-- String2Decimal - convert to Double
-- String2Integer - convert to Integer
-- String2Time - convert to java.time.LocalTime
+</Tabs>
