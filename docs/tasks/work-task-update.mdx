@@ -3,6 +3,9 @@ sidebar_position: 2
 sidebar_label: Update
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Update
 
 :::tip Goal
@@ -44,12 +47,67 @@ You will primarily anonymize Personally Identifiable Data and Linkable Data. In 
 - Educational information
 - Event based information
 
-## ANO Structure
+## Work Task `update` in Ano
+
+In `update` Work Tasks, you can use any of the [`mask`](../rules/mask/overview-mask), [`randomize`](../rules/randomize/overview-randomize) or the [`shuffle`](../rules/shuffle-rule) rule strategies.
+
+[Visit the rules section](../rules/overview-rules) for more information on how to write `update` task rules.
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Update Address Example', value: 'update' },
+  ]}
+>
+
+<TabItem value="structure">
 
 ```ano
-task UpdateTasks {                                   // Task Group
-    ...
-    update <table> <task-name>                          // update Work Task
-        <rules>
+task <TaskGroupName>
+{
+    update <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        randomize <column> <RuleName>
+            <rule-logic>
+        shuffle <column> <RuleName>
+            <rule-logic>
 }
 ```
+
+</TabItem>
+
+<TabItem value="update">
+
+```ano
+table Address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+// - - - - Tasks and Rules - - - - //
+
+task updateAdressTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            //transform PostCodeGeneralization
+            random-integer 1000 9999
+
+        shuffle created
+}
+```
+
+</TabItem>
+
+</Tabs>

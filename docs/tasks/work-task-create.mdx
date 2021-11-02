@@ -3,30 +3,93 @@ sidebar_position: 3
 sidebar_label: Create
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Create
 
 :::tip Goal
-The `create` Work Tasks lets you write rules that populates tables with generated data.
+The `create` Work Tasks is well suited to all cases where you have the database table structure, but you do not have the table data.
 
-- Useful for populating empty databases for testing and development purposes
+- In test and development environments it is often necessary to work with test data for developing and testing different scenarios. With create TABLE, you can insert rows into database tables with sample data and also create records for child tables that are linked together by foreign keys.
 
 :::
 
 ## Considerations
 
-When populating a specific database table, all columns must be populated by rules at the same time (else they remain `null`).
-As such, it requires more ANO to write `create` tasks than `update` tasks, as `updates` needs only rules for certain columns.
+- When populating a specific database table, all columns must be populated by rules at the same time (else they remain `null`).
+  - As such, it requires more ANO to write `create` tasks than `update` tasks, as `updates` needs only rules for certain columns.
+- It is important to define the creation of data for parent tables before defining the creation of data for child tables, and then ensure that the relation via the foreign keys are defined using [`distribute`](../rules/distribute).
+  - You can specify the distribution of foreign keys used in child records by specifying one of the various distribution algorithms supplied, or you can create a customized distribution for your own purposes. If a parent table is referenced by many child foreign keys, a distribution algorithm may be defined for a group of child tables.
+- The minimum-rows value ensures that the table will have at least minimum-rows records inserted.
 
-The `create` tasks is well suited to all cases where you have the database table structure, but you do not have any table data.
+## Work Task `create` in Ano
 
-## ANO Structure
+In `create` Work Tasks, you can only use the [`mask`](../rules/mask/overview-mask) rule strategy. New data is created using input sources of various kinds.
+
+[Visit the rules section](../rules/overview-rules) for more information on how to write `create` task rules.
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Create Address Example', value: 'create' },
+  ]}
+>
+
+<TabItem value="structure">
 
 ```ano
-task CreateTasks {                                   // Task Group
-    ...
-    create <table> <task-name>                          // create Work Task
-        <rules>
+task <TaskGroupName>
+{
+    create <table> <WorkTaskName> minimum-rows <minimum-rows>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
 }
 ```
 
-Visit the `Rules Section` on how to create spefific `create` work task rules.
+</TabItem>
+
+<TabItem value="create">
+
+```ano
+table Address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+// - - - - Tasks and Rules - - - - //
+
+task CreateTasks
+{
+    create Address CreateAddressRows minimum-rows 1000
+        mask addressNo
+            format %d%d
+            unique
+            random-integer 10001000 99909990
+            random-integer 10001000 99909990
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            random-integer 1000 9999
+
+        mask created
+            format "%1$tF %1$tT"
+            random-datetime 2020-01-01 07:00:00 2020-12-31 22:00:00
+}
+```
+
+</TabItem>
+
+</Tabs>

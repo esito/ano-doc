@@ -1,0 +1,238 @@
+---
+sidebar_position: 2
+sidebar_label: Address and Customer Example Project
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Address and Customer Example Project
+
+:::tip Example project
+In this example project, we have created a localhost SQL Server with schema `pii_tables` and the two tables `Address` and `Customer`.
+
+It demonstrate similarities and differences between `update` and `create` Work Tasks, and their rules.
+
+:::
+
+## The Database Creation, DDL Export and ANO File
+
+<Tabs
+  defaultValue="sql"
+  values={[
+	{ label: 'Table Creation', value: 'sql' },
+	{ label: 'DDL Export', value: 'ddl-export' },
+	{ label: 'address_customer.ano with Tasks and Rules', value: 'map-input-output' },
+  ]}
+>
+
+<TabItem value="sql">
+
+The tables `Address` and `Customer` are created in a SQL Server schema of name `pii_tables`, using the following SQL Statements.
+
+```sql
+--drop table pii_tables.Customer;
+--drop table pii_tables.Address;
+
+CREATE TABLE pii_tables.Address (
+	addressNo BIGINT not null,
+	homeAddress varchar(50) null ,
+	postalCode varchar(10) null,
+	created datetime null,
+	CONSTRAINT Address_PK PRIMARY KEY (addressNo),
+);
+
+CREATE TABLE pii_tables.Customer (
+	ID int NOT NULL identity(1,1),
+	addressNo BIGINT not null,
+	email varchar(50) null ,
+	name varchar(50) null,
+	created datetime null,
+	CONSTRAINT Customer_PK PRIMARY KEY (ID),
+	FOREIGN KEY (addressNo) REFERENCES pii_tables.Address(addressNo)
+);
+
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (372036854775807, 'Prod Address 1', '1234', '2020-01-28 12:24:06');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (137862354775678, 'Prod Address 2', '6542', '2020-07-15 16:35:13');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (825675368758452, 'Prod Address 3', '1008', '2021-01-01 14:05:34');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (265736898756443, 'Prod Address 4', '4064', '2021-12-21 08:57:30');
+
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (372036854775807,'jean.smith@mail.com', null, '2020-01-28 12:24:06');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (137862354775678,'m.simmons@somemail.com','Mark Simmons', '2020-07-15 16:35:13');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (825675368758452,null,'Edward Snake', '2021-01-01 14:05:34');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (265736898756443,'mary.lake@foomail.com','Mary Lake', '2021-12-21 08:57:30');
+```
+
+</TabItem>
+
+<TabItem value="ddl-export">
+
+When exporting the DDL of the existing tables, we get the following DDL. This is stored into `address_customer.sql` file before translating it file into an ANO file of name `address_customer.ano`.
+
+```sql
+-- pii_tables.Customer definition
+
+CREATE TABLE `Customer` (
+`ID` int NOT NULL AUTO_INCREMENT,
+`addressNo` bigint NOT NULL,
+`email` varchar(50) DEFAULT NULL,
+`name` varchar(50) DEFAULT NULL,
+`created` datetime DEFAULT NULL,
+PRIMARY KEY (`ID`),
+KEY `addressNo` (`addressNo`),
+CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`addressNo`) REFERENCES `Address` (`addressNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- pii_tables.Address definition
+
+CREATE TABLE `Address` (
+`ID` int NOT NULL AUTO_INCREMENT,
+`addressNo` bigint NOT NULL,
+`homeAddress` varchar(50) DEFAULT NULL,
+`postalCode` varchar(10) DEFAULT NULL,
+`created` datetime DEFAULT NULL,
+PRIMARY KEY (`ID`),
+UNIQUE KEY `Address_UK` (`addressNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+
+</TabItem>
+
+<TabItem value="map-input-output">
+
+Inside the translated `address_customer.ano` file, we write the following **Tasks and Rules** section.
+
+```sql
+ // - - - - Database Schema Information - - - - //
+table Address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+table Customer
+    column integer ID
+    column text email
+        size 50
+    column text name
+        size 50
+    column datetime created
+    column integer addressNo
+    primary-key ID
+
+// - - - - Foreign Keys (Optional) - - - - //
+foreign-key
+    Address addressNo
+    Customer addressNo
+
+// - - - USER DEFINED CLASSES - - - //
+ //conversion example.anonymizer.conversions.ParseDigits
+ //transformation example.anonymizer.transformations.PostCodeGeneralization
+ //distribution example.anonymizer.distributions.MinPerParent
+
+// - - - - Tasks and Rules - - - - //
+
+task updateAdressTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            //transform PostCodeGeneralization
+            random-integer 1000 9999
+
+        shuffle created
+}
+
+task updateCustomerTasks
+{
+    update Customer UpdateCustomerNameUsingTwoFiles
+        sql-before "delete from Customer where name is null"
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order map name_map.txt output
+    update Customer UpdateCustomerEmailNotNullSubset
+        where "email is not null"
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. Results in firstname.lastname@mail.com
+            column name
+
+    update Customer UpdateCustomerRandomizeCreated
+        randomize created
+            type datetime // datetime adds noise in seconds
+            format "%1$tF %1$tT"
+            convert String2DateTime
+            offset 360000.0
+            flat-noise 50000.0
+}
+
+task propagateTask
+{
+    update Address
+        mask addressNo
+            format %d
+            unique
+            sequence 10000 1 // start at 10000, increment by 1
+            temporary-value 9999999
+            propagate Customer.addressNo
+}
+
+task createCustomerTask
+{
+    create Address createAddressRows minimum-rows 1000
+        mask addressNo
+            format %d%d
+            unique
+            random-integer 10001000 99909990
+            random-integer 10001000 99909990
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            random-integer 1000 9999
+
+        mask created
+            format "%1$tF %1$tT"
+            random-datetime 2020-01-01 07:00:00 2020-12-31 22:00:00
+
+
+    create Customer createCustomerRows minimum-rows 1500
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order
+
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. Results in firstname.lastname@mail.com
+            column name
+
+        mask created
+            format "%1$tF %1$tT"
+            random-datetime 2020-01-01 07:00:00 2020-12-31 22:00:00
+
+        distribute SimpleSpread
+        table Address
+            child addressNo
+            parent addressNo
+
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## Setting up and running the project
+
+Now that we have written the Tasks and Rules Section in the `address_customer.ano` file, we follow the steps in [From ANO to Task Execution](../from-ano-to-execution/overview-from-ano-to-execution) to get the java project.
