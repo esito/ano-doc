@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-label: registration
+sidebar_label: Services Access
 ---
 
 # Registration Process
