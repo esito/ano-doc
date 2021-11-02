@@ -1,0 +1,168 @@
+---
+sidebar_position: 1
+sidebar_label: Overview
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Tasks Overview
+
+:::tip Goal
+
+An ANO Tasks consists of two levels:
+
+1. Task Groups - top level
+2. Work Tasks - Secondary level
+
+Task Groups are collection of Work Tasks. Work Tasks are collection of anonymization rules.
+
+**Work Task Types**
+
+- [`update`](work-task-update)
+- [`create`](work-task-create)
+
+:::
+
+## Considerations
+
+- Task Groups can be nested
+- Work Tasks can not be nested
+- Work Task can be run by Task Group name or by Work Task name
+- Two Tasks of the same name will both be run when a Task is run by name
+- The order of task run is the same as the order of the task in the ANO file
+
+## ANO Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Nested Task Groups', value: 'nested' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+task <TaskGroupName>
+{
+    update <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        randomize <column> <RuleName>
+            <rule-logic>
+        shuffle <column> <RuleName>
+            <rule-logic>
+
+    create <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+}
+
+task <TaskGroup2Name>
+{
+    ...
+}
+
+```
+
+</TabItem>
+
+<TabItem value="nested">
+
+```ano
+task <TaskGroupName>
+{
+    task <NestedTaskGroupName>
+    {
+        update <table> <WorkTaskName>
+            mask <column> <RuleName>
+                <rule-logic>
+            randomize <column> <RuleName>
+                <rule-logic>
+            shuffle <column> <RuleName>
+                <rule-logic>
+    }
+
+    create <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+- Naming two Task Groups the same renders them indistinguishable when runningz
+
+## Work Task Types
+
+A **Work Task** is organized by database table. The Work Task type defines what kind of [`Rules`](../rules/overview-rules) can be applied.
+Each Rule in a Work Task applies to one of the columns of a table.
+
+Work Tasks can adhere to table constraints such as
+
+- Foreign keys using [`propagate`](../rules/propagate) or [`distribute`](../rules/distribute)
+- Unique keys using the [`unique`](../rules/overview-rules#unique) keyword
+- Cross-database anonymizations using [`map`](../rules/map)
+
+---
+
+<Tabs
+  defaultValue="update"
+  values={[
+    { label: 'Update', value: 'update' },
+    { label: 'Create', value: 'create' },
+  ]}
+>
+
+<TabItem value="update">
+
+**update** lets you write Rules that anonymizes (changes or replaces) the values in table columns.
+
+The same anonymizations can be applied to columns of child tables (i.e., using foreign keys).
+
+See [update](work-task-update) for more details.
+
+#### Use Cases
+
+This is the standard way of anonymizing the data of an entire database for testing and development purposes.
+
+#### Common implementation strategy:
+
+1. Dump the whole database from production to development environment
+2. Do **update** Work Tasks to anonymize sensitive columns in development environment
+3. Grant developers and testers access to the anonymized data in the development database
+
+</TabItem>
+
+<TabItem value="create">
+
+**create** lets you write Rules to insert rows of synthetic data,
+and also create rows for child tables that are linked together by foreign keys.
+
+See [create](work-task-create) for more details.
+
+#### Use Cases
+
+If the organization does not allow production data to be copied into testing and development environments,
+you may want to create synthetic (or fake) data for the testing and development databases.
+
+With the **create** type Work Task,
+you can insert rows into database tables with sample data
+and also create records for child tables that are linked together by foreign keys.
+
+</TabItem>
+</Tabs>
+
+---

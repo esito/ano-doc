@@ -1,17 +1,116 @@
 ---
 sidebar_position: 1
-sidebar_label: Overview 
+sidebar_label: Overview
 ---
 
-# Work Tasks Overview
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+# Tasks Overview
 
-## Work Task Types - Details
+:::tip Goal
+
+An ANO Tasks consists of two levels:
+
+1. Task Groups - top level
+2. Work Tasks - Secondary level
+
+Task Groups are collection of Work Tasks. Work Tasks are collection of anonymization rules.
+
+**Work Task Types**
+
+- [`update`](work-task-update)
+- [`create`](work-task-create)
+
+:::
+
+## Considerations
+
+- Task Groups can be nested
+- Work Tasks can not be nested
+- Work Task can be run by Task Group name or by Work Task name
+- Two Tasks of the same name will both be run when a Task is run by name
+- The order of task run is the same as the order of the task in the ANO file
+
+## ANO Structure
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Nested Task Groups', value: 'nested' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+task <TaskGroupName>
+{
+    update <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        randomize <column> <RuleName>
+            <rule-logic>
+        shuffle <column> <RuleName>
+            <rule-logic>
+
+    create <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+}
+
+task <Task2GroupName>
+{
+    ...
+}
+
+```
+
+</TabItem>
+
+<TabItem value="nested">
+
+```ano
+task <TaskGroupName>
+{
+    task <NestedTaskGroupName>
+    {
+        update <table> <WorkTaskName>
+            mask <column> <RuleName>
+                <rule-logic>
+            randomize <column> <RuleName>
+                <rule-logic>
+            shuffle <column> <RuleName>
+                <rule-logic>
+    }
+
+    create <table> <WorkTaskName>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+}
+
+```
+
+</TabItem>
+</Tabs>
+
+- Naming two Task Groups the same renders them indistinguishable when runningz
+
+## Work Task Types
 
 A **Work Task** is organized by database table. The Work Task type defines what kind of Rules can be applied.
 Each Rule in a Work Task applies to one of the columns of a table.
 
-Work Tasks can *propagate/cascade/distribute* changes done to a table to its child (dependent) tables, using foreign keys.
+Work Tasks can _propagate/cascade/distribute_ changes done to a table to its child (dependent) tables, using foreign keys.
 
 <table header-style="none" width="100%" >
 <tr>
@@ -47,6 +146,7 @@ See [update](#update) for more details.
 <td>
 
 create
+
 </td>
 <td>
 
@@ -138,9 +238,9 @@ This is the standard way of anonymizing the data of an entire database for testi
 
 Common use strategy:
 
-  1. Dump the whole database from production to development environment
-  2. Do **update** Work Tasks to anonymize sensitive columns in development environment
-  3. Grant developers and testers access to the anonymized data in the development database
+1. Dump the whole database from production to development environment
+2. Do **update** Work Tasks to anonymize sensitive columns in development environment
+3. Grant developers and testers access to the anonymized data in the development database
 
 </td>
 </tr>
@@ -236,8 +336,8 @@ and may be run as a task with the implicit name given by the task type and the T
 A NAME may be given and it will override the implicit name.
 
 > The **update**, **create**, **delete**, **erase** and **sar** are all Work Tasks and,
-may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER".
-A **NAME** may be given and it will override the implicit name.
+> may be run as a task with the implicit name given by the task type and the TABLE name as in "update_CUSTOMER".
+> A **NAME** may be given and it will override the implicit name.
 
 ### sql
 
@@ -302,7 +402,7 @@ The **DISTRIBUTION** class can be one of the built-in classes or defined in the 
 The sample below uses the built-in class **AllCombinations**.
 It ensures that all possible combinations of ROOM rows connected to HOTEL and ROOMCATEGORY are created.
 
-``` ano
+```ano
 create ROOM minimum-rows 50
     mask ROOMNO
         format %d
@@ -365,7 +465,7 @@ The 3 cascading delete methods have different performance of deleting a hierarch
 
 ![alt text](/img/docs/ano-syntax/cascade.png 'Cascade')
 
-``` ano
+```ano
 delete HOTELCHAIN where "ID = 0" {
     cascade HOTEL parent ID child CHAIN_ID {
         cascade BOOKING parent ID child HOTEL_ID {
@@ -390,13 +490,13 @@ This may be used to anonymize or remove obsolete or unwanted data.
 It may also be used to support GDPR §17 [The right to Erasure](https://gdpr-info.eu/art-17-gdpr/)
 or Right to be forgotten in [GDPR](https://gdpr-info.eu/) or other privacy regulations.
 It may also help with consent withdrawal related to
- [GDPR §7](https://www.privacy-regulation.eu/en/article-7-conditions-for-consent-GDPR.htm) .
+[GDPR §7](https://www.privacy-regulation.eu/en/article-7-conditions-for-consent-GDPR.htm) .
 
 ### eraseTable
 
 ![alt text](/img/docs/ano-syntax/eraseTable.png 'Erase table')
 
-``` ano
+```ano
 erase CUSTOMER
     where "CUSTOMERNO = %PARAMETER%"
         mask NAME format "firstname lastname"
@@ -438,7 +538,7 @@ This includes any personal data and reasons for its use.
 
 ![alt text](/img/docs/ano-syntax/sarTable.png 'Sar table')
 
-``` ano
+```ano
 sar CUSTOMER
     where "CUSTOMERNO = %PARAMETER%"
         mask CREDITCARD
@@ -489,7 +589,7 @@ This is defined in the where clause with the **%PARAMETERn%** notation. **Note**
 
 #### %PARAMETER% use
 
-``` ano
+```ano
 erase CUSTOMER
     where "CUSTOMERNO = %PARAMETER%"
         mask NAME format "firstname lastname"
@@ -500,7 +600,7 @@ Command use: erase customer 1000234
 
 #### %PARAMETERn% use
 
-``` ano
+```ano
 erase COUNTRY
     where City = %PARAMETER1% AND country_id = (SELECT country_id FROM country WHERE country = %PARAMETER2%)
 
