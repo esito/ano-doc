@@ -5,6 +5,7 @@ sidebar_label: Overview
 
 # Work Tasks Overview
 
+
 ## Work Task Types - Details
 
 A **Work Task** is organized by database table. The Work Task type defines what kind of Rules can be applied.

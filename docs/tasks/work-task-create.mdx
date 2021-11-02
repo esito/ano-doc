@@ -1,0 +1,32 @@
+---
+sidebar_position: 3
+sidebar_label: Create
+---
+
+# Create
+
+:::tip Goal
+The `create` Work Tasks lets you write rules that populates tables with generated data.
+
+- Useful for populating empty databases for testing and development purposes
+
+:::
+
+## Considerations
+
+When populating a specific database table, all columns must be populated by rules at the same time (else they remain `null`).
+As such, it requires more ANO to write `create` tasks than `update` tasks, as `updates` needs only rules for certain columns.
+
+The `create` tasks is well suited to all cases where you have the database table structure, but you do not have any table data.
+
+## ANO Structure
+
+```ano
+task CreateTasks {                                   // Task Group
+    ...
+    create <table> <task-name>                          // create Work Task
+        <rules>
+}
+```
+
+Visit the `Rules Section` on how to create spefific `create` work task rules.

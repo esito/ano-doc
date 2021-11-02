@@ -1,0 +1,55 @@
+---
+sidebar_position: 2
+sidebar_label: Update
+---
+
+# Update
+
+:::tip Goal
+The `update` Work Tasks lets you write rules that anonymizes existing values in table columns by replacing them.
+
+- It is a great tool for creating anonymized datasets for testing and development environments, based upon real data
+- Target only the relevant table columns that needs anonymization
+- Integrate `update` Work Tasks as part of your database copy process from production to development.
+  - First copy, then `update`
+
+:::
+
+:::warning Warning
+
+- Never under any circumstances perform `update` Work Tasks against a production database. Data will be lost.
+
+:::
+
+## Identifying data that needs anonymization
+
+You will primarily anonymize Personally Identifiable Data and Linkable Data. In addition, you may need to anonymize business critical data.
+
+### Personally Identifiable Information Examples
+
+- **Names:** first, middle and lastname, usernames, aliases
+- **Addresses:** home address, email address, IP address
+- **Phone numbers:** mobile numbers, fixed numbers
+- **Personal identification numbers:** passport number, driver’s license, credit/debit card, taxpayer ID number, patient ID number
+- **Biometric data:** photos, x-rays, fingerprints, retina scans, voice signatures
+
+### Quasi Identifier Examples
+
+- Date of birth
+- Race
+- Gender
+- Business telephone number
+- Place of birth
+- Religion
+- Educational information
+- Event based information
+
+## ANO Structure
+
+```ano
+task UpdateTasks {                                   // Task Group
+    ...
+    update <table> <task-name>                          // update Work Task
+        <rules>
+}
+```

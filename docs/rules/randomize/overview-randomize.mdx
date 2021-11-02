@@ -5,14 +5,20 @@ sidebar_label: Overview
 
 # Overview of the `randomize` rules
 
-The randomize function is used to apply noise on numeric and date column values. The algorithm is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly to make it hard to recognize. Supported types are Integer, Decimal, Date, Time and DateTime.
+:::tip Goal
 
-<figure>
-  <img src="/img/docs/ano-syntax/randomize.png" alt="" />
-  <figcaption> The Ano Structure of the Randomize Rules </figcaption>
-</figure>
+The `randomize` rules applies noise to column values. The table values is treated as input source.
 
-**ANO syntax for randomize rules**
+Noise is added based upon a Gaussian distribution function, which is configured by the noise parameters `offset`, `flat-noise`, and `percentage-noise`.
+
+:::
+
+## Use Cases
+
+The `randomize` rule is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly to make it hard to recognize. Supported column types for `randomize` are
+[`integer`](randomize-integer.mdx), [`decimal`](randomize-decimal.mdx), [`date`](randomize-date.mdx), [`time`](randomize-time.mdx), and [`datetime`](randomize-datetime.mdx).
+
+## ANO Structure
 
 ```ano
 ...
@@ -28,217 +34,38 @@ The randomize function is used to apply noise on numeric and date column values.
 ...
 ```
 
-## `type <type>`
+- randomize needs to know what type is to be anonymized `integer`, `decimal`, `date`, `time`, or `datetime`
+- [format](../format-output) describes the output of the randomize task: `%d`, `%f` / `%.2f`, `%tF`, `%tT`, `"%1$tF %1$tT"`
+- randomize rules reads column values as string, and must therefore have a [convert](../convert.mdx) function specified.
+  - Select one of the inbuilt convertion functions `String2Integer`, `String2Decimal`, `String2Date`, `String2Time`, `String2DateTime`.
+- [`transform`](../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
+- `unique` ensures uniqueness of values created by randomize
 
-Replace `<type>` with correct type:
+## Noise
 
-- `integer`, `decimal`, `date`, `time`, or `datetime`
+### Noise Variables
 
-## `format <format>`
+- `offset` - Fixed value
+- `flat-noise` - Fixed value that is mulitplied by a randomly generated number `r`
+- `percentage-noise` - percentage of the original value that is mulitplied by a randomly generated number `r`
+  - minimum 0.00
+  - maximum 100.00
 
-Replace `<type>` with correct format. Standard formats are:
+**Note:**
 
-- integer - `%d`
-- decimal - `%f` or `%.2f`
-- date - `%tF`
-- time - `%tT`
-- datetime - `"%1$tF %1$tT"`
+- When adding noise to type `time` and `datetime`, the noise is added in _seconds_
+- When adding noise to type `date`, the noise is added in _days_
+- For type `integer`, after noise is added, the resulting value is cast from _double_ back to _integer_
 
-For other formats see [formats](../format-output).
+### Noise Generation Process
 
-## `convert <conversion>` - Convertion functions for randomize
-
-All input to the randomize function is read as a string.
-You must therefore specify a function to convert from the String type to the input type.
-Replace `<conversion>` with correct conversion function, defined by the type:
-
-<table width="100%" >
-<thead>
-<tr>
-<th>
-
-Type
-
-</th>
-<th>
-
-Convertion Function
-
-</th>
-<th>
-
-Return type
-
-</th>
-<th >
-
-Expected format on string input
-
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-
-Date
-
-</td>
-<td>
-
-String2Date
-
-</td>
-<td>
-
-java.time.LocalDate
-
-</td>
-<td>
-
-yyyy-MM-dd
-
-</td>
-</tr>
-<tr>
-<td>
-
-DateTime
-
-</td>
-<td>
-
-String2DateTime
-
-</td>
-<td>
-
-java.time.LocalDateTime
-
-</td>
-<td>
-
-yyyy-MM-dd HH:mm:ss
-
-</td>
-</tr>
-<tr>
-<td>
-
-Time
-
-</td>
-<td>
-
-String2Time
-
-</td>
-<td>
-
-java.time.Time
-
-</td>
-<td>
-
-HH:mm:ss
-
-</td>
-</tr>
-<tr>
-<td>
-
-Integer
-
-</td>
-<td>
-
-String2Integer
-
-</td>
-<td>
-
-java.lang.Integer
-
-</td>
-<td>
-
-Decimal integer with or without sign
-
-</td>
-</tr>
-<tr>
-<td>
-
-Decimal
-
-</td>
-<td>
-
-String2Decimal
-
-</td>
-<td>
-
-java.lang.Double
-
-</td>
-<td>
-
-Decimal number as accepted by the valueOf method in class Double
-
-</td>
-</tr>
-</tbody>
-</table>
-
-## `unique`
-
-Ensures uniqueness of values in columns.
-
-## `transform` Transformations
-
-Used to transform column value before being written to the database. (See ReplaceDigits.java in AnonymizerHotel example). Implements no.esito.anonymizer.ITransformation interface. May be written yourself and added to the source code of the generated project.
-
-Built in transformations:
-
-- Email - Translates space, hyphen and underscore resulting in a valid email address
-- CreditCard - Adjust last digit for MOD10 validation
-
-## Noise Variables
-
-The variables `offset`, `flat-noise` and `percentage-noise` are all in decimal form.
-They are used to add random numbers to the original value.
-Note that the type denotes what is added:
-
-- **decimals, integers:** offset
-- **time:** offset-in-seconds
-- **date, datetime:** offset-in-days
-
-### `offset <offset>`
-
-`offset` allows addition of a flat value.
-
-### `flat-noise <flat-noise>`
-
-`flat-noise` allows addition of a randomized flat value. the `flat-noise` number is multiplied with a random number before addition.
-
-### `percentage-noise <percentage-noise>`
-
-`percentage-noise` allows addition of a randomized percentage of the original value. The given percentage of the original value is multiplied with a random number before addition.
-
-## Noise Formula
-
-1. A random number **r** is drawn (at runtime) from the [Standard Normal (Gaussian) Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution)
-2. We use **r**, together with user-provided noise variables to add noise to the **original value**
+1. A random number **r** is drawn (at runtime) from the [Standard Gaussian Distribution Function](https://en.wikipedia.org/wiki/Normal_distribution#Standard_normal_distribution)
+2. We use **r**, together with user-provided noise variables to add noise to the **existing value**
 
 ### Noise formula for integers and decimals
 
-> **original_value** + _offset_ + (_flat-noise_ \* r) + (**original_value** \* _percentage-noise_ / 100) \* r
-
-For type `integer`, the resulting value is cast from _double_ to _integer_ after calculation.
+> **existing_value** + _offset_ + (_flat-noise_ \* r) + (**existing_value** \* _percentage-noise_ / 100) \* r
 
 ### Noise formula for dates, times and datetimes
 
 > **original_value** + _offset_ + (_flat-noise_ \* r)
-
-For dates and datetimes we add days. For times we add seconds.
