@@ -1,0 +1,315 @@
+---
+sidebar_label: Quickstart
+sidebar_position: 1
+---
+
+# Quickstart
+
+:::tip Goal
+This Quickstart will explain the flow from having a database to running anonymization tasks and rules against it.
+
+It will provide tips and recommendations.
+:::
+
+## The database
+
+We will use the [Address and Customer Example Project](examples/address-customer-project) throught the Quickstart. The database service provider here is **SQL Server**. You may follow along with your own database and your own database service provider.
+
+:::note tip
+
+When developing new anonymizing Tasks and Rules for your database, make sure to do it on a database copy (E.g. in Localhost) where data can easily be reset. This allows you to test your logic against real data each time you run new versions of the Tasks and Rules.
+
+<details><summary><b>Reset the database from script</b> - reset_database_script.sql </summary>
+<p>
+
+```sql
+drop table pii_tables.Customer;
+drop table pii_tables.Address;
+
+CREATE TABLE pii_tables.Address (
+	addressNo BIGINT not null,
+	homeAddress varchar(50) null ,
+	postalCode varchar(10) null,
+	created datetime null,
+	CONSTRAINT Address_PK PRIMARY KEY (addressNo),
+);
+
+CREATE TABLE pii_tables.Customer (
+	ID int NOT NULL identity(1,1),
+	addressNo BIGINT not null,
+	email varchar(50) null ,
+	name varchar(50) null,
+	created datetime null,
+	CONSTRAINT Customer_PK PRIMARY KEY (ID),
+	FOREIGN KEY (addressNo) REFERENCES pii_tables.Address(addressNo)
+);
+
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (372036854775807, 'Prod Address 1', '1234', '2020-01-28 12:24:06');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (137862354775678, 'Prod Address 2', '6542', '2020-07-15 16:35:13');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (825675368758452, 'Prod Address 3', '1008', '2021-01-01 14:05:34');
+INSERT INTO pii_tables.Address (addressNo, homeAddress, postalCode, created) VALUES (265736898756443, 'Prod Address 4', '4064', '2021-12-21 08:57:30');
+
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (372036854775807,'jean.smith@mail.com', null, '2020-01-28 12:24:06');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (137862354775678,'m.simmons@somemail.com','Mark Simmons', '2020-07-15 16:35:13');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (825675368758452,null,'Edward Snake', '2021-01-01 14:05:34');
+INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (265736898756443,'mary.lake@foomail.com','Mary Lake', '2021-12-21 08:57:30');
+```
+
+</p>
+</details>
+
+:::
+
+---
+
+## 1. Extract database definition
+
+The only relevant parts of the database are the tables that shall be anonymized, and their constraints.
+
+[Export the DDL statements](from-sql-to-ano/translate-to-ano) for your tables, and store them in an `.sql` file.
+
+If you know which tables need anonymizations, and which does not, you may stick to only exporting the required tables.
+
+<details><summary><b>Exported DDL Statements</b> - creates_and_constraints.sql </summary>
+<p>
+
+```sql
+-- pii_tables.Customer definition
+
+CREATE TABLE `Customer` (
+`ID` int NOT NULL AUTO_INCREMENT,
+`addressNo` bigint NOT NULL,
+`email` varchar(50) DEFAULT NULL,
+`name` varchar(50) DEFAULT NULL,
+`created` datetime DEFAULT NULL,
+PRIMARY KEY (`ID`),
+KEY `addressNo` (`addressNo`),
+CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`addressNo`) REFERENCES `Address` (`addressNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- pii_tables.Address definition
+
+CREATE TABLE `Address` (
+`ID` int NOT NULL AUTO_INCREMENT,
+`addressNo` bigint NOT NULL,
+`homeAddress` varchar(50) DEFAULT NULL,
+`postalCode` varchar(10) DEFAULT NULL,
+`created` datetime DEFAULT NULL,
+PRIMARY KEY (`ID`),
+UNIQUE KEY `Address_UK` (`addressNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+
+</p>
+</details>
+
+---
+
+## 2. DBano Service
+
+Use our [DBano Service](from-sql-to-ano/translate-to-ano) to translate your database definitions by providing it the `.sql` file. [Register and Login to gain access](services/registration).
+The service will provide you an `.ano` file.
+
+This `.ano` file is also where you will write your Task and Rules for anonymizing your database.
+
+<details><summary><b>ANO File for your database</b> - address_and_customer.ano </summary>
+<p>
+
+```sql
+
+table Address
+	column integer ID
+	column integer addressNo
+	column text homeAddress
+		size 50
+	column text postalCode
+		size 10
+	column datetime created
+	primary-key ID
+	unique-key addressNo addressNo
+
+table Customer
+	column integer ID
+	column text email
+		size 50
+	column text name
+		size 50
+	column datetime created
+	column integer addressNo
+	primary-key ID
+
+foreign-key
+	Address ID
+	Customer addressNo
+
+
+/*
+...
+*/
+```
+
+</p>
+</details>
+
+---
+
+## 3. Tasks and Rules
+
+In the `.ano` file we now write the logic for our desired anonymizations. Consult the [`Writing Tasks`](tasks/tasks-overview) and [`Writing Rules`](rules/overview-rules) sections for details on how to do this.
+
+:::note recommendation
+
+Edit the `.ano` file using [Visual Studio Code](https://code.visualstudio.com/) with the [Ano Extension](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano) installed. This makes your life easier.
+
+:::
+
+<details><summary><b>ANO File With Tasks and Rules</b> - address_and_customer_done.ano </summary>
+<p>
+
+```sql
+ // - - - - Database Schema Information - - - - //
+table Address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+table Customer
+    column integer ID
+    column text email
+        size 50
+    column text name
+        size 50
+    column datetime created
+    column integer addressNo
+    primary-key ID
+
+// - - - - Foreign Keys (Optional) - - - - //
+foreign-key
+    Address addressNo
+    Customer addressNo
+
+
+// - - - - Tasks and Rules - - - - //
+
+task updateAdressTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            //transform PostCodeGeneralization
+            random-integer 1000 9999
+
+        shuffle created
+}
+
+task updateCustomerTasks
+{
+    update Customer UpdateCustomerNameUsingTwoFiles
+        sql-before "delete from Customer where name is null"
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order map name_map.txt output
+    update Customer UpdateCustomerEmailNotNullSubset
+        where "email is not null"
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. Results in firstname.lastname@mail.com
+            column name
+
+    update Customer UpdateCustomerRandomizeCreated
+        randomize created
+            type datetime // datetime adds noise in seconds
+            format "%1$tF %1$tT"
+            convert String2DateTime
+            offset 360000.0
+            flat-noise 50000.0
+}
+
+task propagateTask
+{
+    update Address
+        mask addressNo
+            format %d
+            unique
+            sequence 10000 1 // start at 10000, increment by 1
+            temporary-value 9999999
+            propagate Customer.addressNo
+}
+
+```
+
+</p>
+</details>
+
+---
+
+## 4. Generate
+
+[Use our DBmasker Service](from-ano-to-execution/generate) to generate the runtime project by providing the `.ano` file. [Buy DBmasker and Login to gain access](services/registration). The service will provide you an `.zip` file containing a Java 8, Maven 3.6 project.
+
+:::note recommendation
+
+Install Java 8 on your computer. Use Intellij to setup the Java application. Install maven.
+
+:::
+
+---
+
+## 5. Configure
+
+Configure the Java 8 application by [using this guide](from-ano-to-execution/configure).
+
+<details><summary><b>Maven Dependency for the SQL Server Database Provider</b> - pom.xml </summary>
+<p>
+
+```xml
+  <dependencies>
+    ...
+    <dependency>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>9.4.0.jre8</version>
+    </dependency>
+    ...
+  </dependencies>
+
+```
+
+</p>
+</details>
+
+<details><summary><b>Edit database connection string</b> - src/main/resources/config.properties </summary>
+<p>
+
+```properties
+# Database connection parameters
+connection.host         = localhost
+connection.port         = 1433
+connection.db           = master
+connection.schema       = pii_tables
+connection.user         = sa
+connection.password     = myPassword
+connection.driverClass  = com.microsoft.sqlserver.jdbc.SQLServerDriver
+connection.url          = jdbc:sqlserver://localhost:1433;database=master
+file.encryptionkey      =
+sql.wrapper             = "
+...
+```
+
+</p>
+</details>
+
+---
+
+## 6. Execute Tasks
+
+Execute tasks by [using this guide](from-ano-to-execution/execute).

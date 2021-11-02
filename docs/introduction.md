@@ -1,6 +1,6 @@
 ---
 sidebar_label: Introduction
-sidebar_position: 1
+sidebar_position: 0
 id: intro
 ---
 
@@ -8,19 +8,19 @@ id: intro
 
 With Anonymizer you can generate Java applications that can be automated and run whenever you like. These can perform database anonymization tasks for you, according to your logic.
 
-## What services do Anonymizer provide?
+## What services does Anonymizer provide?
 
 Anonymizer provides you with the following services:
 
 - [Anonymizer DBmasker](./services/dbmasker-product.md)
 - [Anonymizer DBano](./services/dbano-product.md)
-- [Anonymizer ANO DSL Language](#)
+- [Anonymizer ANO DSL Language](from-sql-to-ano/overview-from-sql-to-ano.mdx)
 
 ### Challenges introduced by GDPR
 
 The main challenge Anonymizer addresses is:
 
-- Developers and testers need copies of production data so they can properly do development and testing. The challenge then is that they shouldn't see actual customer data.
+- Developers and testers need copies of production data so they can properly do development and testing. The challenge then is that they shouldn't see actual production data.
 - Developers and testers need to create production-like data from scratch, since they either don't have access to production data, or they don't yet exist.
 
 ### Anonymizer - Our solution for you
@@ -29,9 +29,8 @@ Anonymizer provides you with services tailored to your database. These are servi
 
 - Anonymization of existing data
 - Synthetic data generation
-- Subject Access Request
 
-Anonymizer utilizes the ANO domain specific language (DSL) for writing masking and generating rules. Using the ANO language, you will be able to write propagating logic and advanced rules for handling edge cases in your database design. You will write an `.ano` file that will contain all your rules.
+Anonymizer utilizes the ANO domain specific language (DSL) for writing tasks and rules for anonymization. ANO lets you write advanced rules with propagating logic to handle constraints and edge cases in your database design. Your tasks and rules will be written in an  `.ano` file.
 
 The services we provide are
 
@@ -42,7 +41,7 @@ The services we provide are
 
 &nbsp;
 
-## [Get Started with DBmasker](./quickstart/overview-quickstart)
+## [Quickstart](./quickstart)
 
 ### Blog
 

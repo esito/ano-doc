@@ -10,21 +10,21 @@ id: intro
 With Anonymizer you can generate Java applications that can be automated and run whenever you like.
 These can perform database anonymization tasks for you, according to your logic.
 
-## What services do Anonymizer provide?
+## What services does Anonymizer provide?
 
 Anonymizer provides you with the following services:
 
 - [Anonymizer DBmasker](./services/dbmasker-product.md)
 - [Anonymizer DBerase](./services/dberase-product.md)
 - [Anonymizer DBano](./services/dbano-product.md)
-- [Anonymizer ANO DSL Language](#)
+- [Anonymizer ANO DSL Language](from-sql-to-ano/overview-from-sql-to-ano)
 
 ### Challenges introduced by GDPR
 
 The two main challenges Anonymizer addresses are:
 
 - Developers need copies of production data so they can properly do development and testing.
-- The challenge then is that they shouldn't see actual customer data.
+- The challenge then is that they shouldn't see actual production data.
 - Customers have the right to know what data about them are stored.
 - They also have the right to require data deletion from the systems.
 
