@@ -4,13 +4,13 @@ sidebar_position: 3
 
 # DBano
 
-## Introduction
+:::tip Introduction
 
 The DBano service generates ANO files describing database structure using the ANO DSL language described in DBmasker ANO syntax.
 
 The generated result contains tables, columns, primary-keys, unique constraints and foreign key definitions and may be extended with anonymization/masking rules. The service takes database schema SQL files as input.
 
-<br/>
+:::
 
 ## Generate the java code
 
@@ -18,11 +18,12 @@ Once you have created the SQL file, you can generate the ANO file. A generation 
 
 ![alt text](/img/docs/dbanoweb.png 'DBano Web')
 
-<br/>
-
 ## Sample code
 
 ### Recordshop tables
+
+<details><summary><b>Recordshop database Tables</b> - tables_and_constraints.sql </summary>
+<p>
 
 ```sql
 CREATE TABLE Artist (
@@ -113,9 +114,13 @@ ALTER TABLE Review ADD CONSTRAINT Review_author_idF FOREIGN KEY (author_id) REFE
 ALTER TABLE Review ADD CONSTRAINT Review_record_idF FOREIGN KEY (record_id) REFERENCES Record (id);
 ```
 
-<br/>
+</p>
+</details>
 
 ### Sample generated ANO file:
+
+<details><summary><b>Recordshop database Tables</b> - tables_and_constraints.ano </summary>
+<p>
 
 ```ano
 table Artist
@@ -199,3 +204,6 @@ foreign-key
     Review record_id
     Record id
 ```
+
+</p>
+</details>
