@@ -1,0 +1,26 @@
+---
+sidebar_position: 2
+sidebar_label: Service Access
+---
+
+# Service Access
+
+:::tip Goal
+
+Access to all services requires [Sign up and Log in](https://anonymizer.esito.no/auth). They will be available on the dashboard.
+
+Access to paid services are available [after buying the license](https://anonymizer.esito.no/products), and for a defined period.
+
+:::
+
+## Dashboard Access
+
+All Services are accessible [through the dashboard](https://anonymizer.esito.no/auth/dashboard/home). 
+
+![alt text](/img/docs/ano-dashboard-wo-dberase.png 'Anonymizer Dashboard')
+
+## Buy Service Access
+
+[Visit the Buy Page](https://anonymizer.esito.no/products) for purchase options.
+
+<img src="/img/docs/purchase_products.png" width="400" />

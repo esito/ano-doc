@@ -4,17 +4,32 @@ sidebar_position: 0
 id: intro
 ---
 
-# Get Started
+# Introduction
 
-With Anonymizer you can generate Java applications that can be automated and run whenever you like. These can perform database anonymization tasks for you, according to your logic.
+:::tip Anonymizer
 
-## What services does Anonymizer provide?
+Anonymizer provides you with the ANO developing language to anonymize databases.
 
-Anonymizer provides you with the following services:
+- No proprietary software installation
+- No Database Service Provider lock-in
+- No fuzz
 
-- [Anonymizer DBmasker](./services/dbmasker-product.md)
-- [Anonymizer DBano](./services/dbano-product.md)
-- [Anonymizer ANO DSL Language](from-sql-to-ano/overview-from-sql-to-ano.mdx)
+Simply write your desired anonymization logic as code. Then generate a Java application. Then run this application whenever you need to populate or anonymize your database tables.
+
+::: 
+
+## Get Started
+
+- [Our Services](services/overview-services)
+
+- [Quickstart](quickstart)
+
+- [Introducing the ANO Domain Specific Language](from-sql-to-ano/overview-from-sql-to-ano.mdx)
+
+- [ANO Tasks](tasks/overview-tasks)
+  
+- [ANO Rules](rules/overview-rules)
+
 
 ### Challenges introduced by GDPR
 
