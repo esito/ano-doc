@@ -6,7 +6,7 @@ sidebar_label: Random Date
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# `random-date`
+# Random Date
 
 :::tip Goal
 Write `mask` rule logic to
@@ -33,7 +33,7 @@ Write `mask` rule logic to
 ```ano
         ...
         mask <column> <rule-name>
-            format %s
+            format %tF
             random-date <from> <to>      // [<from>, <to>]
         ...
 ```
@@ -81,7 +81,7 @@ task ... {
 </Tabs>
 
 - `<from>` and `<to>` values are included in the generated values.
-  - Both are written using `YYYY-MM-DD format`
+  - Both are written using `YYYY-MM-DD` format
 - `random-date` creates values of the format `YYYY-MM-DD`, the `%tF` will result in strings of this format.<br/> &nbsp; &nbsp;
-  For different formats, see [Formats](#)
+  For different formats, see [Formats](../format-output)
 - Note the lack of double quotes `"` around the values after the `random-date` keyword. This is the correct syntax.

@@ -6,7 +6,7 @@ sidebar_label: Random Integer
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# `random-integer`
+# Random Integer
 
 :::tip Goal
 Write `mask` rule logic to
@@ -120,8 +120,8 @@ task ... {
 </Tabs>
 
 - `<from>` and `<to>` values are included in the generated values.
-- If desired result is different than integer, simply change the format string.
-  - For strings, simply format with double quoutes `"%d"`, and the generated interger will become strings.
+- If desired result is differs from integer, simply change the format string.
+  - For strings, simply format with double quoutes `"%d"`, and the generated integers would become strings.
 
 ## Limits
 
@@ -129,4 +129,4 @@ task ... {
 
 ### Workaround
 
-- If a larger or smaller value is sought than the allowed range, then use multiple 'random-integer' together, and concatenate them inside a string, as per example above.
+- If a larger (positive or negative) value than the allowed range is sought, then use multiple 'random-integer' together, and concatenate them inside a string, as per the example above.
