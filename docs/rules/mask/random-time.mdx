@@ -6,7 +6,7 @@ sidebar_label: Random Time
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# `random-time`
+# Random Time
 
 :::tip Goal
 Write `mask` rule logic to
@@ -33,7 +33,7 @@ Write `mask` rule logic to
 ```ano
         ...
         mask <column> <rule-name>
-            format %s
+            format %tT
             random-time <from> <to>      // [<from>, <to>]
         ...
 ```
@@ -83,5 +83,5 @@ task ... {
 - `<from>` and `<to>` values are included in the generated values.
   - Both are written using the format "HH:mm:ss" (24-hour time format)
 - `random-time` creates values of the format `HH:mm:ss`, the `%tT` will result in strings of this format.<br /> &nbsp; &nbsp;
-  For different formats, see [Formats](#)
+  For different formats, see [Formats](../format-output)
 - Note the lack of double quotes `"` around the values after the `random-time` keyword. This is the correct syntax.
