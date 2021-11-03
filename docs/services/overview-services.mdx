@@ -5,85 +5,32 @@ sidebar_label: Overview
 
 # Anonymizer Services
 
-## Available services
+:::tip Services
 
-<table width="100%">
-<tr>
-<th width="25%">
+Anonymizer provides you with the following services:
 
-Services
+1. [DBano (free)](dbano)
+2. [DBmasker (paid)](dbmasker)
+3. [DBimport (free)](dbimport)
 
-</th>
-<th>
+They all require [login](access) to access.
 
-Description
+:::
 
-</th>
-<th>
+## DBano
 
-Free or paid
+[The free service Dbano](dbano) is a file generator. It takes an `.sql` file as input and generates an `.ano` file as output.
 
-</th>
-</tr>
+- The `.sql` file is meant to contain the database definition. I.e. the DDL of `CREATE` table statements and their constraints. We support the main database provider dialects.
+- The `.ano` file will describe your database definitions in the ANO language.
 
-<tr>
-<td>
+## DBmasker
 
-DBmasker
+[The paid service DBmasker](dbmasker) is a Java Application generator. It takes an `.ano` file as input and generates a `.zip` as output.
 
-</td>
-<td>
+- The `.ano` file will contain your database definitions in addition to the anonymizing Tasks and Rules.
+- The `.zip` file will contain a fully working Spring Boot Java 8 application running on Maven. By running this application, it will perform the anonymizing Tasks and Rules on your database.
 
-Generates anonymization applications based on tasks and rules written in the ANO language. It supports
+## DBimport
 
-- Data masking and anonymization
-- Creation of database subsets for test and development
-- Creation of synthetic data that complies to your test cases
-- Protection of access to personally identifiable data from developers
-
-Whenever you copy your production database to test or development environments,
-you simply run this application against the database copy in test and development environments.
-
-</td>
-<td>
-
-Paid
-
-</td>
-</tr>
-<tr>
-<td>
-
-DBano
-
-</td>
-<td>
-
-Reverse engineers your database structure into ANO syntax.
-
-</td>
-<td>
-
-Free
-
-</td>
-</tr>
-<tr>
-<td>
-
-DBimport
-
-</td>
-<td>
-
-Reverse engineers your database structure into java JPA classes.
-
-</td>
-<td>
-
-Free
-
-</td>
-</tr>
-
-</table>
+[The free service DBimport](dbimport) is a standalone generator that takes an `.sql` file as input and provides you with the Java entity classes for all tables described in the .sql file.
