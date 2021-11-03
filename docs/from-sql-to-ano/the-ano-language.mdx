@@ -1,0 +1,389 @@
+---
+sidebar_position: 1
+sidebar_label: The ANO Language
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# The ANO Language
+
+:::tip Overview
+
+The ANO language is a Domain Specific Language based upon ANTLR4.
+
+It is designed for the specific purpose of writing anonymization logic as code.
+
+:::
+
+:::info Recommendation
+
+- [Install Visual Studio Code](https://code.visualstudio.com/) to write `.ano` files
+- This allows you to [install and use our ANO extension](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano)
+  - It provides error checking, syntax highlighting, syntax completion, hover information, and on-save formatting
+
+:::
+
+:::note Note
+
+- Our [**DBano service**](../services/dbano) will write the first two sections of the file for you
+- Both **Foreign Key Constrains** and **User Defined Classes** sections are optional
+- The **Tasks and Rules** section is where all your anonymization logic will be written
+
+:::
+
+## Ano Sections
+
+The ANO language is written in `.ano` files. The `.ano` UpdateNamesUsingFiles consists of four distinct sections.
+
+<Tabs
+  defaultValue="database-info"
+  values={[
+    { label: '1. Database Schema Information', value: 'database-info' },
+    { label: '2. Foreign Keys', value: 'foreign-keys' },
+    { label: '3. User Defined Classes', value: 'user-defined-classes' },
+    { label: '4. Tasks and Rules', value: 'tasks-and-rules' },
+  ]}
+>
+
+<TabItem value="database-info">
+
+### 1. Database Schema Information Section
+
+This section contains the translated Database Configuration, and is the result of using the DBano Service. It describes the
+
+- database table names
+- table column names and types
+- primary keys
+- unique keys
+
+```sql
+// - - - - Database Schema Information - - - - //
+
+table <table-name>
+    column <column-type> <name>
+        size <size>
+    column <column-type> <name>
+        size <size>
+    primary-key <name>
+    unique-key <name> <name>
+
+table <table-name>
+    column <column-type> <name>
+        size <size>
+    column <column-type> <name>
+        size <size>
+    primary-key <name>
+    unique-key <name> <name>
+```
+
+---
+
+```sql
+// - - - - Database Schema Information - - - - //
+
+table Customer
+    column integer id
+    column integer customerNo
+    column text email
+        size 40
+    column text name
+        size 40
+    column datetime created
+    primary-key id
+    unique-key customerNo customerNo
+
+table Address
+    column integer id
+    column text homeAddress
+        size 40
+    column text postalCode
+    column integer customerNo // Foreign key
+    primary-key id
+```
+
+</TabItem>
+
+<TabItem value="foreign-keys">
+
+### 2. Foreign Keys Section (Optional)
+
+This optional section describes the relationships of the database tables, and is the result of the translatioin using the DBano Service.
+
+- it describes the foreign key relationships between parent table primary or unique keys and child table foreign keys.
+
+```sql
+...
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    <parent> <parent-key>
+    <child> <foeign-key>
+foreign-key
+    <parent> <parent-key>
+    <child> <foeign-key>
+...
+```
+
+---
+
+```sql
+...
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    Customer customerNo
+    Address customerNo
+...
+```
+
+</TabItem>
+
+<TabItem value="user-defined-classes">
+
+### 3. User Defined Classes Section (Optional)
+
+Whenever you want to write your own custom Java classes, you will refer to these in this section.
+
+```sql
+// - - - - User Defined Classes (Optional) - - - - //
+
+conversion <package.path>
+transformation <package.path>
+distribution <package.path>
+```
+
+---
+
+```sql
+...
+// - - - - User Defined Classes (Optional) - - - - //
+
+// conversion no.esito.anonymizer.conversions.ParseDigits
+transformation no.esito.anonymizer.transformations.Email
+// distribution no.esito.anonymizer.distributions.MinPerParent
+...
+```
+
+</TabItem>
+
+<TabItem value="tasks-and-rules">
+
+### 4. Tasks and Rules Section
+
+This section will contain all the Tasks and Rules for anonymizing the tables.
+
+```sql
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update <table>
+        <rule-logic>
+            ...
+    update <table2>
+        <rule-logic>
+            ...
+
+}
+
+task CreateTasks
+{ ...
+}
+
+```
+
+---
+
+```sql
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            random-integer 1000 9999
+
+    update Customer UpdateCustomerNameNumberAndCreated
+        sql-before "delete from Customer where name is NULL"
+
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order map name_map.txt output
+
+        mask customerNo UpdateCustomerNoAndPropagateToAddressFk
+            format %d
+            unique
+            sequence 10000 1 // start at 10000, increment by 1
+            propagate Address.customerNo
+
+        shuffle created // name defaults to 'shuffle_created'
+
+    update Customer UpdateCustomerEmailNotNullSubset
+        where "email is not null"
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. E.g. firstname.lastname@mail.com
+            unique
+            column name
+}
+
+task CreateTasks
+{ ...
+}
+
+```
+
+</TabItem>
+
+</Tabs>
+
+---
+
+## Full Ano File Structure and Example
+
+<Tabs
+  defaultValue="ano"
+  values={[
+    { label: 'Structure', value: 'ano' },
+    { label: 'customer_address_db.ano', value: 'ano-example' },
+  ]}
+>
+
+<TabItem value="ano">
+
+```sql
+// - - - - Database Schema Information - - - - //
+
+table ...
+    column ...
+    column ...
+    primary-key ...
+    unique-key ... ...
+table ...
+
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    <parent> <parent-key>
+    <child> <foeign-key>
+
+// - - - - User Defined Classes (Optional) - - - - //
+
+conversion <package.path>
+transformation <package.path>
+distribution <package.path>
+
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update <table>
+        <rule-logic>
+            ...
+    update <table2>
+        <rule-logic>
+            ...
+
+}
+
+task CreateTasks
+{ ...
+}
+
+```
+
+</TabItem>
+
+<TabItem value="ano-example">
+
+```sql
+// - - - - Database Schema Information - - - - //
+
+table Customer
+    column integer id
+    column integer customerNo
+    column text email
+        size 40
+    column text name
+        size 40
+    column datetime created
+    primary-key id
+    unique-key customerNo customerNo
+
+table Address
+    column integer id
+    column text homeAddress
+        size 40
+    column text postalCode
+    column integer customerNo // Foreign key
+    primary-key id
+
+
+// - - - - Foreign Keys (Optional) - - - - //
+
+foreign-key
+    Customer customerNo
+    Address customerNo
+
+
+// - - - - User Defined Classes (Optional) - - - - //
+
+// conversion no.esito.anonymizer.conversions.ParseDigits
+transformation no.esito.anonymizer.transformations.Email
+// distribution no.esito.anonymizer.distributions.MinPerParent
+
+
+// - - - - Tasks and Rules - - - - //
+
+task UpdateTasks
+{
+    update Address UpdateAddressFields
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask postalCode UpdateToRandomPostalCodeAsString
+            format "%d"
+            random-integer 1000 9999
+
+    update Customer UpdateCustomerNameNumberAndCreated
+        sql-before "delete from Customer where name is NULL"
+
+        mask name UpdateNamesUsingFiles
+            format "%s %s"
+            file src/main/resources/firstnames.txt random-order
+            file src/main/resources/lastnames.txt random-order map name_map.txt output
+
+        mask customerNo UpdateCustomerNoAndPropagateToAddressFk
+            format %d
+            unique
+            sequence 10000 1 // start at 10000, increment by 1
+            propagate Address.customerNo
+
+        shuffle created // name defaults to 'shuffle_created'
+
+    update Customer UpdateCustomerEmailNotNullSubset
+        where "email is not null"
+        mask email UpdateEmailsBasedOnNameColumn
+            format %s
+            transform Email // appends @mail.com to formatted names. E.g. firstname.lastname@mail.com
+            unique
+            column name
+}
+
+task CreateTasks
+{ ...
+}
+
+```
+
+</TabItem>
+
+</Tabs>

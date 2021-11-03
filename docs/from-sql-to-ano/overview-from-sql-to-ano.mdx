@@ -5,19 +5,28 @@ sidebar_label: Overview
 
 # From SQL To Ano
 
-:::tip Goal
+:::tip Overview
 
-It is a necessary step to translate your database structure into the ANO DSL Language.
-This entails translating DDL statements and constraints into an `.ano` file.
+Different database service providers use different database dialects.
 
-1. [Translate from SQL to ANO using DBano](./translate-to-ano)
+Therefore, to start writitng with ANO Tasks and Rules, it is a necessary step to desrcibe the database in the ANO Language.
 
 :::
 
-:::info Recommendation
+## The ANO Language
+
+[The ANO Language](the-ano-language) is a Domain Specific Language created for the purpose of anonymization. It uses [its own ANO types](ano-types) that are database agnostic.
+
+## Translating from SQL to ANO
+
+- [Use DBano to translate DDL statements in SQL to ANO](translate-to-ano)
+
+When this is done, you may freely write [ANO Tasks](../tasks/overview-tasks) and [ANO Rules](../rules/overview-rules) according to [the ANO Language](the-ano-language).
+
+## Writing code in ANO
+
+Since ANO has its own syntax it is recommended to write ANO using Visual Studio Code, which is a free code editor available for Windows, Mac, and Linux:
 
 - [Install Visual Studio Code](https://code.visualstudio.com/) to read and write `.ano` files
-- This allows you to [install and use our ANO extension](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano)
+- [Install and use our ANO extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano)
   - It provides error checking, syntax highlighting, syntax completion, hover information, and on-save formatting
-
-:::
