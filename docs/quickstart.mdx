@@ -6,18 +6,23 @@ sidebar_position: 1
 # Quickstart
 
 :::tip Goal
-This Quickstart will explain the flow from having a database to running anonymization tasks and rules against it.
+This Quickstart will explain the Anonymizer workflow:
 
-It will provide tips and recommendations.
+- From having a database
+- To running your anonymizing tasks and rules against the database
+
+It will also provide some tips.
 :::
 
 ## The database
 
-We will use the [Address and Customer Example Project](examples/address-customer-project) throught the Quickstart. The database service provider here is **SQL Server**. You may follow along with your own database and your own database service provider.
+We will use the [Address and Customer Example Project](examples/address-customer-project) throughout this Quickstart. The database service provider here is **SQL Server**.
+You may follow along with your own database and your own database service provider.
 
-:::note tip
+:::note Tip
 
-When developing new anonymizing Tasks and Rules for your database, make sure to do it on a database copy (E.g. in Localhost) where data can easily be reset. This allows you to test your logic against real data each time you run new versions of the Tasks and Rules.
+When developing new anonymizing Tasks and Rules for your database, make sure to do it on a database copy (e.g. in Localhost) where data can easily be reset.
+This allows you to test your anonymization logic against real data each time you write and run new versions of the Tasks and Rules.
 
 <details><summary><b>Reset the database from script</b> - reset_database_script.sql </summary>
 <p>
@@ -105,9 +110,9 @@ UNIQUE KEY `Address_UK` (`addressNo`)
 
 ---
 
-## 2. DBano Service
+## 2. Translate
 
-Use our [DBano Service](from-sql-to-ano/translate-to-ano) to translate your database definitions by providing it the `.sql` file. [Register and Login to gain access](services/registration).
+Use our [DBano Service](from-sql-to-ano/translate-to-ano) to translate your database definitions by providing it the `.sql` file. [Register and Login to gain access](services/access).
 The service will provide you an `.ano` file.
 
 This `.ano` file is also where you will write your Task and Rules for anonymizing your database.
@@ -155,9 +160,9 @@ foreign-key
 
 ## 3. Tasks and Rules
 
-In the `.ano` file we now write the logic for our desired anonymizations. Consult the [`Writing Tasks`](tasks/tasks-overview) and [`Writing Rules`](rules/overview-rules) sections for details on how to do this.
+In the `.ano` file we now write the logic for our desired anonymizations. Consult the [`Writing Tasks`](tasks/overview-tasks) and [`Writing Rules`](rules/overview-rules) sections for details on how to do this.
 
-:::note recommendation
+:::note Tip
 
 Edit the `.ano` file using [Visual Studio Code](https://code.visualstudio.com/) with the [Ano Extension](https://marketplace.visualstudio.com/items?itemName=Esito.vscode-ano) installed. This makes your life easier.
 
@@ -254,11 +259,11 @@ task propagateTask
 
 ## 4. Generate
 
-[Use our DBmasker Service](from-ano-to-execution/generate) to generate the runtime project by providing the `.ano` file. [Buy DBmasker and Login to gain access](services/registration). The service will provide you an `.zip` file containing a Java 8, Maven 3.6 project.
+[Use our DBmasker Service](from-ano-to-execution/generate) to generate the runtime project by providing the `.ano` file. [Buy DBmasker and Login to gain access](services/access). The service will provide you an `.zip` file containing a Java 8, Maven 3.6 project.
 
-:::note recommendation
+:::note Tip
 
-Install Java 8 on your computer. Use Intellij to setup the Java application. Install maven.
+Install Java 8 on your computer. Use Intellij (Community or Professional) to setup the Java application. Install maven.
 
 :::
 
@@ -266,7 +271,7 @@ Install Java 8 on your computer. Use Intellij to setup the Java application. Ins
 
 ## 5. Configure
 
-Configure the Java 8 application by [using this guide](from-ano-to-execution/configure).
+Configure the Java 8 application by [using this guide](from-ano-to-execution/configure). There are two required steps. First, you must add the Maven Dependency that properly connects the Java application to your database. Second, you must provide the Java application the database URL and login credentials.
 
 <details><summary><b>Maven Dependency for the SQL Server Database Provider</b> - pom.xml </summary>
 <p>
@@ -287,7 +292,7 @@ Configure the Java 8 application by [using this guide](from-ano-to-execution/con
 </p>
 </details>
 
-<details><summary><b>Edit database connection string</b> - src/main/resources/config.properties </summary>
+<details><summary><b>Edit database URL and credentials</b> - src/main/resources/config.properties </summary>
 <p>
 
 ```properties

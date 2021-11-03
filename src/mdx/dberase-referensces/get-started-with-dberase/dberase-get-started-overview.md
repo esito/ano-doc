@@ -28,4 +28,4 @@ Look through your database and ask yourself what data should must be masked. Dec
 
 ## Access to DBmasker Service
 
-To start working with DBmasker you will need to buy the service. Visit [Registration Process](./registration.md) for more information.
+To start working with DBmasker you will need to buy the service. Visit [Service Access](./access) for more information.
