@@ -30,7 +30,7 @@ These complete SQL statements may be run before and after
 
 :::
 
-## Use cases for custom `sql-before` and `sql-after`
+## Use cases
 
 The `sql-before` and `sql-after` may be useful to
 
@@ -111,34 +111,26 @@ task <task> {
 
 ## How to trigger execution of the SQL statements
 
-### Task Root SQL statements
+### Running Tasks from Root
 
-The task Root SQL statements are only executed when you specifically use the `run` command only, in the DBmasker command line:
-
-> run
-
-If you perform a `run <task-group>` or a `run <work-task>`, Task Root SQL statements will **NOT** be executed.
-
-Note that `run` will trigger all SQL Statements.
-
-### Task Group SQL statements
-
-The Task Group SQL statements are only executed when you specifically use the `run` or the `run <task-group>` commands, in the DBmasker command line:
+Running Tasks from Root using
 
 > run
+
+will run the root SQL statements, and will run all the Task Groups and Work Tasks and their SQL statements.
+
+### Running Task Groups
+
+When runing a particular Task Group, using
 
 > run `<task-group>`
 
-If you perform a `run <work-task>`, Task Group SQL statements will **NOT** be executed.
+you will **not** run the root SQL statements. And you will only run the target Task Group SQL Statements, and the once contained within.
 
-Note that `run <task-group>` will also trigger all Work Task SQL statements residing in that specific Task Group.
+### Running Work Tasks
 
-### Work Task SQL statements
-
-The Work Task SQL statements are executed whenever the Work Task is triggered, either by `run`, by `run <task-group>` where the Work Task resides, or by the specific `run <work-task>` command.
-
-> run
-
-> run `<task-group>`
+When running a particular Work Task, using
 
 > run `<work-task>`
+
+You will **neither** run the Root or the Task Group SQL Statements. Only the SQL Statements of the particular Work Task will be run.
