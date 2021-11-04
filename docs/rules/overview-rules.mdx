@@ -21,6 +21,11 @@ While ANO [Work Tasks](../tasks/overview-tasks) points to tables, ANO Rules poin
 
 The input sources of a `mask` rule may be [random value generations](./mask/random-integer), [columns](./mask/column), [text files](./mask/file) or [sequences](./mask/sequence).
 
+:::note note
+
+If no input source is provided, the default input source becomes the masked column. E.g. it will be equal to using the [column](./mask/column) input source and refering to itself.
+:::
+
 ### Convert the input source
 
 The input source to the anonymization rule may be converted using [`convert`](./convert).
@@ -32,6 +37,10 @@ The [format](./format-output) of the output of a rule strategy can be formatted 
 ### transform the output
 
 The output of the anonymization rule may be transformed using [`transform`](./transform).
+
+### Store the Anonymization to a Mapping File
+
+Anonymizations may be saved to a mapping file using [`map`](./map). This file may be encrypted using the [`encrypted`](map#encryption) keyword, alongside an encryption key provided to the [configuration](../from-ano-to-execution/configure).
 
 ## Handle constraints
 

@@ -37,6 +37,10 @@ Use `map` when table values is to be anonymized equally across
 - Tables in the same database, but that are not connected properly
 - Different .csv files
 
+### Encryption
+
+You may encrypt the mapping file using the `encrypted` keyword, and provide your own encryption key when [configuring the application](../from-ano-to-execution/configure).
+
 ## Ano Structure and Examples
 
 <Tabs
@@ -55,7 +59,16 @@ Use `map` when table values is to be anonymized equally across
         ...
             format <format-string>
             <input-source>
-                map <map-output.txt> output
+                map <map-file.txt> output encrypted
+        ...
+            format <format-string>
+            <input-source>
+                map <map-file.txt> input encrypted
+        ...
+            format <format-string>
+            <input-source>
+                map <map-file.txt> input-output encrypted
+
 ```
 
 #### `structure`
