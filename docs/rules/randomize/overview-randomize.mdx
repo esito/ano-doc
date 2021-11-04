@@ -15,7 +15,7 @@ Noise is added based upon a Gaussian distribution function, which is configured 
 
 ## Use Cases
 
-The `randomize` rule is useful for hiding transactional data, whereby it maintains approximate values but changes it significantly to make it hard to recognize. Supported column types for `randomize` are
+The `randomize` rule is useful for scrambling data. The value will be slightly changed, according to the size of the noise variables. Supported column types for `randomize` are
 [`integer`](randomize-integer.mdx), [`decimal`](randomize-decimal.mdx), [`date`](randomize-date.mdx), [`time`](randomize-time.mdx), and [`datetime`](randomize-datetime.mdx).
 
 ## ANO Structure
