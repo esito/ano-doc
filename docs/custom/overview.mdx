@@ -3,377 +3,62 @@ sidebar_position: 1
 sidebar_label: Overview
 ---
 
-# Code Structure and Customization Overview
+# User Defined Classes Overview
 
-By using our DBMasker Service, you will generate a Java 8 application
-based upon the provided `.ano` file. You are invited to implement customized
- masking/anonymization logic into this Java 8 application.
+:::tip Goal
 
-:::warning Custom code strategies
+[Conversions of input sources](../rules/convert), [Transformations of rule outputs](../rules/transform), and the [distribution for the creation of foreign key values](../rules/distribute), can be customized by the user.
 
-Be aware that customizations might be overwritten
-each time the service is regenerated.
-All custom code will also reside in the src/main/java or src/main/resources folders.
+After the Java Application is generated based on the ANO file, you may add User Defined Classes Java functions to the Application. This section explains how.
+:::
+
+:::warning Warning
+
+- Be sure not the Custom Functions does not get deleted if you use the DBmasker service several times, and overwrites your existing folders.
 
 :::
 
-## Code structure
+## Custom Conversions
 
-The code is organized as a Maven project into two source folders with various
-java packages and resources in the src/main project directory.
-Generated code is written to the src/main folder and it is regenerated each time
-the **DBmasker** service is used.
-Be aware of that customization might be overwritten each time it is regenerated.
+[Conversions](conversions) are done on the input-sources of the [`mask`](../rules/mask/overview) and [`randomize`](../rules/randomize/overview) rules. For `mask`, it may be useful for manipulating the data value before masking. For `randomize`, it is necessary for the randomization to know the type of the data that the noise is to be sadded to.
 
-The system creates java packages in the src/main/java folders
-based on the property **Root package**
-defined as parameter to the **DBmasker** service. The default package is example.anonymizer.
+## Custom Transformations
 
-## Code packages and files
+[Transformations](transformations) are done on the output of the [anonymization rules](../rules/overview). This is useful for correction of the anonymized data, so that this data follows business specific value structures.
 
-<table width="100%" >
-<tr>
-<th width="30%">
+## Custom Distribtuions
 
-Code packages, files and directories
+[Distributions](distributions) is used when creating values for the foreign key columns of child tables. It decides how values of the parent primary-key or unique-key columns shall be distributed in the child table foreign-key columns.
 
-</th>
-<th>
+---
 
-Desicrption
+## ANO Usage of User Defined Classes
 
-</th>
-</tr>
-<tr>
-<td>
+Make sure to reference the User Defined Classes in [the ANO file](../sql-to-ano/the-ano-language) under the `User Defined Classes` section. I.e. after `Foreign Keys` and before the `Tasks and Rules`.
 
-src/main/java
+```ano
+// - - - - Database Schema Information - - - - //
 
-</td>
-<td>
+table ...
 
-Source folder for customized java files
+table ...
 
-</td>
-</tr>
-<tr>
-<td>
 
-- \<root package\>.conversions
+// - - - - Foreign Keys (Optional) - - - - //
 
-</td>
-<td>
+foreign-key
+    ...
 
-Package containing custom conversion classes.
-Defined for Randomized columns or for masked columns using a column input source.
-Converts input strings into another string format or
-converts string into another data type for randomized columns.
-(_See ParseDigits.java in AnonymizerHotel example_)
 
-</td>
-</tr>
-<tr>
-<td>
+// - - - - User Defined Classes (Optional) - - - - //
 
-- \<root package\>.distributions
+conversion no.esito.anonymizer.conversions.ParseDigits
+transformation no.esito.anonymizer.transformations.ReplaceDigits
+distribution no.esito.anonymizer.distributions.MinPerParent
 
-</td>
-<td>
 
-Package containing custom distribution classes.
-Defined for Dependent tables when creating data for tables.
-Used for determining the distribution of foreign keys between the parent and
-child tables. (_See MinPerParent.java in AnonymizerHotel example_)
-
-</td>
-</tr>
-<tr>
-<td>
-
-- \<root package\>.transformations
-
-</td>
-<td>
-
-Package containing custom transformations. Defined for Masked column.
-Used for transforming column value before being written to database.
-(_See ReplaceDigits.java in AnonymizerHotel example_)
-
-</td>
-</tr>
-<tr>
-<td>
-
-src/main/resources
-
-</td>
-<td>
-
-Source folder containing resource text files used as input files to mask columns.
-
-</td>
-</tr>
-<tr>
-<td>
-
-src/main/java
-
-</td>
-<td>
-
-Source folder for generated files.
-All files within this folder path are regenerated every time the project is built.
-DO NOT MODIFY. The generated source is described in the AnonymizerAPI Javadoc.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- \<root package\>.Anonymizer.java
-
-</td>
-<td>
-
-Start file containing java main method for jar file
-
-</td>
-</tr>
-<tr>
-<td>
-
-- \<root package\>.Connect.java
-
-</td>
-<td>
-
-Connection logic.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- \<root package\>.TaskRoot.java
-
-</td>
-<td>
-
-Task execution tree root
-
-</td>
-</tr>
-<tr>
-<td>
-
-- \<root package\>.\<task name\>
-
-</td>
-<td>
-
-Application code for performing anonymizations, creations, deletions and erasures.
-A separate package is created for each task and sub-task.
-Within each package are various java files for performing the various functions.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer
-
-</td>
-<td>
-
-Contains all interfaces, ConfigUtil.java (reading/writing config.properties)
- and Log.java (Java logging).
- All interfaces and abstract classes are explained in the Javadoc.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.column
-
-</td>
-<td>
-
-(Internal) Contains multiple classes for each supported column data type
-
-</td>
-</tr>
-<tr>
-<td>
-
-- o.esito.anonymizer.conversions
-
-</td>
-<td>
-
-Built-in conversions used for converting string input to various other data types.
-(String2Date, String2DateTime, String2Decimal, String2Integer, String2Time)
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.core
-
-</td>
-<td>
-
-(Internal) Contains abstract classes for various functions
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.sarwriter
-
-</td>
-<td>
-
-The four supplied SAR writers for XML and JSON
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.distributions
-
-</td>
-<td>
-
-Built-in distributions determine how foreign keys are
-distributed between parent and child tables
-
-</td>
-</tr>
-<tr>
-<td>
-
-- 
-  - All Combinations.java
-
-</td>
-<td>
-
-This will add rows such that any missing combinations of foreign key values are present.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- - EvenWithDeviation.java
-
-</td>
-<td>
-
-Parent values will be assigned evenly among the new rows,
-but with an additional ability to set a random deviation.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- - SimpleSpread.java
-
-</td>
-<td>
-
-Foreign key columns will be randomly assigned from available values.
-This is the Default distribution.
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.mask
-
-</td>
-<td>
-
-(Internal) Contains mask classes for various functions
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.noise
-
-</td>
-<td>
-
-(Internal) Contains noise classes for various data types
-
-</td>
-</tr>
-<tr>
-<td>
-
-- no.esito.anonymizer.transformations
-
-</td>
-<td>
-
-Built-in transformations.
-
-</td>
-</tr>
-<tr>
-<td>
-- - CreditCard.java
-
-</td>
-<td>
-
-Replaces last digit of credit card number with calculated checksum using Luhn algorithm
-
-</td>
-</tr>
-<tr>
-<td>
-- - Email.java
-
-</td>
-<td>
-
-Translates various characters as space, hyphen or underscore.
-
-</td>
-</tr>
-<tr>
-<td>
-
-src/main/resources/config.properties
-
-</td>
-<td>
-
-Connection parameters for the database you will connect to.
-
-</td>
-</tr>
-<tr>
-<td>
-
-pom.xml
-
-</td>
-<td>
-
-Maven config file.
-
-</td>
-</tr>
-</table>
-
-<br/>
+// - - - - Tasks and Rules - - - - //
+task MyTasks
+{ ...
+}
+```
