@@ -7,14 +7,14 @@ sidebar_label: Overview
 
 :::tip Overview
 
-While ANO [Work Tasks](../tasks/overview-tasks) points to tables, ANO Rules point to columns. A Rule describes the logic of the anonymization of a specific column.
+While ANO [Work Tasks](../tasks/overview) points to tables, ANO Rules point to columns. A Rule describes the logic of the anonymization of a specific column.
 
 :::
 
 ## Three rule strategies
 
-1. [`mask`](./mask/overview-mask) creates new values for fields of a column using input sources
-2. [`randomize`](./randomize/overview-randomize) adds noise to the values of each field of a column
+1. [`mask`](./mask/overview) creates new values for fields of a column using input sources
+2. [`randomize`](./randomize/overview) adds noise to the values of each field of a column
 3. [`Shuffle`](./shuffle-rule) reorders values within a column, ensuring no value remains in its original place
 
 ### Input sources
@@ -40,7 +40,7 @@ The output of the anonymization rule may be transformed using [`transform`](./tr
 
 ### Store the Anonymization to a Mapping File
 
-Anonymizations may be saved to a mapping file using [`map`](./map). This file may be encrypted using the [`encrypted`](map#encryption) keyword, alongside an encryption key provided to the [configuration](../from-ano-to-execution/configure).
+Anonymizations may be saved to a mapping file using [`map`](./map). This file may be encrypted using the [`encrypted`](map#encryption) keyword, alongside an encryption key provided to the [configuration](../ano-to-java/configure).
 
 ## Handle constraints
 

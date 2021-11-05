@@ -24,7 +24,7 @@ You may follow along with your own database and your own database service provid
 :::note Tip
 
 When developing new anonymizing Tasks and Rules for your database, make sure to do it on a database copy (e.g. in Localhost) where data can easily be reset.
-This allows you to test your anonymization logic against real data each time you write and run new versions of the Tasks and Rules.
+This allows you to test your anonymization logic against production data each time you write and run new versions of the Tasks and Rules.
 
 <details><summary><b>Reset the database from script</b> - reset_database_script.sql </summary>
 <p>
@@ -73,7 +73,7 @@ INSERT INTO pii_tables.Customer (addressNo,email,name,created) VALUES (265736898
 
 The only relevant parts of the database are the tables that shall be anonymized, and their constraints.
 
-[Export the DDL statements](from-sql-to-ano/translate-to-ano) for your tables, and store them in an `.sql` file.
+[Export the DDL statements](sql-to-ano/translate-to-ano) for your tables, and store them in an `.sql` file.
 
 If you know which tables need anonymizations, and which does not, you may stick to only exporting the required tables.
 
@@ -114,7 +114,7 @@ UNIQUE KEY `Address_UK` (`addressNo`)
 
 ## 2. Translate
 
-Use our [DBano Service](from-sql-to-ano/translate-to-ano) to translate your database definitions by providing it the `.sql` file. [Register and log in to gain access](services/access).l
+Use our [DBano Service](sql-to-ano/translate-to-ano) to translate your database definitions by providing it the `.sql` file. [Register and log in to gain access](services/access).l
 The service will provide you an `.ano` file.
 
 This `.ano` file is also where you will write your Task and Rules for anonymizing your database.
@@ -162,7 +162,7 @@ foreign-key
 
 ## 3. Tasks and Rules
 
-In the `.ano` file we now write the logic for our desired anonymizations. Consult the [`Writing Tasks`](tasks/overview-tasks) and [`Writing Rules`](rules/overview-rules) sections for details on how to do this.
+In the `.ano` file we now write the logic for our desired anonymizations. Consult the [`Writing Tasks`](tasks/overview) and [`Writing Rules`](rules/overview) sections for details on how to do this.
 
 :::note Tip
 
@@ -261,7 +261,7 @@ task propagateTask
 
 ## 4. Generate
 
-[Use our DBmasker Service](from-ano-to-execution/generate) to generate the runtime project by providing the `.ano` file. [Buy DBmasker and log in to gain access](services/access). The service will provide you an `.zip` file containing a Java 8, Maven 3.6 project.
+[Use our DBmasker Service](ano-to-java/generate) to generate the runtime project by providing the `.ano` file. [Buy DBmasker and log in to gain access](services/access). The service will provide you an `.zip` file containing a Java 8, Maven 3.6 project.
 
 :::note Tip
 
@@ -273,7 +273,7 @@ Install Java 8 on your computer. Use Intellij (Community or Professional) to set
 
 ## 5. Configure
 
-Configure the Java 8 application by [using this guide](from-ano-to-execution/configure). There are two required steps. First, you must add the Maven Dependency that properly connects the Java application to your database. Second, you must provide the Java application the database URL and login credentials.
+Configure the Java 8 application by [using this guide](ano-to-java/configure). There are two required steps. First, you must add the Maven Dependency that properly connects the Java application to your database. Second, you must provide the Java application the database URL and login credentials.
 
 <details><summary><b>Maven Dependency for the SQL Server Database Provider</b> - pom.xml </summary>
 <p>
@@ -319,4 +319,4 @@ sql.wrapper             = "
 
 ## 6. Execute Tasks
 
-Execute tasks by [using this guide](from-ano-to-execution/execute).
+Execute tasks by [using this guide](ano-to-java/execute).

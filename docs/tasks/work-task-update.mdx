@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 :::tip Goal
 The `update` Work Tasks lets you write rules that anonymizes existing values in table columns by replacing them.
 
-- It is a great tool for creating anonymized datasets for testing and development environments, based upon real data
+- It is a great tool for creating anonymized datasets for testing and development environments, based upon production data
 - Target only the relevant table columns that need anonymization
 - Integrate `update` Work Tasks as part of your database copy process from production to development.
   - First copy, then `update`
@@ -49,9 +49,9 @@ You will primarily anonymize Personally Identifiable Data and Linkable Data. In 
 
 ## Work Task `update` in Ano
 
-In `update` Work Tasks, you can use any of the [`mask`](../rules/mask/overview-mask), [`randomize`](../rules/randomize/overview-randomize) or the [`shuffle`](../rules/shuffle-rule) rule strategies.
+In `update` Work Tasks, you can use any of the [`mask`](../rules/mask/overview), [`randomize`](../rules/randomize/overview) or the [`shuffle`](../rules/shuffle-rule) rule strategies.
 
-[Visit the rules section](../rules/overview-rules) for more information on how to write `update` task rules.
+[Visit the rules section](../rules/overview) for more information on how to write `update` task rules.
 
 <Tabs
   defaultValue="structure"
