@@ -1,19 +1,45 @@
 ---
 sidebar_position: 4
 sidebar_label: Custom Distributions
---- 
+---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Custom Distributions
 
-Distributions are defined for dependent tables when creating data for tables.
-It is used for determining the distribution of foreign keys between the parent and child tables.
-All custom distributions must be created in the src/main/java/\<java package\>.distributions package.
+:::tip Goal
+A Distribution function are defined for the dependent tables when creating data for foreign key columns.
+It determines the distribution of the foreign key values that will exist in the dependet table.
 
-<br/>
+Place your custom Java function inside your [`root package/distributions`](../ano-to-java/generate#3-root-package) folder in the genereated project.
 
-<details>
-<summary><b>MinPerParent.java (Click to Expand)</b></summary>
+- The custom class must implement the IDistribution interface and override the distribute and calculateNewRows methods
+
+:::
+
+## Distribution Interface
+
+```java
+public interface IDistribution {
+
+    int calculateNewRows(CreateParent[] parents, int numrows, List<String[]> existing) throws Exception;
+
+    void distribute(List<String> columns, CreateParent[] parents, List<String[]> rows) throws Exception;
+}
+```
+
+### Java Examples
+
+<Tabs
+  defaultValue="min-per-parent"
+  values={[
+    { label: 'MinPerParent.java', value: 'min-per-parent' },
+    { label: 'NullDistro,java', value: 'null-distro' },
+  ]}
+>
+
+<TabItem value="min-per-parent">
 
 ```java
 /**
@@ -69,11 +95,118 @@ public class MinPerParent implements IDistribution {
 }
 ```
 
-</details>
+</TabItem>
 
-<br/>
+<TabItem value="null-distro">
 
-- The custom class must implement the IDistribution interface and override the distribute and calculateNewRows methods
-- The distribution is defined in the user defined classes section and used as defined by the distribute terminal.
+```ano
 
-<br/>
+/**
+ * Sample distribution to randomly assign foreign keys with chance of setting null
+ */
+public class NullDistro extends AbstractRandom implements IDistribution {
+	public static final String LABEL = "DistroWithNullValues";
+	public static final String MAIN_LABEL= "Allow orphans";
+	public static final String PARENT_LABEL= "% Chance of null value";
+	private boolean allowOrphans;
+	private Random random;
+
+	public NullDistro(boolean allowOrphans) { // MAIN_LABEL parameter
+		this.allowOrphans=allowOrphans;
+	}
+
+	@Override
+	public int calculateNewRows(CreateParent[] parents, int numExistRows, List<String[]> existing) {
+		return 0;
+	}
+
+	@Override
+	public void distribute(List<String> columns, CreateParent[] parents, List<String[]> rows) {
+		for (String[] row : rows) {
+			boolean orphan = true;
+			do {
+				for (CreateParent parent : parents) {
+					int chance=Integer.parseInt(parent.params); // PARENT_LABEL ( % null)
+					if(random.nextInt(100) >= chance) { // assign if random gives a roll higher
+						randomAssignColumn(columns, row, parent); // helper method in AbstractRandom
+						orphan=false;
+					}
+				}
+			} while (orphan && !allowOrphans);  // Continue running until not orphan
+		}
+	}
+
+    @Override
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
+    @Override
+    public Random getRandom() {
+        return random;
+    }
+
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+### ANO Usage Examples
+
+- You must explicitly import Transformation functions before the Tasks and Rules Section
+
+<Tabs
+  defaultValue="min-per-parent"
+  values={[
+    { label: 'MinPerParent in ANO', value: 'min-per-parent' },
+    { label: 'NullDistro in ANO', value: 'null-distro' },
+  ]}
+>
+
+<TabItem value="min-per-parent">
+
+```ano
+distribution example.anonymizer.distributions.MinPerParent
+
+task <task-name> {
+	create Booking minimum-rows 100
+		distribute MinPerParent
+		table Customer
+			child customer_customerNo
+			parent customerNo
+		table Hotel
+			child hotel_id
+			parent id
+		table RoomCategory
+			child roomCategory_id
+			parent id
+}
+```
+
+</TabItem>
+
+<TabItem value="null-distro">
+
+```ano
+distribution example.anonymizer.distributions.NullDistro
+
+task <task-name> {
+	create Booking minimum-rows 100
+		distribute NullDistro
+		table Customer
+			child customer_customerNo
+			parent customerNo
+		table Hotel
+			child hotel_id
+			parent id
+		table RoomCategory
+			child roomCategory_id
+			parent id
+}
+```
+
+</TabItem>
+
+</Tabs>
