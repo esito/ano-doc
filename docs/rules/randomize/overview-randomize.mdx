@@ -7,7 +7,7 @@ sidebar_label: Overview
 
 :::tip Goal
 
-The `randomize` rules applies noise to column values. The table values is treated as input source.
+The `randomize` rule applies noise to column values. The table values is treated as input source.
 
 Noise is added based upon a Gaussian distribution function, which is configured by the noise parameters `offset`, `flat-noise`, and `percentage-noise`.
 
@@ -34,10 +34,10 @@ The `randomize` rule is useful for scrambling data. The value will be slightly c
 ...
 ```
 
-- randomize needs to know what type is to be anonymized `integer`, `decimal`, `date`, `time`, or `datetime`
+- Randomize needs to know what type is to be anonymized `integer`, `decimal`, `date`, `time`, or `datetime`
 - [format](../format-output) describes the output of the randomize task: `%d`, `%f` / `%.2f`, `%tF`, `%tT`, `"%1$tF %1$tT"`
-- randomize rules reads column values as string, and must therefore have a [convert](../convert.mdx) function specified.
-  - Select one of the inbuilt convertion functions `String2Integer`, `String2Decimal`, `String2Date`, `String2Time`, `String2DateTime`.
+- Randomize rules reads column values as string, and must therefore have a [convert](../convert.mdx) function specified.
+  - Select one of the built-in conversion functions `String2Integer`, `String2Decimal`, `String2Date`, `String2Time`, `String2DateTime`.
 - [`transform`](../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
 - `unique` ensures uniqueness of values created by randomize
 
@@ -55,7 +55,7 @@ The `randomize` rule is useful for scrambling data. The value will be slightly c
 
 - When adding noise to type `time` and `datetime`, the noise is added in _seconds_
 - When adding noise to type `date`, the noise is added in _days_
-- For type `integer`, after noise is added, the resulting value is cast from _double_ back to _integer_
+- For type `integer`, after noise is added, the resulting value is cast from _double_ to _integer_
 
 ### Noise Generation Process
 

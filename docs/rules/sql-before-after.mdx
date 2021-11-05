@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 # Full SQL Statements
 
 :::tip Goal
-There may arise cases in your database structure that requires certain complete SQL statements to run before and after the anonymizations can be done.
+There may arise cases in your database structure that require certain complete SQL statements to run before and after the anonymizations are carried out.
 
 - `sql-before` allows you to write complete SQL statements that are run before tasks.
 - `sql-after` allows you to write complete SQL statements that are run after tasks.
@@ -17,7 +17,7 @@ There may arise cases in your database structure that requires certain complete 
 These complete SQL statements may be run before and after
 
 1. The task root (e.g., before all Task Groups)
-2. A specific Task Group (e.g., a specific `task <task> {...}`)
+2. A specific Task Group (e.g., a specific `task <task-name> {...}`)
 3. A specific Work Task (e.g., a specific `update <table>`)
 
 :::
@@ -92,7 +92,7 @@ table Customer
     column text lastname size 50
     ...
 
-task <task> {
+task <task-name> {
     update Customer
         sql-before "delete from Customer where lastname is null"
         mask lastname

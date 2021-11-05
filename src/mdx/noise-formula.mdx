@@ -20,4 +20,12 @@
   )}
 </div>
 
-<div>{props.type == 'integer' ? <p>The resulting value is cast from _double_ to _integer_.</p> : <p></p>}</div>
+<div>
+  {props.type == 'integer' ? (
+    <p>
+      The resulting value is cast from <i>double</i> to <i>integer</i>.
+    </p>
+  ) : (
+    <p></p>
+  )}
+</div>

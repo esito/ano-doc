@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 # Map
 
 :::tip Goal
-Use `map` to create a mapping file describing how production data is anonymized (`real_data=anonymized_data`).
+Use `map` to create a mapping file describing how production data is anonymized, in `key=value` pairs of the form `production_data=anonymized_data`.
 
 - Use `map` with `output` to produce a mapping file containing `key=value` pairs resulting from an anonymization rule
 - Use `map` with `input` to update a column according to the `key=value` pairs in the provided mapping file
@@ -19,12 +19,12 @@ Use `map` to create a mapping file describing how production data is anonymized 
 :::
 :::warning Warning
 
-- Mapping files contains production data. Protect it as such.
+- Mapping files contain production data. Protect it as such.
 - Run a `map` Work Task only **once** on a column of a data set
   - Running a `map` rule **twice** on the same column in the same data set may result in **data integrity problems**
-    - the first `map` will work on real data, the second `map` will work on anonymized data
+    - the first `map` will work on production data, the second `map` will work on anonymized data
     - After the second run, in the cases of `output` and `input-output`,
-      the mapping file created/updated will no longer properly map real production values to anonymized values
+      the mapping file created/updated will no longer properly map production values to anonymized values
 
 :::
 
@@ -59,15 +59,15 @@ You may encrypt the mapping file using the `encrypted` keyword, and provide your
         ...
             format <format-string>
             <input-source>
-                map <map-file.txt> output encrypted
+                map <map-file.txt> output encrypted?
         ...
             format <format-string>
             <input-source>
-                map <map-file.txt> input encrypted
+                map <map-file.txt> input encrypted?
         ...
             format <format-string>
             <input-source>
-                map <map-file.txt> input-output encrypted
+                map <map-file.txt> input-output encrypted?
 
 ```
 
@@ -92,7 +92,7 @@ You may encrypt the mapping file using the `encrypted` keyword, and provide your
 #### `output`
 
 1. Creates anonymized values using values from `src/main/resources/address.txt`
-2. Save the anonymizations as mappings of the form `real_data=anonymized_data` into `address_map.txt`
+2. Save the anonymizations as mappings of the form `production_data=anonymized_data` into `address_map.txt`
 
 </TabItem>
 
@@ -140,7 +140,7 @@ You may encrypt the mapping file using the `encrypted` keyword, and provide your
 
 ## Mapping File Structure
 
-The first two rows contains metadata about the mapping file. Then, on each newline, every anonymization is stored as `real_data=anonymized_data`.
+The first two rows contain metadata about the mapping file. Further lines are anonymizations with one value per line, of the form `production_data=anonymized_data`.
 
 <Tabs
   defaultValue="id_number"

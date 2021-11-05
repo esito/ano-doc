@@ -136,7 +136,7 @@ update COMPANY
 ```
 // Update primary key
 update INVOICE
-    //Save the real and masked values on a file with encryption
+    // Save the production and masked values on a file with encryption
     mask INVOICENO map "invoicemask.txt" output encrypted
         format %d
         unique
