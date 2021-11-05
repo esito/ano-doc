@@ -15,7 +15,7 @@ An ANO Tasks consists of two levels:
 1. Task Groups - top level
 2. Work Tasks - Secondary level
 
-Task Groups are collections of Work Tasks. Work Tasks are collections of [anonymization rules](../rules/overview-rules). A Work Task points to a specific table. A rule within points to a specifc column.
+Task Groups are collections of Work Tasks. Work Tasks are collections of [anonymization rules](../rules/overview). A Work Task points to a specific table. A rule within points to a specifc column.
 
 **Work Task Types**
 
@@ -106,13 +106,13 @@ task <TaskGroupName>
 
 ## Work Task Types
 
-A **Work Task** is organized by database table. The Work Task type defines what kind of [`Rules`](../rules/overview-rules) can be applied.
+A **Work Task** is organized by database table. The Work Task type defines what kind of [`Rules`](../rules/overview) can be applied.
 Each Rule in a Work Task applies to one of the columns of a table.
 
 Work Tasks can adhere to table constraints such as
 
 - Foreign keys using [`propagate`](../rules/propagate) or [`distribute`](../rules/distribute)
-- Unique keys using the [`unique`](../rules/overview-rules#unique) keyword
+- Unique keys using the [`unique`](../rules/overview#unique) keyword
 - Cross-database anonymizations using [`map`](../rules/map)
 
 ---
