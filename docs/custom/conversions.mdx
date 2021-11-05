@@ -3,36 +3,52 @@ sidebar_position: 2
 sidebar_label: Custom Conversions
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Custom Conversions
 
 :::tip goal
+A Conversion function processes the input from the table column to something that can be used by a [`mask` or `randomize` Rule](../rules/overview).
 
+To write your own Custom Conversion function, simply implement the `IConversion.java` interface and `@Override` the `Object convert(String input)` function.
 
+Place your custom Java function inside your [`root package/conversions`](../ano-to-java/generate#3-root-package) folder in the genereated project.
 :::
 
+## Notes
 
-Conversions are defined for randomized columns or for masked columns using a column
-input source or text field input source. When used for a column input source,
-the conversion is used for manipulating the string format and converting the column
-from one string format to another. When used for a text field,
-the conversion is used to manipulate the text file entry.
-When used for a randomized column, it converts the string
-(The column is always read as a string) into another data type.
+- The column is always read as a String
+- Use a conversion to change the type or manipulate the data entry
+- The convert function always assumes a String input, and may return any other Object type
+- When used for a [randomize rules](../rules/randomize/overview), it converts the string into a type supported for the `randomize` rule
 
-All custom conversions must be created in the 
-`src/main/java/<java package>.conversions` package.
+## Conversion Interface
 
-<br/>
+```java
+public interface IConversion {
+    Object convert(String input) throws Exception;
+}
+```
 
-<details>
-<summary><b>ParseDigits.java (Click to Expand)</b></summary>
+### Java Examples
+
+<Tabs
+  defaultValue="parse-digits"
+  values={[
+    { label: 'ParseDigits.java', value: 'parse-digits' },
+    { label: 'TabDelim1.java', value: 'tab-delim' },
+  ]}
+>
+
+<TabItem value="parse-digits">
 
 ```java
 public class ParseDigits implements IConversion {
 
-    public static final String LABEL = "ParseDigits - simply remove all non-digits";
+	public static final String LABEL = "ParseDigits - simply remove all non-digits";
 
-    @Override
+	@Override
     public Object convert(String txt) {
         if(txt==null)
             return "0";
@@ -44,38 +60,23 @@ public class ParseDigits implements IConversion {
         }
         return sb.length()==0?"0":sb.toString();
     }
-
 }
 ```
 
-</details>
+</TabItem>
 
-<br/>
+<TabItem value="tab-delim">
 
-- The custom class must implement the IConversion interface and can override the convert method.
-- The convert method always assumes a string input and returns a string.
-- The conversion is defined in the user defined classes section and used as defined by the convert terminal.
+#### Tabdelim1 for [file input-sources](../rules/mask/file), containing multiple columns of data
 
-<br/>
-
-## Using text files with multiple columns of data
-
-If the input source text file contains multiple columns of data,
-a conversion may be created to assign the correct delimited value.
-For example, a text file containing a City, State and Zip Code delimited by a tab can have an associated conversion file
-to select the first entry as illustrated below.
-All columns can use the same input text file with similar conversion methods and
-as long as it is using sequence and repeatable random it will pick the same line from text file.
-
-<br/>
-
-<details>
-<summary><b>TabDelim1.java (Click to Expand)</b></summary>
+- If input source text file contains multiple columns of data, a conversion may be created to assign the correct delimited value.
+  - E.g., a text file containing a City, State and Zip Code delimited by a tab can have an associated conversion file
+  - All columns can use the same input text file with similar conversion function and as long as it is using sequence and repeatable random it will pick the same line from text file.
 
 ```java
 public class TabDelim1 implements IConversion {
 
-    public static final String LABEL = "TabDelim1 - Pick column 1 delimited by tab";
+    public static final String LABEL = "TabDelim1 - Pick from first file column, delimited by tab";
 
     @Override
     public Object convert(String input) throws Exception {
@@ -85,6 +86,68 @@ public class TabDelim1 implements IConversion {
 }
 ```
 
-</details>
+</TabItem>
 
-<br/>
+</Tabs>
+
+### ANO Usage Examples
+
+- You must explicitly import Custom Conversion functions before the Tasks and Rules Section
+
+<Tabs
+  defaultValue="parse-digits"
+  values={[
+    { label: 'ParseDigits in ANO', value: 'parse-digits' },
+    { label: 'TabDelim1 in ANO', value: 'tab-delim' },
+  ]}
+>
+
+<TabItem value="parse-digits">
+
+```ano
+table Person
+    column text age
+        size 16
+
+conversion example.anonymizer.conversions.ParseDigits
+
+task MyTask  {
+    update Person
+        mask age
+            format %s
+            column age
+                convert ParseDigits // Remove digits from column values
+}
+
+```
+
+</TabItem>
+
+<TabItem value="tab-delim">
+
+```ano
+table Person
+    column text city
+        size 16
+    column text postalCode
+        size 16
+
+conversion example.anonymizer.conversions.TabDelim1
+conversion example.anonymizer.conversions.TabDelim2
+
+task MyTask  {
+    update Person
+        mask city
+            format %s
+            file src/main/resources/locations.txt
+                convert TabDelim1
+        mask postalCode
+            format %s
+            file src/main/resources/locations.txt
+                convert TabDelim2
+}
+```
+
+</TabItem>
+
+</Tabs>
