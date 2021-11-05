@@ -3,15 +3,72 @@ sidebar_position: 3
 sidebar_label: Custom Transformations
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Custom Transformations
 
-Transformations are defined for Masked columns and are used for transforming column values before being written to the database.
-All custom transformations must be created in the src/main/java/\<java package\>.transformations package.
+:::tip Goal
+Use a Custom Transformation function to implement a custom correction algorithm, applied to the output of a [Task Rule](../rules/overview).
 
-<br />
+Place your custom Java function inside your [`root package/transformations`](../ano-to-java/generate#3-root-package) folder in the genereated project.
 
-<details>
-<summary><b>QuartileGeneralization.java (Click to Expand)</b></summary>
+:::
+
+## Notes
+
+- The input of the Transformation Function, i.e. the output of the rule, is read as a String
+- The transformation function returns a String
+- Apply any data correction logic inside of its `transform` function
+- The result is stored into the back to the column
+- Can also implement IPreScan and override the scan function. This provides you with the entire set of records in the scan function which you can inspect and use for the transform function
+
+## Transformation Interface
+
+```java
+public interface ITransformation {
+    String transform(String input) throws Exception;
+}
+```
+
+### Java Examples
+
+<Tabs
+  defaultValue="replace-digits"
+  values={[
+    { label: 'ReplaceDigits.java', value: 'replace-digits' },
+    { label: 'QuartileGeneralization.java', value: 'quartile-generalization' },
+    { label: 'NorwegianTaxID.java', value: 'person-no' },
+  ]}
+>
+
+<TabItem value="replace-digits">
+
+```java
+public class ReplaceDigits extends AbstractRandom implements ITransformation {
+
+    public static final String LABEL = "ReplaceDigits - randomize the digits in a string";
+
+    @Override
+    public String transform(String input) {
+    	if(input == null || input.isEmpty())
+    		return input;
+    	char[] chars = input.toCharArray();
+    	StringBuilder sb = new StringBuilder();
+    	for (char c : chars) {
+    		if(Character.isDigit(c))
+    			sb.append(getRandom().nextInt(10));
+    		else
+    			sb.append(c);
+    	}
+    	return sb.toString();
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value="quartile-generalization">
 
 ```java
 /**
@@ -55,12 +112,115 @@ public class QuartileGeneralization implements ITransformation, IPreScan {
 }
 ```
 
-</details>
+</TabItem>
 
-<br />
+<TabItem value="person-no">
 
-- The custom class must implement the ITransformation interface and override the transform function
-- Can also implement IPreScan and override the scan function. This provides you with the entire set of records in the scan function which you can inspect and use for the transform function
-- The transformation is defined in the user defined classes section and used as defined by the transform terminal.
+The example here is for a Norwegian Tax ID with two Modula 11 checksum numbers.
 
-<br />
+Tax ID numbers vary for each country, and thus may require different algorithms for validation. The example here is for a Norwegian Tax ID with two Modula 11 checksum numbers.
+
+- DDMMYY - date of birth
+- XXX - Sequence number where even number identifies a female and odd a male.
+- The first number also identifies century born in.
+- CC - Modula 11 checksum numbers
+- Notice the skip routine, in the Norwegian Tax id a tenth of the numbers are invalid because of the Modula 11 checksum may sometimes give two digits.
+
+```java
+/**
+ * Calculate the check-digits in a Norwegian Tax ID.
+ *
+ */
+public class NorwegianTaxID implements ITransformation{
+
+    public static final String LABEL = "Person_NO - Norwegian ID generation";
+
+    @Override
+    public String transform(String input) {
+        if(input == null || input.isEmpty())
+            return input;
+
+        return toPersonNO(input);
+    }
+
+    /**
+     * Fix last two digits of a Norwegian Social Security Number
+     * <br>It uses MOD-11 thus it may still create an invalid number
+     * @param value to be corrected
+     * @return corrected value
+     */
+    public static String toPersonNO(String value) {
+        String s1 = value.substring(0, 9);
+        String s2 = personCheckDigit(s1);
+        if(s2.length()>2){
+            // If invalid number try next
+            String s3=""+(Integer.parseInt(value.substring(6, 9))+1002);
+            return toPersonNO(value.substring(0, 6)+s3.substring(1, 4)+value.substring(9, 11));
+        }
+        return s1+s2;
+    }
+
+    static String personCheckDigit(String value) {
+        int[] d = CreditCard.getDigits(value);
+        int k1 = 11 - ((3 * d[0] + 7 * d[1] + 6 * d[2] + 1 * d[3] + 8 * d[4] + 9 * d[5]
+                + 4 * d[6] + 5 * d[7] + 2 * d[8]) % 11);
+        int k2 = 11 - ((5 * d[0] + 4 * d[1] + 3 * d[2] + 2 * d[3] + 7 * d[4] + 6 * d[5]
+                + 5 * d[6] + 4 * d[7] + 3 * d[8] + 2 * k1) % 11);
+        return k1+""+k2;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+### ANO Usage Examples
+
+- You must explicitly import Transformation functions before the Tasks and Rules Section
+
+<Tabs
+  defaultValue="replace-digits"
+  values={[
+    { label: 'ReplaceDigits in ANO', value: 'replace-digits' },
+    { label: 'NorwegianTaxID in ANO', value: 'person-no' },
+  ]}
+>
+
+<TabItem value="replace-digits">
+
+```ano
+transformation example.anonymizer.transformations.ReplaceDigits
+
+task MyTask
+{
+    update Booking
+
+        mask comment
+            format %s
+            transform ReplaceDigits
+            column comment
+}
+```
+
+</TabItem>
+
+<TabItem value="person-no">
+
+```ano
+transformation example.anonymizer.transformations.NorwegianTaxID
+
+task MyTask
+{
+    update CUSTOMER
+        // Mask random Norwegian Tax ID
+        mask TAX_ID
+            format "%1$td%1$ty%2$s"
+            transform Norwegian_TAX_ID
+            random-date 1920-01-01 2020-01-01
+            random-integer 10000 99999
+}
+```
+
+</TabItem>
+
+</Tabs>
