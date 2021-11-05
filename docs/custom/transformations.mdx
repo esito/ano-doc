@@ -1,14 +1,14 @@
 ---
 sidebar_position: 3
 sidebar_label: Custom Transformations
---- 
+---
 
 # Custom Transformations
 
 Transformations are defined for Masked columns and are used for transforming column values before being written to the database.
 All custom transformations must be created in the src/main/java/\<java package\>.transformations package.
 
-<br/>
+<br />
 
 <details>
 <summary><b>QuartileGeneralization.java (Click to Expand)</b></summary>
@@ -57,10 +57,10 @@ public class QuartileGeneralization implements ITransformation, IPreScan {
 
 </details>
 
-<br/>
+<br />
 
-- The custom class must implement the ITransformation interface and override the transform method
-- Can also implement IPreScan and override the scan method. This provides you with the entire set of records in the scan method which you can inspect and use for the transform method
+- The custom class must implement the ITransformation interface and override the transform function
+- Can also implement IPreScan and override the scan function. This provides you with the entire set of records in the scan function which you can inspect and use for the transform function
 - The transformation is defined in the user defined classes section and used as defined by the transform terminal.
 
-<br/>
+<br />
