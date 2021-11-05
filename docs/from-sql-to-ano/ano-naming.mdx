@@ -1,0 +1,81 @@
+---
+sidebar_position: 4
+sidebar_label: Naming Conventions
+---
+
+# Naming Conventions in ANO
+
+:::tip Pro Tip
+
+- Name every Task Group, Work Task, and Rule explicitly.
+
+This solves name clash issues when generating the Java Application classes.
+
+CamelCase recommended.
+
+:::
+
+## Task Group Names
+
+Giving two Task Groups the same name makes it impossible to distinguish between them when running a specific task group, using
+
+> run <task-group\>
+
+## Work Tasks Names
+
+Work Task names are optional. if not provided, it will default to `<task>_<table>`
+
+### Default Naming
+
+```
+    CREATE Address minimum-rows 100 // --> CREATE_Address
+        ...
+    UPDATE Customer                 // --> Update_Customer
+        ...
+```
+
+### Recommended Explicit Naming
+
+```
+    CREATE Address CreateAddressRows minimum-rows 100
+        ...
+    UPDATE Customer UpdateCustomerSomeRows
+        ...
+```
+
+:::note Note
+
+- If two Work Tasks have the same name inside the same Task Group, the last Work Task will override the first Work Task.
+- If two Work Tasks have the same name inside different Task Groups, both Work Tasks will be run when running a specific Work Task using
+
+> run <work-task\>
+
+:::
+
+## Rule Names
+
+Rule names are optional. if not provided, it will default to `<rule>_<column>`
+
+### Default Naming
+
+```
+    mask name         // --> mask_name
+        ...
+    randomize created // --> randomize_created
+        ...
+```
+
+### Recommended Explicit Naming
+
+```
+    mask name MaskNameUsingFiles
+        ...
+    randomize created RandomizeCreatedDate
+        ...
+```
+
+:::note Note
+
+If two Rules have the same name inside the same Work Task, the last Rule will override the first Rule.
+
+:::

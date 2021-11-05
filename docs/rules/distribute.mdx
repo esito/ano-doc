@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 Use `distribute` when creating values for a column by picking values from another table's column.
 
 - Every value created in the child table using `distribute` will be taken from the parent table column.
-- Choose a `<distribution>` function that decides how parent table values will be distributed in the child column. E.g. that all parent values must appear at least once.
+- Choose a `<distribution>` function that decides how parent table values will be distributed in the child table column. E.g. that all parent values must appear at least once.
 
 :::
 
@@ -41,7 +41,7 @@ Use `distribute` to create
 <TabItem value="structure">
 
 ```ano
-task <task> {
+task <task-name> {
     create <table> mininum-rows <#rows>
         distribute <distribution> <params> // params optional
             table <parent-table> <params>  // params optional
@@ -61,7 +61,7 @@ table HOTEL
 table HOTELCHAIN
     column integer ID size 10
     ...
-task <task> {
+task <task-name> {
     create HOTEL minimum-rows 50
         ...
         distribute EvenWithDeviation
@@ -83,7 +83,7 @@ table Address
 table Customer
     column integer customerNo
     ...
-task <task> {
+task <task-name> {
 	create Address minimum-rows 5
         ...
 		distribute SimpleSpread
@@ -112,7 +112,7 @@ table Hotel
 table RoomCategory
     column integer id
     ...
-task <task> {
+task <task-name> {
 	create Booking minimum-rows 100
          ...
 		distribute AllCombinations
@@ -136,7 +136,7 @@ task <task> {
 
 The number of rows is either `minimum-rows`, as defined on the `create` Work Task, or the number of rows necessary to satisfy the condition of the distribution function.
 
-## Built in Distribution Functions
+## Built-in Distribution Functions
 
 ### SimpleSpread
 

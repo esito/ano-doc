@@ -70,7 +70,7 @@ foreign-key
 	Customer customerNo
 	Address customer_customerNo
 ...
-task <task> {
+task <task-name> {
     // Update primary key and propagate to the foreign key
 	update Customer
 		mask customerNo
@@ -84,7 +84,7 @@ task <task> {
 
 #### Foreign Key Example
 
-Note that `Address` have a foreign key constraint to `Customer`, so every `Address.customer_customerNo` value must exist in `Customer.customerNo`
+Note that `Address` has a foreign key constraint to `Customer`, so every `Address.customer_customerNo` value must exist in `Customer.customerNo`
 
 - We update `customerNo` in parent table `Customer` and propagate the update to child table `Address`.
 
@@ -103,7 +103,7 @@ table Address
     column ...
     primary-key ID
 ...
-task <task> {
+task <task-name> {
 	update Customer
 		mask customerNo
 			format %d
@@ -154,7 +154,7 @@ foreign-key
 	Customer customerNo
 	Address customer_customerNo
 
-task <task> {
+task <task-name> {
 	update Customer
 		mask customerNo
 			format %d

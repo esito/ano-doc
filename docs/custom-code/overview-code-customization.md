@@ -211,7 +211,7 @@ Contains all interfaces, ConfigUtil.java (reading/writing config.properties)
 </td>
 <td>
 
-Built in conversions used for converting string input to various other data types.
+Built-in conversions used for converting string input to various other data types.
 (String2Date, String2DateTime, String2Decimal, String2Integer, String2Time)
 
 </td>
@@ -248,7 +248,7 @@ The four supplied SAR writers for XML and JSON
 </td>
 <td>
 
-Built in distributions determine how foreign keys are
+Built-in distributions determine how foreign keys are
 distributed between parent and child tables
 
 </td>
@@ -324,7 +324,7 @@ This is the Default distribution.
 </td>
 <td>
 
-Built in transformations.
+Built-in transformations.
 
 </td>
 </tr>

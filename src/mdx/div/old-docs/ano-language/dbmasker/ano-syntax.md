@@ -188,7 +188,7 @@ Package containing custom conversion classes. Defined for randomized or masked c
 Converts input strings into another string format or can convert string into another data type for randomized columns.
 Implements no.esito.anonymizer.IConversion interface.
 
-Built in conversions used for converting string input to various other data types:
+Built-in conversions used for converting string input to various other data types:
 
 - ParseDigits - remove all non-digits
 - String2Date - convert to java.time.LocalDate
@@ -212,7 +212,7 @@ Package containing custom distribution classes. Defined for dependent tables whe
 
 parameter defined and connected to parent tables
 parameter defined on distribution method and connected to parent groups/tables
-Built in distributions:
+Built-in distributions:
 
 - AllCombinations - all combinations of parents are satified at least once
 - EvenWithDeviation -
@@ -231,7 +231,7 @@ transformations
 
 Package containing custom transformation classes. Defined for masked columns. Used to transform column value before being written to the database. (See ReplaceDigits.java in AnonymizerHotel example). Implements no.esito.anonymizer.ITransformation interface.
 
-Built in transformations:
+Built-in transformations:
 
 - Email - Translates space, hyphen and underscore resulting in a valid email address
 - CreditCard - Adjust last digit for MOD10 validation
@@ -826,7 +826,7 @@ update COMPANY
 ```
 // Update primary key
 update INVOICE
-    //Save the real and masked values on a file with encryption
+    // Save the production and masked values on a file with encryption
     mask INVOICENO map "invoicemask.txt" output encrypted
         format %d
         unique
