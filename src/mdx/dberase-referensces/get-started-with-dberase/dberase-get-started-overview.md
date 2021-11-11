@@ -9,7 +9,7 @@ label: process-overview
 ## Using DBerase requires you to
 
 1. [Translate your database structure into ANO syntax](../step1-sql-to-ano.md)
-2. [Writing Your Tasks and Rules in ANO syntax](../step2-writing-ano.mdx)
+2. [Writing Your Tasks and Rules in ANO syntax](../step2-writing-ano)
 3. [Generate and Configure your Java Application](../step3-application-generation-and-config.md)
 4. [Run The Generated Application](../step4-run-app.md)
 
