@@ -14,9 +14,9 @@ These can perform database anonymization tasks for you, according to your logic.
 
 Anonymizer provides you with the following services:
 
-- [DBmasker](./services/dbmasker.md)
-- [DBano](./services/dbano.md)
-- [Anonymizer ANO DSL Language](sql-to-ano/overview)
+- [DBmasker](.././services/dbmasker.md)
+- [DBano](.././services/dbano.md)
+- [Anonymizer ANO DSL Language](../sql-to-ano/overview)
 
 ### Challenges introduced by GDPR
 
@@ -53,7 +53,7 @@ The two services we provide are
 
 &nbsp;
 
-## [Get Started with DBmasker](./qucikstart.md)
+## [Get Started with DBmasker](.././qucikstart.md)
 
 ### Blog
 

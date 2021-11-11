@@ -16,7 +16,7 @@ Noise is added based upon a Gaussian distribution function, which is configured 
 ## Use Cases
 
 The `randomize` rule is useful for scrambling data. The value will be slightly changed, according to the size of the noise variables. Supported column types for `randomize` are
-[`integer`](randomize-integer.mdx), [`decimal`](randomize-decimal.mdx), [`date`](randomize-date.mdx), [`time`](randomize-time.mdx), and [`datetime`](randomize-datetime.mdx).
+[`integer`](../randomize-integer.mdx), [`decimal`](../randomize-decimal.mdx), [`date`](../randomize-date.mdx), [`time`](../randomize-time.mdx), and [`datetime`](../randomize-datetime.mdx).
 
 ## ANO Structure
 
@@ -35,10 +35,10 @@ The `randomize` rule is useful for scrambling data. The value will be slightly c
 ```
 
 - Randomize needs to know what type is to be anonymized `integer`, `decimal`, `date`, `time`, or `datetime`
-- [format](../format-output) describes the output of the randomize task: `%d`, `%f` / `%.2f`, `%tF`, `%tT`, `"%1$tF %1$tT"`
-- Randomize rules reads column values as string, and must therefore have a [convert](../convert.mdx) function specified.
+- [format](../../format-output) describes the output of the randomize task: `%d`, `%f` / `%.2f`, `%tF`, `%tT`, `"%1$tF %1$tT"`
+- Randomize rules reads column values as string, and must therefore have a [convert](../../convert.mdx) function specified.
   - Select one of the built-in conversion functions `String2Integer`, `String2Decimal`, `String2Date`, `String2Time`, `String2DateTime`.
-- [`transform`](../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
+- [`transform`](../../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
 - `unique` ensures uniqueness of values created by randomize
 
 ## Noise

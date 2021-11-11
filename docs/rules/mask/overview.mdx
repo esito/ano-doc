@@ -38,12 +38,12 @@ task <task-name> {
 ### Explained
 
 - The `mask` keyword is followed by the column that is being anonymized by the rule
-- [`format`](../format-output.mdx) describes the output of the mask rule
-- [`transform`](../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
+- [`format`](../../format-output.mdx) describes the output of the mask rule
+- [`transform`](../../transform.mdx) refers to a java transformation function in the DBmasker project that will transform the output of the mask rule before storing back to database
 - `unique` will make the rule respect the unique constraint of the table column
 - `input-sources` define where input where the values are sourced from
-- [`convert`](../convert.mdx) refers to a java conversion function in the DBmasker project that will take the input source values as inputs before passing it to the rule
-- [`map`](../map.mdx) refers to a mapping file that may be used as an `input`, `output` or `input-output` of the rule
+- [`convert`](../../convert.mdx) refers to a java conversion function in the DBmasker project that will take the input source values as inputs before passing it to the rule
+- [`map`](../../map.mdx) refers to a mapping file that may be used as an `input`, `output` or `input-output` of the rule
 
 ## Mask Input Sources
 
@@ -64,11 +64,11 @@ task <task-name> {
 The `random-[type]` input source is used to insert a value drawn from a
 random sequence as defined by the `<from>` and `<to>` properties. The `random-[type]` is one of
 
-- [`random-integer`](random-integer.mdx)
-- [`random-decimal`](random-decimal.mdx)
-- [`random-time`](random-time.mdx)
-- [`random-date`](random-date.mdx)
-- [`random-datetime`](random-datetime.mdx)
+- [`random-integer`](../random-integer.mdx)
+- [`random-decimal`](../random-decimal.mdx)
+- [`random-time`](../random-time.mdx)
+- [`random-date`](../random-date.mdx)
+- [`random-datetime`](../random-datetime.mdx)
 
 </TabItem>
 
@@ -76,7 +76,7 @@ random sequence as defined by the `<from>` and `<to>` properties. The `random-[t
 
 ### `file`
 
-The [`file`](file.mdx) input source is used to insert a string value taken from the file defined in the location string.
+The [`file`](../file.mdx) input source is used to insert a string value taken from the file defined in the location string.
 It picks a line from the file sequentially or randomly depending on the `random-order` property.
 A conversion class can be selected to manipulate the string selected from the text file. See convert.
 
@@ -86,9 +86,9 @@ A conversion class can be selected to manipulate the string selected from the te
 
 ### `column`
 
-The [`column`](column.mdx) input source is used to insert the specified column value into the masked column.
+The [`column`](../column.mdx) input source is used to insert the specified column value into the masked column.
 You can only specify a column from the same table. If a column being anonymized is not a string,
-you can use one of the conversions defined to convert the data type. See [`convert`](../convert.mdx).
+you can use one of the conversions defined to convert the data type. See [`convert`](../../convert.mdx).
 
 </TabItem>
 
@@ -96,7 +96,7 @@ you can use one of the conversions defined to convert the data type. See [`conve
 
 ### `sequence`
 
-The [`sequence`](sequence) input source is used to insert a sequence of integers into the column starting with the first INTEGER value
+The [`sequence`](../sequence) input source is used to insert a sequence of integers into the column starting with the first INTEGER value
 and incremented by the second INTEGER value. If -1 is selected,
 the sequence starts with the highest value stored in the column plus the increment.
 

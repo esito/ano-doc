@@ -9,11 +9,11 @@ import TabItem from '@theme/TabItem';
 # Custom Conversions
 
 :::tip goal
-A Conversion function processes the input from the table column to something that can be used by a [`mask` or `randomize` Rule](../rules/overview).
+A Conversion function processes the input from the table column to something that can be used by a [`mask` or `randomize` Rule](../../rules/overview).
 
 To write your own Custom Conversion function, simply implement the `IConversion.java` interface and `@Override` the `Object convert(String input)` function.
 
-Place your custom Java function inside your [`root package/conversions`](../ano-to-java/generate#3-root-package) folder in the genereated project.
+Place your custom Java function inside your [`root package/conversions`](../../ano-to-java/generate#3-root-package) folder in the genereated project.
 :::
 
 ## Notes
@@ -21,7 +21,7 @@ Place your custom Java function inside your [`root package/conversions`](../ano-
 - The column is always read as a String
 - Use a conversion to change the type or manipulate the data entry
 - The convert function always assumes a String input, and may return any other Object type
-- When used for a [randomize rules](../rules/randomize/overview), it converts the string into a type supported for the `randomize` rule
+- When used for a [randomize rules](../../rules/randomize/overview), it converts the string into a type supported for the `randomize` rule
 
 ## Conversion Interface
 
@@ -67,7 +67,7 @@ public class ParseDigits implements IConversion {
 
 <TabItem value="tab-delim">
 
-#### Tabdelim1 for [file input-sources](../rules/mask/file), containing multiple columns of data
+#### Tabdelim1 for [file input-sources](../../rules/mask/file), containing multiple columns of data
 
 - If input source text file contains multiple columns of data, a conversion may be created to assign the correct delimited value.
   - E.g., a text file containing a City, State and Zip Code delimited by a tab can have an associated conversion file
