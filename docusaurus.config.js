@@ -13,6 +13,8 @@ module.exports = {
   organizationName: 'Esito AS', // Usually your GitHub org/user name.
   projectName: 'ano-doc', // Usually your repo name.
   trailingSlash: true,  
+  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks:"warn",
   themeConfig: {
     navbar: {
       logo: {
