@@ -9,28 +9,28 @@ sidebar_label: Overview
 
 Anonymizer provides you with the following services:
 
-1. [DBano (free)](dbano)
-2. [DBmasker (paid)](dbmasker)
-3. [DBimport (free)](dbimport)
+1. [DBano (free)](../dbano)
+2. [DBmasker (paid)](../dbmasker)
+3. [DBimport (free)](../dbimport)
 
-They all require [login](access) to access.
+They all require [login](../access) to access.
 
 :::
 
 ## DBano
 
-[The free service Dbano](dbano) is a file generator. It takes an `.sql` file as input and generates an `.ano` file as output.
+[The free service Dbano](../dbano) is a file generator. It takes an `.sql` file as input and generates an `.ano` file as output.
 
 - The `.sql` file is meant to contain the database definition. I.e. the DDL of `CREATE` table statements and their constraints. We support the main database provider dialects.
 - The `.ano` file will describe your database definitions in the ANO language.
 
 ## DBmasker
 
-[The paid service DBmasker](dbmasker) is a Java Application generator. It takes an `.ano` file as input and generates a `.zip` as output.
+[The paid service DBmasker](../dbmasker) is a Java Application generator. It takes an `.ano` file as input and generates a `.zip` as output.
 
 - The `.ano` file will contain your database definitions in addition to the anonymizing Tasks and Rules.
 - The `.zip` file will contain a fully working Spring Boot Java 8 application running on Maven. By running this application, it will perform the anonymizing Tasks and Rules on your database.
 
 ## DBimport
 
-[The free service DBimport](dbimport) is a standalone generator that takes an `.sql` file as input and provides you with the Java entity classes for all tables described in the .sql file.
+[The free service DBimport](../dbimport) is a standalone generator that takes an `.sql` file as input and provides you with the Java entity classes for all tables described in the .sql file.

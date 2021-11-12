@@ -7,7 +7,7 @@ sidebar_label: Overview
 
 :::tip Goal
 
-[Conversions of input sources](../rules/convert), [Transformations of rule outputs](../rules/transform), and the [distribution for the creation of foreign key values](../rules/distribute), can be customized by the user.
+[Conversions of input sources](../../rules/convert), [Transformations of rule outputs](../../rules/transform), and the [distribution for the creation of foreign key values](../../rules/distribute), can be customized by the user.
 
 After the Java Application is generated based on the ANO file, you may add User Defined Classes to the Java Application. This section explains how.
 :::
@@ -26,21 +26,21 @@ We have provided a GitHub Repository so that users may freely share and improve 
 
 ## Custom Conversions
 
-[Conversions](conversions) are done on the input-sources of the [`mask`](../rules/mask/overview) and [`randomize`](../rules/randomize/overview) rules. For `mask`, it may be useful for manipulating the data value before masking. For `randomize`, it is necessary for the randomization to know the type of the data that the noise is to be sadded to.
+[Conversions](../conversions) are done on the input-sources of the [`mask`](../../rules/mask/overview) and [`randomize`](../../rules/randomize/overview) rules. For `mask`, it may be useful for manipulating the data value before masking. For `randomize`, it is necessary for the randomization to know the type of the data that the noise is to be sadded to.
 
 ## Custom Transformations
 
-[Transformations](transformations) are done on the output of the [anonymization rules](../rules/overview). This is useful for correction of the anonymized data, so that this data follows business specific value structures.
+[Transformations](../transformations) are done on the output of the [anonymization rules](../../rules/overview). This is useful for correction of the anonymized data, so that this data follows business specific value structures.
 
 ## Custom Distribtuions
 
-[Distributions](distributions) is used when creating values for the foreign key columns of child tables. It decides how values of the parent primary-key or unique-key columns shall be distributed in the child table foreign-key columns.
+[Distributions](../distributions) is used when creating values for the foreign key columns of child tables. It decides how values of the parent primary-key or unique-key columns shall be distributed in the child table foreign-key columns.
 
 ---
 
 ## ANO Usage of User Defined Classes
 
-Make sure to reference the User Defined Classes in [the ANO file](../sql-to-ano/the-ano-language) under the `User Defined Classes` section. I.e. after `Foreign Keys` and before the `Tasks and Rules`.
+Make sure to reference the User Defined Classes in [the ANO file](../../sql-to-ano/the-ano-language) under the `User Defined Classes` section. I.e. after `Foreign Keys` and before the `Tasks and Rules`.
 
 ```ano
 // - - - - Database Schema Information - - - - //

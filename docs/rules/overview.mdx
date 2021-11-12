@@ -7,47 +7,47 @@ sidebar_label: Overview
 
 :::tip Overview
 
-While ANO [Work Tasks](../tasks/overview) points to tables, ANO Rules point to columns. A Rule describes the logic of the anonymization of a specific column.
+While ANO [Work Tasks](../../tasks/overview) points to tables, ANO Rules point to columns. A Rule describes the logic of the anonymization of a specific column.
 
 :::
 
 ## Three rule strategies
 
-1. [`mask`](./mask/overview) creates new values for fields of a column using input sources
-2. [`randomize`](./randomize/overview) adds noise to the values of each field of a column
-3. [`Shuffle`](./shuffle-rule) reorders values within a column, ensuring no value remains in its original place
+1. [`mask`](../mask/overview) creates new values for fields of a column using input sources
+2. [`randomize`](../randomize/overview) adds noise to the values of each field of a column
+3. [`Shuffle`](../shuffle-rule) reorders values within a column, ensuring no value remains in its original place
 
 ### Input sources
 
-The input sources of a `mask` rule may be [random value generations](./mask/random-integer), [columns](./mask/column), [text files](./mask/file) or [sequences](./mask/sequence).
+The input sources of a `mask` rule may be [random value generations](../mask/random-integer), [columns](../mask/column), [text files](../mask/file) or [sequences](../mask/sequence).
 
 :::note note
 
-If no input source is provided, the default input source becomes the masked column. E.g. it will be equal to using the [column](./mask/column) input source and refering to itself.
+If no input source is provided, the default input source becomes the masked column. E.g. it will be equal to using the [column](../mask/column) input source and refering to itself.
 :::
 
 ### Convert the input source
 
-The input source to the anonymization rule may be converted using [`convert`](./convert).
+The input source to the anonymization rule may be converted using [`convert`](../convert).
 
 ## Output of a rule
 
-The [format](./format-output) of the output of a rule strategy can be formatted as needed.
+The [format](../format-output) of the output of a rule strategy can be formatted as needed.
 
 ### transform the output
 
-The output of the anonymization rule may be transformed using [`transform`](./transform).
+The output of the anonymization rule may be transformed using [`transform`](../transform).
 
 ### Store the Anonymization to a Mapping File
 
-Anonymizations may be saved to a mapping file using [`map`](./map). This file may be encrypted using the [`encrypted`](map#encryption) keyword, alongside an encryption key provided to the [configuration](../ano-to-java/configure).
+Anonymizations may be saved to a mapping file using [`map`](../map). This file may be encrypted using the [`encrypted`](../map#encryption) keyword, alongside an encryption key provided to the [configuration](../../ano-to-java/configure).
 
 ## Handle constraints
 
 ### foreign keys
 
-To handle table dependencies during the anonymization process, such as foreign key constraints, you may want to [propagate](./propagate) anonymizations of a primary key column to foreign key columns in other tables.
-Or you may want to populate a foreign key columns in child tables by using a [distribution](./distribute) of primary key values available in parent tables.
+To handle table dependencies during the anonymization process, such as foreign key constraints, you may want to [propagate](../propagate) anonymizations of a primary key column to foreign key columns in other tables.
+Or you may want to populate a foreign key columns in child tables by using a [distribution](../distribute) of primary key values available in parent tables.
 
 ### unique keys
 
@@ -55,6 +55,6 @@ The `unique` keyword may be placed in a task rule to ensure the values stored in
 
 ## Custom SQL
 
-You can [write complete SQL statements](sql-before-after.mdx) into the ANO file directly using `sql-before` and `sql-after`. This is useful if specific SQL statements must be executed before or after running a specific Task Group or a specific Work Task.
+You can [write complete SQL statements](../sql-before-after) into the ANO file directly using `sql-before` and `sql-after`. This is useful if specific SQL statements must be executed before or after running a specific Task Group or a specific Work Task.
 
-If there are needs to place conditions for Work Tasks, you may also write explicit [`where expressions`](where-expressions) to them. These corresponds to the where clause of SQL statements.
+If there are needs to place conditions for Work Tasks, you may also write explicit [`where expressions`](../where-expressions) to them. These corresponds to the where clause of SQL statements.

@@ -13,7 +13,7 @@ We will generate the Java source code using the DBmasker service and then config
    2. Configure database connection settings in `src/main/resources/config.properties`
    3. (Optional) Add your custom data files to /src/main/resources
 
-*(Optional) Since you are given the Java source code, you are invited to write your own customizations in /src/main/java. Visit our [Code Customization section](../custom/overview-custom) for details.*
+*(Optional) Since you are given the Java source code, you are invited to write your own customizations in /src/main/java. Visit our [Code Customization section](../../custom/overview-custom) for details.*
 :::
 
 ## Generate DBmasker project
@@ -81,7 +81,7 @@ sql.wrapper             = "
 
 ### *(Optional) Setup your custom code*
 
-Visit our [Code Customization Section](../custom/overview-custom.md) for details on how to write your own customizions.
+Visit our [Code Customization Section](../../custom/overview-custom.md) for details on how to write your own customizions.
 
 :::tip Next Step
 

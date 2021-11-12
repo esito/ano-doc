@@ -19,15 +19,15 @@ The `create` Work Tasks is well suited to all cases where you have the database 
 
 - When populating a specific database table, all columns must be populated by rules at the same time (else they remain `null`).
   - As such, it requires more ANO to write `create` tasks than `update` tasks, as `updates` needs only rules for certain columns.
-- It is important to define the creation of data for parent tables before defining the creation of data for child tables, and then ensure that the relation via the foreign keys are defined using [`distribute`](../rules/distribute).
+- It is important to define the creation of data for parent tables before defining the creation of data for child tables, and then ensure that the relation via the foreign keys are defined using [`distribute`](../../rules/distribute).
   - You can specify the distribution of foreign keys used in child records by specifying one of the various distribution algorithms supplied, or you can create a customized distribution for your own purposes. If a parent table is referenced by many child foreign keys, a distribution algorithm may be defined for a group of child tables.
 - The minimum-rows value ensures that the table will have at least minimum-rows records inserted.
 
 ## Work Task `create` in Ano
 
-In `create` Work Tasks, you can only use the [`mask`](../rules/mask/overview) rule strategy. New data is created using input sources of various kinds.
+In `create` Work Tasks, you can only use the [`mask`](../../rules/mask/overview) rule strategy. New data is created using input sources of various kinds.
 
-[Visit the rules section](../rules/overview) for more information on how to write `create` task rules.
+[Visit the rules section](../../rules/overview) for more information on how to write `create` task rules.
 
 <Tabs
   defaultValue="structure"

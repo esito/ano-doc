@@ -15,12 +15,12 @@ An ANO Tasks consists of two levels:
 1. Task Groups - top level
 2. Work Tasks - Secondary level
 
-Task Groups are collections of Work Tasks. Work Tasks are collections of [anonymization rules](../rules/overview). A Work Task points to a specific table. A rule within points to a specifc column.
+Task Groups are collections of Work Tasks. Work Tasks are collections of [anonymization rules](../../rules/overview). A Work Task points to a specific table. A rule within points to a specifc column.
 
 **Work Task Types**
 
-- [`update`](update)
-- [`create`](create)
+- [`update`](../update)
+- [`create`](../create)
 
 :::
 
@@ -106,14 +106,14 @@ task <TaskGroupName>
 
 ## Work Task Types
 
-A **Work Task** is organized by database table. The Work Task type defines what kind of [`Rules`](../rules/overview) can be applied.
+A **Work Task** is organized by database table. The Work Task type defines what kind of [`Rules`](../../rules/overview) can be applied.
 Each Rule in a Work Task applies to one of the columns of a table.
 
 Work Tasks can adhere to table constraints such as
 
-- Foreign keys using [`propagate`](../rules/propagate) or [`distribute`](../rules/distribute)
-- Unique keys using the [`unique`](../rules/overview#unique) keyword
-- Cross-database anonymizations using [`map`](../rules/map)
+- Foreign keys using [`propagate`](../../rules/propagate) or [`distribute`](../../rules/distribute)
+- Unique keys using the [`unique`](../../rules/overview#unique) keyword
+- Cross-database anonymizations using [`map`](../../rules/map)
 
 ---
 
@@ -131,7 +131,7 @@ Work Tasks can adhere to table constraints such as
 
 The same anonymizations can be applied to columns of child tables (i.e., using foreign keys).
 
-See [update](update) for more details.
+See [update](../update) for more details.
 
 #### Use Cases
 
@@ -150,7 +150,7 @@ This is the standard way of anonymizing the data of an entire database for testi
 **create** lets you write Rules to insert rows of synthetic data,
 and also create rows for child tables that are linked together by foreign keys.
 
-See [create](create) for more details.
+See [create](../create) for more details.
 
 #### Use Cases
 

@@ -10,12 +10,15 @@ module.exports = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'Esito AS', // Usually your GitHub org/user name.
+  projectName: 'ano-doc', // Usually your repo name.
+  trailingSlash: true,  
+  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks:"warn",
   themeConfig: {
     navbar: {
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Esito logo',
         src: 'img/esito.png',
       },
       items: [
