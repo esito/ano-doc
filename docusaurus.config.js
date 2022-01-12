@@ -19,7 +19,8 @@ module.exports = {
     navbar: {
       logo: {
         alt: 'Esito logo',
-        src: 'img/esito.png',
+        src: 'img/Anonymizer Farget Svart.svg',
+        srcDark: 'img/Anonymizer Farget hvit.svg'
       },
       items: [
         {
@@ -33,11 +34,6 @@ module.exports = {
           label: 'Login / dashboard',
           position: 'right',
 
-        },
-        {
-          href: 'https://anonymizer.esito.no/products',
-          label: 'Buy',
-          position: 'right',
         },
         {
           href: 'https://github.com/esito/ano-doc',
