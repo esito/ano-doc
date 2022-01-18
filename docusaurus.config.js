@@ -19,8 +19,8 @@ module.exports = {
     navbar: {
       logo: {
         alt: 'Esito logo',
-        src: 'img/Anonymizer Farget Svart.svg',
-        srcDark: 'img/Anonymizer Farget hvit.svg'
+        src: 'img/DBmasker hel logo blå og svart.svg',
+        srcDark: 'img/DBmasker hel logo hvit.svg'
       },
       items: [
         {
@@ -44,27 +44,8 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Docs',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/esito/ano-doc',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Esito AS. Built with Docusaurus.`,
+      
+      copyright: `Copyright © ${new Date().getFullYear()} Esito AS, Subsidiary of Inmeta. Built with Docusaurus.`,
     },
     prism: {
       theme: lightCodeTheme,
