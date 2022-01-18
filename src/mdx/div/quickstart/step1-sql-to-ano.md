@@ -147,7 +147,7 @@ ALTER TABLE ano_hotel.Room ADD CONSTRAINT Room_hotel_idF FOREIGN KEY (hotel_id) 
 </p>
 </details>
 
-## 3. Log into [Anonymizer Dashboard](https://dev.esito.no/auth/dashboard/home)
+## 3. Log into [DBmasker Dashboard](https://anonymizer.esito.no/auth/dashboard/home)
 
 <img src="/img/docs/ano_dashboard_dbano.png" width="800" />
 

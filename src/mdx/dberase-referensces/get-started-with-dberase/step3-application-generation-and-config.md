@@ -11,7 +11,7 @@ label: generating-application
 
 ## Generate DBerase project
 
-### Log into [Anonymizer Dashboard](https://dev.esito.no/auth/dashboard/home)
+### Log into [DBmasker Dashboard](https://anonymizer.esito.no/auth/dashboard/home)
 
 <img src="/img/docs/ano_dashboard.png" width="800" />
 

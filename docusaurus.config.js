@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Anonymize your test data and make GDPR a breeze',
-  tagline: 'Anonymizer generates a Java program that can be automated and run whenever you like',
+  tagline: 'DBmasker generates a Java program that can be automated and run whenever you like',
   url: 'https://doc.esito.no',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -18,7 +18,7 @@ module.exports = {
   themeConfig: {
     navbar: {
       logo: {
-        alt: 'Esito logo',
+        alt: 'DBmasker logo',
         src: 'img/DBmasker hel logo blå og svart.svg',
         srcDark: 'img/DBmasker hel logo hvit.svg'
       },

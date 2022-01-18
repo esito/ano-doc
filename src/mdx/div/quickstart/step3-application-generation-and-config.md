@@ -18,7 +18,7 @@ We will generate the Java source code using the DBmasker service and then config
 
 ## Generate DBmasker project
 
-### Log into [Anonymizer Dashboard](https://dev.esito.no/auth/dashboard/home)
+### Log into [DBmasker Dashboard](https://anonymizer.esito.no/auth/dashboard/home)
 
 <img src="/img/docs/ano_dashboard.png" width="800" />
 

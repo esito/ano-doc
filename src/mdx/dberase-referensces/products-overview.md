@@ -47,7 +47,7 @@ Whenever you copy your production database to test or development environments, 
 </td>
 <td>
 
-Paid
+Free
 
 </td>
 </tr>

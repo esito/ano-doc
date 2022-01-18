@@ -5,10 +5,9 @@ label: registration
 
 # Registration Process
 
-
 ## Login / Create an Account
 
-Usage of DBmasker and other Anonymizer services requires you to [Login / Create an account](https://anonymizer.esito.no/auth).
+Usage of DBmasker requires you to [Login / Create an account](https://anonymizer.esito.no/auth).
 
 Creating an account is free, and grants you access to our free services DBano and DBimport.
 
