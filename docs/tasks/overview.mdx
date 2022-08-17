@@ -21,6 +21,8 @@ Task Groups are collections of Work Tasks. Work Tasks are collections of [anonym
 
 - [`update`](../update)
 - [`create`](../create)
+- [`delete`](../delete)
+- [`erase`](../erase)
 
 :::
 
@@ -122,6 +124,8 @@ Work Tasks can adhere to table constraints such as
   values={[
     { label: 'Update', value: 'update' },
     { label: 'Create', value: 'create' },
+    { label: 'Delete', value: 'delete' },
+    { label: 'Erase', value: 'erase' },
   ]}
 >
 
@@ -156,6 +160,27 @@ See [create](../create) for more details.
 
 If the organization does not allow production data to be copied into testing and development environments,
 you may want to create synthetic (or fake) data for the testing and development databases.
+
+With the **create** type Work Task,
+you can insert rows into database tables with sample data
+and also create records for child tables that are linked together by foreign keys.
+
+</TabItem>
+<TabItem value="delete">
+
+**delete** lets you write Rules to delete rows from existing data-sources,
+and also delete data .
+
+See [create](../create) for more details.
+
+#### Use Cases
+
+When creating a test or development environment, it is often necessary to perform a full copy of the production database
+in order to acquire a proper data set. 
+This may result in a data set that is too large and unmanageable, 
+often requiring an analysis of the data content and structure to delete data in order to shrink the database size. 
+This is often called database subsetting.
+
 
 With the **create** type Work Task,
 you can insert rows into database tables with sample data

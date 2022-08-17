@@ -1,0 +1,115 @@
+---
+sidebar_position: 2
+sidebar_label: Erase
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Erase
+
+:::tip Goal
+The `erase` Work Tasks is well suited to all cases where you need to repeatedly mask/delete a subset of the database e.g. processing "Forget me"-requests
+
+- `erase` Work Tasks works across tables, and help maintain consistency
+
+:::
+
+## Identifying data that needs anonymization
+
+You will primarily anonymize Personally Identifiable Data and Linkable Data. In addition, you may need to anonymize business critical data.
+
+### Personally Identifiable Information Examples
+
+- **Names:** first, middle and lastname, usernames, aliases
+- **Addresses:** home address, email address, IP address
+- **Phone numbers:** mobile numbers, fixed numbers
+- **Personal identification numbers:** passport number, driver’s license, credit/debit card, taxpayer ID number, patient ID number
+- **Biometric data:** photos, x-rays, fingerprints, retina scans, voice signatures
+
+### Quasi Identifier Examples
+
+- Date of birth
+- Race
+- Gender
+- Business telephone number
+- Place of birth
+- Religion
+- Educational information
+- Event based information
+
+## Work Task `erase` in Ano
+
+In `erase` Work Tasks, you can use the [`mask`](../../rules/mask/overview) rule strategy.
+In addition you can [cascade](../../rules(cascade) the referenced tables to mask or delete the corresponding records.
+
+## Parameters
+
+`erase` Work Tasks use parameters to mask specific entries across the database.
+
+With one parameter the syntax is where "IDColumn = %PARAMETER%
+
+In the general case, with many parameters, the parameter sequence has to be equal to the sequence
+defined in the erase definition where clause, defined by PARAMETERn:
+where "(_HOTEL_ID_ = %PARAMETER1% AND ROOMCATEGORY_ID = %PARAMETER2% AND FROMDATE = '%PARAMETER3%')"
+
+[Visit the rules section](../../rules/overview) for more information on how to write `erase` task rules.
+
+## Deleting
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Erase Address Example', value: 'erase' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+task <TaskGroupName>
+{
+    erase <table> where "ColumnName = %PARAMETER%"
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+        mask <column> <RuleName>
+            <rule-logic>
+}
+```
+
+</TabItem>
+
+<TabItem value="erase">
+
+```ano
+table Address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+// - - - - Tasks and Rules - - - - //
+
+task CreateTasks
+{
+    erase Address EraseAddress "where addressNo = %parameter%"
+
+        mask homeAddress UpdateAddressUsingFile
+            format %s
+            file src/main/resources/addresses.txt random-order
+
+        mask created
+            format "%1$tF %1$tT"
+            random-datetime 2020-01-01 07:00:00 2020-12-31 22:00:00
+}
+```
+
+</TabItem>
+
+</Tabs>

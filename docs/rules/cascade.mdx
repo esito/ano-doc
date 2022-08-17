@@ -1,0 +1,121 @@
+---
+sidebar_position: 12
+sidebar_label: Cascade
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Cascade
+
+:::tip Goal
+Use `cascade` when
+
+- Anonymizing one or more entries in your database across multiple tables. E.g. a "Forget me"- request
+- Subsetting a database and you want to maintain consistency
+
+Cascade is used both in `delete`tasks and `erase` tasks
+
+- In `erase` tasks `cascade` can be used to either delete or mask child table entries
+- in `delete`tasks `cascade` can only delete child table entries
+
+:::
+
+## Use cases for `cascade`
+
+Use `cascade` when
+
+- Entries in child tables must be deleted to maintain database consistency
+- Entries in child tables must be anonymized
+
+## Ano Structure and Examples
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+	{ label: 'delete Example', value: 'delete' },
+	{ label: 'erase Example', value: 'erase' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+task <task-name> {
+    <task Type> <table> <where clause>
+        cascade <distribution>
+            table <parent-table>
+                child <foreign-key>
+                parent <key>
+}
+```
+
+</TabItem>
+
+<TabItem value="delete">
+
+```ano
+table HOTEL
+    column integer CHAIN_ID size 10
+    ...
+table HOTELCHAIN
+    column integer ID size 10
+    ...
+task <task-name> {
+    delete HOTEL where "ID = 0"
+        ...
+        cascade
+            table HOTELCHAIN
+                child CHAIN_ID
+                parent ID
+
+}
+```
+
+</TabItem>
+
+<TabItem value="erase">
+
+```ano
+table ADDRESS
+    column text HOMEADDRESS size 40
+    column integer CUSTOMER_CUSTOMERNO size 10
+    ...
+table CUSTOMER
+    column integer CUSTOMERNO size 10
+    ...
+    primary-key CUSTOMERNO
+table BANKING
+    column integer CUSTOMER_CUSTOMERNO size 10
+    custom integer ID
+    ...
+    primary-key ID
+foreign-key
+    ADDRESS CUSTOMER_CUSTOMERNO
+    CUSTOMER CUSTOMERNO
+ erase CUSTOMER
+        where "CUSTOMERNO = %PARAMETER%"
+        mask NAME
+            format "firstname lastname"
+        mask EMAIL
+            format post@email.com
+            transform Email
+        {
+            // Anonymize identifiable columns
+            cascade ADDRESS
+                parent CUSTOMERNO
+                child CUSTOMER_CUSTOMERNO
+                mask HOMEADDRESS
+                    format "Home address"
+        }
+        {   // Delete identifiable columns
+            cascade BANKING
+                parent CUSTOMER
+                child CUSTOMER_CUSTOMERNO
+        }
+```
+
+</TabItem>
+
+</Tabs>

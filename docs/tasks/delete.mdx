@@ -27,7 +27,7 @@ You may remove any dependency or manually add dependencies on other tables.
 
 ## Work Task `delete` in Ano
 
-In `delete` Work Tasks, you can define [sql](../../rules/sql-before-after), [where clause](../../rules/where-expressions), [method](#method) and [cascade](#cascade)
+In `delete` Work Tasks, you can define [sql](../../rules/sql-before-after), [where clause](../../rules/where-expressions), [method](#method) and [cascade](../../rules/cascade)
 
 [Visit the rules section](../../rules/overview) for more information on how to write `delete` task rules.
 
@@ -100,7 +100,7 @@ task DeleteTasks
 
 The 3 cascading delete methods have different performance of deleting a hierarchy of records. The characteristics are:
 
-- cascading
+- `cascading`
 
   Children are deleted first, and the parent last
 
@@ -108,7 +108,7 @@ The 3 cascading delete methods have different performance of deleting a hierarch
 
   Slow performance (one by one)
 
-- not-exists
+- `not-exists`
 
   Parent is deleted first
 
@@ -120,14 +120,10 @@ The 3 cascading delete methods have different performance of deleting a hierarch
 
   Fastest, but constraints must be disabled
 
-- not-in
+- `not-in`
 
 Parent is deleted first
 
     Thereafter all orphans are deleted using
 
     WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
-
-## `cascade`
-
-`cascade` deletes data from dependant tables.
