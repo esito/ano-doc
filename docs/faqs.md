@@ -6,9 +6,9 @@ id: faqs
 
 # FAQs - Frequently Asked Questions
 
-## Is Anonymizer standalone, or must it be integrated into my Software?
+## Is DBmasker standalone, or must it be integrated into my Software?
 
-Anonymizer provides a standalone application through the DBmasker Service.
+DBmasker provides a standalone application.
 It does not need to be integrated into your own software or applications.
 It is it meant to be run against your database only. And only when a database needs anonymization.
 E.g., every time a database is copied from production to the test or development databases.

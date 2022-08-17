@@ -37,8 +37,8 @@ Download [Derby](https://db.apache.org/derby/derby_downloads.html), unzip to a f
 
 ## Download the github project
 
-Download and unzip the dbmasker-master.zip (https://github.com/esito/dbmasker) to a java project folder or clone the dbmasker git project:
-git clone https://github.com/esito/dbmasker.git.
+Download and unzip the [dbmasker-master.zip](https://github.com/esito/dbmasker) to a java project folder or clone the dbmasker git project:
+git clone <https://github.com/esito/dbmasker.git>.
 
 Files which are part of the dbmasker example project:
 
@@ -52,7 +52,8 @@ Files which are part of the dbmasker example project:
 
 <br/>
 
-Open a command shell and go to the hotelsample/database folder. Open the database creation script create-db.cmd (Windows) or create-db.<span/>sh (Linux or Mac) and edit **DERBY_HOME** to point to your Derby installation folder containing the libs.
+Open a command shell and go to the hotelsample/database folder. Open the database creation script create-db.cmd (Windows) or create-db.<span/>sh (Linux or Mac)
+and edit **DERBY_HOME** to point to your Derby installation folder containing the libs.
 
 Run the create-db script. It will create the database/hotelsample folder, containing the Derby database populated with sample data.
 
@@ -75,9 +76,11 @@ The simplified domain model for this sample project:
 
 ## Generate the anonymization/masking program code
 
-Go to the http://anonymizer.esito.no web, register a user and subscribe to the DBmasker service.
+Go to the [DBmasker](http://anonymizer.esito.no) web, register a user and subscribe to the DBmasker service.
 
-Go to the DBmasker service on https://anonymizer.esito.no/auth/dashboard/dbmasker. Choose **SELECT A FILE** and use the hotelsample.ano file as the **Anonymizer model File name** parameter to the service. Ignore the **Root package** parameter (giving example.anonymizer package value) and press the **DOWNLOAD ZIP** button.
+Go to the DBmasker service on [DBmasker service](https://anonymizer.esito.no/auth/dashboard/dbmasker). Choose **SELECT A FILE**
+and use the hotelsample.ano file as the **DBmasker model File name** parameter to the service.
+Ignore the **Root package** parameter (giving example.DBmaskerpackage value) and press the **DOWNLOAD ZIP** button.
 
 ![alt text](/img/docs/dbmaskerweb.png 'DB Masker Web')
 
@@ -101,7 +104,9 @@ config.properties
 hotelsample.ano
 ```
 
-Unpack the resulting zip to the java project you downloaded or cloned from github. Unzip the structure into the hotelsample folder. The pom.xml and readme.<span/>md will be copied to the hotelsample project root. Generated code is copied to the src folder. It is regenerated each time the **DBmasker** service is used. Be aware of that customizations might be overwritten each time it is regenerated.
+Unpack the resulting zip to the java project you downloaded or cloned from github. Unzip the structure into the hotelsample folder.
+The pom.xml and readme.<span/>md will be copied to the hotelsample project root. Generated code is copied to the src folder.
+It is regenerated each time the **DBmasker** service is used. Be aware of that customizations might be overwritten each time it is regenerated.
 
 <br/>
 
@@ -109,7 +114,9 @@ Unpack the resulting zip to the java project you downloaded or cloned from githu
 
 ### Connect class
 
-The **DBmasker** generator creates hotelsample\src\main\java\example\anonymizer\Connect.java, which connects to the database given by the config.properties file. In this example, we have to override the Connect.java with a user defined Connect. Replace the content in hotelsample\src\main\java\example\anonymizer\Connect.java with the code from src/main/java/example/anonymizer/Connect.ovr:
+The **DBmasker** generator creates hotelsample\src\main\java\example\anonymizer\Connect.java, which connects to the database given by the config.properties file.
+In this example, we have to override the Connect.java with a user defined Connect.
+Replace the content in hotelsample\src\main\java\example\anonymizer\Connect.java with the code from src/main/java/example/anonymizer/Connect.ovr:
 
 ### Connect
 
@@ -206,7 +213,8 @@ To test the generated code, start a command shell and run this command from the 
 
 > java -jar target/hotelsample-0.0.1.jar cmd
 
-The program name **hotelsample** is given by your input hotelsample.ano file name. "cmd" is a command that takes continued input from standard input. The program displays the command help text and is ready for commands.
+The program name **hotelsample** is given by your input hotelsample.ano file name. "cmd" is a command that takes continued input from standard input.
+The program displays the command help text and is ready for commands.
 
 ```
 Commands:
@@ -386,7 +394,8 @@ To look at the Derby database content using the SQL client ij, run run-ij.cmd or
 
 Note that DERBY_HOME in run-ij.cmd or run-ij<span/>.sh must point to your derby folder.
 
-Note that only one instance may access the database at the time, so you may need to exit the running java -jar target/hotelsample-0.0.1.jar instance to run ij and look at the content in the Derby database. Otherwise you will get an error that the instance is already running.
+Note that only one instance may access the database at the time, so you may need to exit the running java -jar target/hotelsample-0.0.1.jar
+instance to run ij and look at the content in the Derby database. Otherwise you will get an error that the instance is already running.
 
 ```
 >./run-ij.sh
@@ -420,7 +429,7 @@ ij>
 The example DBmasker ano file used in this project:
 
 <details>
-	<summary><b>hotelsample.ano (Click to Expand)</b></summary>
+ <summary><b>hotelsample.ano (Click to Expand)</b></summary>
 
 ```ano
 table ADDRESS

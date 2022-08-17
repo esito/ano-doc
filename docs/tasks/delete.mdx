@@ -1,0 +1,129 @@
+---
+sidebar_position: 3
+sidebar_label: Delete
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Delete
+
+:::tip Goal
+The `delete` Work Tasks is well suited to all cases where you wish to subset an existing database
+
+When working with large databases it might be necessary to subset the data before further anonymizing the data.
+
+:::
+
+## Considerations
+
+When determining the records that need to be deleted, it is important to understand the structure so that the correct table data deletion sequence is followed.
+However, if the database has proper foreign key definitions, dbMasker can facilitate the process of establishing all dependent tables.
+
+Start with tables that have no parent tables and decide on which data in the tables to delete.
+All dependent data in dependent tables following the foreign key structure, will also be automatically marked for deletion.
+
+You may remove any dependency or manually add dependencies on other tables.
+
+## Work Task `delete` in Ano
+
+In `delete` Work Tasks, you can define [sql](../../rules/sql-before-after), [where clause](../../rules/where-expressions), [method](#method) and [cascade](../../rules/cascade)
+
+[Visit the rules section](../../rules/overview) for more information on how to write `delete` task rules.
+
+<Tabs
+  defaultValue="structure"
+  values={[
+    { label: 'Structure', value: 'structure' },
+    { label: 'Delete Address Example', value: 'delete' },
+  ]}
+>
+
+<TabItem value="structure">
+
+```ano
+task <TaskGroupName>
+{
+    delete <table> <WorkTaskName> where <where clause>
+       method <method>
+           {cascade <table name>
+               parent <id>
+               child <id>
+                   {...}
+           }
+}
+```
+
+</TabItem>
+
+<TabItem value="delete">
+
+```ano
+
+table customer
+    column integer id
+    column integer addressNo
+    column text name
+    primary-key id
+
+table address
+    column integer addressNo
+    column text homeAddress
+        size 50
+    column text postalCode
+        size 10
+    column datetime created
+    primary-key addressNo
+
+foreign-key
+    address addressNo
+    customer addressNo
+
+// - - - - Tasks and Rules - - - - //
+task DeleteTasks
+{
+    delete address
+        where "postalcode < 1234" method cascading
+        {
+            cascade customer
+                parent addressNo
+                child addressNo
+        }
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+## `method`
+
+The 3 cascading delete methods have different performance of deleting a hierarchy of records. The characteristics are:
+
+- `cascading`
+
+  Children are deleted first, and the parent last
+
+  Generally works without disabling constraints
+
+  Slow performance (one by one)
+
+- `not-exists`
+
+  Parent is deleted first
+
+  DELETE FROM parent WHERE XX
+
+  Thereafter all orphans are deleted using
+
+  DELETE FROM child WHERE NOT EXISTS (SELECT \* FROM parent WHERE parent.id = child.parent_id)
+
+  Fastest, but constraints must be disabled
+
+- `not-in`
+
+Parent is deleted first
+
+    Thereafter all orphans are deleted using
+
+    WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
