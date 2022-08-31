@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 :::tip Goal
 The `delete` Work Tasks is well suited to all cases where you wish to subset an existing database
 
-When working with large databases it might be necessary to subset the data before further anonymizing the data.
+When working with large databases it might be convenient to subset the data before further anonymizing the data.
 
 :::
 
@@ -122,8 +122,10 @@ The 3 cascading delete methods have different performance of deleting a hierarch
 
 - `not-in`
 
-Parent is deleted first
+  Parent is deleted first
 
-    Thereafter all orphans are deleted using
+  Thereafter all orphans are deleted using
 
-    WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
+  WHERE child.parent_id NOT IN (SELECT DISTINCT parent.id FROM parent)
+
+  Fast, but constraints must be disabled

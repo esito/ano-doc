@@ -24,7 +24,7 @@ You will primarily anonymize Personally Identifiable Data and Linkable Data. In 
 - **Names:** first, middle and lastname, usernames, aliases
 - **Addresses:** home address, email address, IP address
 - **Phone numbers:** mobile numbers, fixed numbers
-- **Personal identification numbers:** passport number, driver’s license, credit/debit card, taxpayer ID number, patient ID number
+- **Personal identification numbers:** passport number, driver’s license, credit/debit card, Tax Identification Number, patient ID number
 - **Biometric data:** photos, x-rays, fingerprints, retina scans, voice signatures
 
 ### Quasi Identifier Examples
@@ -47,15 +47,22 @@ In addition you can [cascade](../../rules(cascade) the referenced tables to mask
 
 `erase` Work Tasks use parameters to mask specific entries across the database.
 
-With one parameter the syntax is where "IDColumn = %PARAMETER%
+With one parameter the syntax is:
 
-In the general case, with many parameters, the parameter sequence has to be equal to the sequence
-defined in the erase definition where clause, defined by PARAMETERn:
+```
+where "IDColumn = %PARAMETER%
+```
+
+With many parameters, %PARAMETER% gets numbered (e.g. %PARAMETER1%), and the sequence must match
+the parameter sequence defined in the WHERE clause. E.g.:
+
+```
 where "(_HOTEL_ID_ = %PARAMETER1% AND ROOMCATEGORY_ID = %PARAMETER2% AND FROMDATE = '%PARAMETER3%')"
+```
 
 [Visit the rules section](../../rules/overview) for more information on how to write `erase` task rules.
 
-## Deleting
+## Ereasing
 
 <Tabs
   defaultValue="structure"
@@ -70,7 +77,7 @@ where "(_HOTEL_ID_ = %PARAMETER1% AND ROOMCATEGORY_ID = %PARAMETER2% AND FROMDAT
 ```ano
 task <TaskGroupName>
 {
-    erase <table> where "ColumnName = %PARAMETER%"
+    erase <table> <WorkTaskName> where "ColumnName = %PARAMETER%"
         mask <column> <RuleName>
             <rule-logic>
         mask <column> <RuleName>
@@ -96,7 +103,7 @@ table Address
 
 // - - - - Tasks and Rules - - - - //
 
-task CreateTasks
+task EraseTasks
 {
     erase Address EraseAddress "where addressNo = %parameter%"
 
